@@ -1,13 +1,13 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginPage from './Login/LoginPage';
-import AdminPage from './Admin/AdminPage';
+import LoginLayout from './Layouts/LoginLayout';
+import AdminLayout from './Layouts/AdminLayout';
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/auth/*" element={<LoginPage />} />
-                <Route path="/admin/*" element={<AdminPage />} />
+                <Route path="/auth/*" element={<LoginLayout />} />
+                <Route path="/admin/*" element={<AdminLayout />} />
             </Routes>
         </Router>
     );

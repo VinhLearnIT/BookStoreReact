@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
-import ForgotPasswordForm from './ForgotPasswordForm';
+import LoginForm from '../Login/LoginForm';
+import RegisterForm from '../Login/RegisterForm';
+import ForgotPasswordForm from '../Login/ForgotPasswordForm';
 
 function LoginPage() {
     return (
