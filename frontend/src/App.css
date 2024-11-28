@@ -1,39 +1,15 @@
-.App {
-    text-align: center;
+ant-input:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper-focused {
+    border-color: #964EC2 !important;
+    box-shadow: 0 0 0 2px rgba(150, 78, 194, 0.2) !important;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+/* Ghi đè cho Password Input */
+.ant-input-password .ant-input:focus,
+.ant-input-password .ant-input-focused {
+    border-color: #964EC2;
+    box-shadow: 0 0 0 2px rgba(150, 78, 194, 0.2);
 }

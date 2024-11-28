@@ -10,3 +10,4 @@ D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\refint\ApplicationCo
 D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.pdb
 D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ref\ApplicationCore.dll
 D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.csproj.AssemblyReference.cache
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.sourcelink.json

@@ -19,7 +19,7 @@ namespace API.Controllers
 
         // Đăng nhập
         [HttpPost]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginModel authDto)
+        public async Task<IActionResult> Login([FromBody] LoginModel authDto)
         {
             if (authDto == null)
             {
@@ -32,7 +32,7 @@ namespace API.Controllers
 
         // Đăng ký
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync([FromBody] CustomerDTO customerDto)
+        public async Task<IActionResult> Register([FromBody] CustomerDTO customerDto)
         {
             if (customerDto == null)
             {
@@ -43,17 +43,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendVerificationCodeAsync([FromBody] SendMailModel sendMail)
+        public async Task<IActionResult> SendVerificationCode([FromBody] SendMailModel sendMail)
         {
-            if (string.IsNullOrEmpty(sendMail.Username) || string.IsNullOrEmpty(sendMail.Email))
-            {
-                return BadRequest("Tên đăng nhập hoặc email không hợp lệ.");
-            }
-
             try
             {
-                var code = await _authService.SendCodeEmailAsync(sendMail.Username, sendMail.Email);
-                return Ok(new { VerificationCode = code });
+                return Ok(await _authService.SendCodeEmailAsync(sendMail));
             }
             catch (NotFoundException ex)
             {
@@ -67,25 +61,29 @@ namespace API.Controllers
 
         // Cập nhật mật khẩu
         [HttpPut]
-        public async Task<IActionResult> UpdatePasswordAsync([FromBody] UpdatePasswordModel updatePassword)
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordModel updatePassword)
         {
             if (updatePassword == null)
             {
                 return BadRequest("Dữ liệu không hợp lệ.");
             }
 
+            return Ok(await _authService.UpdatePasswordAsync(updatePassword));
+        }
 
-            bool result = await _authService.UpdatePasswordAsync(updatePassword.CustomerID, updatePassword.OldPassword, updatePassword.NewPassword);
-            if (result)
+        [HttpPut]
+        public async Task<IActionResult> ForgotPassword([FromBody] UpdatePasswordModel updatePassword)
+        {
+            if (updatePassword == null)
             {
-                return Ok("Mật khẩu đã được cập nhật thành công.");
+                return BadRequest("Dữ liệu không hợp lệ.");
             }
-            return BadRequest("Cập nhật mật khẩu thất bại.");
 
+            return Ok(await _authService.ForgotPasswordAsync(updatePassword));
         }
 
         [HttpPost]
-        public async Task<IActionResult> RefreshTokenAsync(string refreshToken)
+        public async Task<IActionResult> RefreshToken(string refreshToken)
         {
             return Ok(await _authService.RefreshTokenAsync(refreshToken));
         }

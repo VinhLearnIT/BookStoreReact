@@ -7,8 +7,9 @@ namespace ApplicationCore.Interfaces
     {
         Task<TokenResponseModel> LoginAsync(LoginModel loginModel);
         Task<CustomerDTO> RegisterAsync(CustomerDTO customerDto);
-        Task<string> SendCodeEmailAsync(string username, string email);
-        Task<bool> UpdatePasswordAsync(int customerID, string oldPassword, string newPassword);
+        Task<object> SendCodeEmailAsync(SendMailModel sendMailModel);
+        Task<object> UpdatePasswordAsync(UpdatePasswordModel updatePasswordModel);
+        Task<object> ForgotPasswordAsync(UpdatePasswordModel updatePasswordModel);
         Task<TokenResponseModel> RefreshTokenAsync(string refreshToken);
     }
 }

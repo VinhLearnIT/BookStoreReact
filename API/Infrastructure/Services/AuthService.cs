@@ -108,12 +108,13 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<string> SendCodeEmailAsync(string username, string email)
+        public async Task<object> SendCodeEmailAsync(SendMailModel sendMailModel)
         {
             try
             {
                 var customer = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.Username == username && c.Email == email);
+                    .FirstOrDefaultAsync(c => c.Email == sendMailModel.Email ||
+                                              c.CustomerID == sendMailModel.CustomerID);
 
                 if (customer == null)
                 {
@@ -121,9 +122,9 @@ namespace Infrastructure.Services
                 }
 
                 var code = GenerateVerificationCode();
-                await SendEmailAsync(email, "BookStore - Mã xác nhận của bạn", $"Mã xác nhận của bạn là: {code}");
+                await SendEmailAsync(customer.Email, "BookStore - Mã xác nhận của bạn", $"Mã xác nhận của bạn là: {code}");
 
-                return code;
+                return new { verificationCode = code, customerID = customer.CustomerID};
             }
             catch (NotFoundException)
             {
@@ -135,22 +136,44 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> UpdatePasswordAsync(int customerID, string oldPassword, string newPassword)
+        public async Task<object> ForgotPasswordAsync(UpdatePasswordModel updatePasswordModel)
         {
             try
             {
-                var customer = await _context.Customers.FindAsync(customerID)
+                var customer = await _context.Customers.FindAsync(updatePasswordModel.CustomerID)
                     ?? throw new NotFoundException("Không tìm thấy khách hàng");
 
-                if (!VerifyPassword(oldPassword, customer.Password))
+                customer.Password = HashPassword(updatePasswordModel.NewPassword);
+                await _context.SaveChangesAsync();
+
+                return new { message = "Mật khẩu đã được thay đổi thành công!" };
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Có lỗi xảy ra trong quá trình cập nhật mật khẩu " + ex.Message, ex);
+            }
+        }
+
+        public async Task<object> UpdatePasswordAsync(UpdatePasswordModel updatePasswordModel)
+        {
+            try
+            {
+                var customer = await _context.Customers.FindAsync(updatePasswordModel.CustomerID)
+                    ?? throw new NotFoundException("Không tìm thấy khách hàng");
+
+                if (!VerifyPassword(updatePasswordModel.OldPassword, customer.Password))
                 {
                     throw new UnauthorizedException("Mật khẩu cũ không chính xác.");
                 }
 
-                customer.Password = HashPassword(newPassword);
+                customer.Password = HashPassword(updatePasswordModel.NewPassword);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Mật khẩu đã được thay đổi thành công!" };
             }
             catch (NotFoundException)
             {
