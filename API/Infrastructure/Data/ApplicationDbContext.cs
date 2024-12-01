@@ -128,7 +128,8 @@ namespace Infrastructure.Data
                     Address = "456 Elm St",
                     Username = "bookstoreadmin",
                     Password = "12345",
-                    Role = "Admin"
+                    Role = "Admin",
+                    FullInfo = "True"
                 },
                 new Customer
                 {
@@ -140,7 +141,8 @@ namespace Infrastructure.Data
                     Address = "789 Oak St",
                     Username = "levanc",
                     Password = "12345",
-                    Role = "User"
+                    Role = "User",
+                    FullInfo = "True"
                 },
                 new Customer
                 {
@@ -152,7 +154,8 @@ namespace Infrastructure.Data
                     Address = "321 Pine St",
                     Username = "phamthid",
                     Password = "12345",
-                    Role = "User"
+                    Role = "User",
+                    FullInfo = "True"
                 },
                 new Customer
                 {
@@ -164,7 +167,8 @@ namespace Infrastructure.Data
                     Address = "987 Maple St",
                     Username = "hoangvane",
                     Password = "12345",
-                    Role = "User"
+                    Role = "User",
+                    FullInfo = "True"
                 }
             );
 

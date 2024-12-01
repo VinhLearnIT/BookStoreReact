@@ -118,7 +118,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeletePaymentAsync(int id)
+        public async Task<object> DeletePaymentAsync(int id)
         {
             try
             {
@@ -128,7 +128,8 @@ namespace Infrastructure.Services
                 _context.Payments.Remove(payment);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Xóa thanh toán thành công!" };
+
             }
             catch (NotFoundException)
             {

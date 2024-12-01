@@ -9,6 +9,6 @@ namespace ApplicationCore.Interfaces
         Task<PaymentDTO> GetPaymentByIdAsync(int id);
         Task<PaymentDTO> CreatePaymentAsync(PaymentDTO paymentDto);
         Task<PaymentDTO> UpdatePaymentAsync(int id, PaymentDTO paymentDto);
-        Task<bool> DeletePaymentAsync(int id);
+        Task<object> DeletePaymentAsync(int id);
     }
 }

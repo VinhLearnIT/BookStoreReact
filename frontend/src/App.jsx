@@ -1,15 +1,43 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginLayout from './Layouts/LoginLayout';
-import AdminLayout from './Layouts/AdminLayout';
+import { ConfigProvider, App as AntdApp } from 'antd';
+
+import AuthRoutes from './routes/AuthRoutes';
+import AdminRoutes from './routes/AdminRoutes';
+
 function App() {
+    const cofigTheme =
+    {
+        token: {
+            colorPrimary: '#26648E',
+            borderRadius: 6,
+            colorBorder: '#26648E',
+            fontSize: 16
+        },
+        components: {
+            Form: {
+                labelFontSize: 16,
+            },
+            Button: {
+                primaryShadow: "none"
+            },
+            Table: {
+                cellPaddingInline: 8
+            }
+        }
+    }
+
     return (
-        <Router>
-            <Routes>
-                <Route path="/auth/*" element={<LoginLayout />} />
-                <Route path="/admin/*" element={<AdminLayout />} />
-            </Routes>
-        </Router>
+        <ConfigProvider theme={cofigTheme}>
+            <AntdApp>
+                <Router>
+                    <Routes>
+                        <Route path="/auth/*" element={<AuthRoutes />} />
+                        <Route path="/admin/*" element={<AdminRoutes />} />
+                    </Routes>
+                </Router>
+            </AntdApp>
+        </ConfigProvider>
     );
 }
 

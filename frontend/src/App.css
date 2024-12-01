@@ -1,15 +1,9 @@
-ant-input:focus,
-.ant-input-focused,
-.ant-input-affix-wrapper:focus,
-.ant-input-affix-wrapper:hover,
-.ant-input-affix-wrapper-focused {
-    border-color: #964EC2 !important;
-    box-shadow: 0 0 0 2px rgba(150, 78, 194, 0.2) !important;
+.ant-table-thead>tr>th {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
-/* Ghi đè cho Password Input */
-.ant-input-password .ant-input:focus,
-.ant-input-password .ant-input-focused {
-    border-color: #964EC2;
-    box-shadow: 0 0 0 2px rgba(150, 78, 194, 0.2);
+:where(.css-dev-only-do-not-override-1g7sxoo).ant-form-item .ant-form-item-label>label {
+    margin-top: 5px;
 }

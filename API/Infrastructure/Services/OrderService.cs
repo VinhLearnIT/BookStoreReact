@@ -132,7 +132,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeleteOrderAsync(int id)
+        public async Task<Object> DeleteOrderAsync(int id)
         {
             try
             {
@@ -142,7 +142,8 @@ namespace Infrastructure.Services
                 _context.Orders.Remove(order);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Xóa đơn hàng thành công!" };
+
             }
             catch (NotFoundException)
             {

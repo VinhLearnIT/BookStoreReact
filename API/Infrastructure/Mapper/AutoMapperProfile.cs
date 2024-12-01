@@ -15,10 +15,7 @@ namespace Infrastructure.Mapper
             CreateMap<Category, CategoryDTO>().ReverseMap();
 
             // Customer - CustomerDTO
-            CreateMap<Customer, CustomerDTO>()
-                .ForMember(dest => dest.Username, opt => opt.Ignore())
-                .ForMember(dest => dest.Password, opt => opt.Ignore())
-                .ReverseMap();
+            CreateMap<Customer, CustomerDTO>().ReverseMap();
 
             // Order - OrderDTO
             CreateMap<Order, OrderDTO>()

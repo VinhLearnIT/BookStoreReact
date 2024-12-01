@@ -32,22 +32,22 @@ namespace API.Controllers
 
         // Đăng ký
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] CustomerDTO customerDto)
+        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
-            if (customerDto == null)
+            if (registerModel == null)
             {
                 return BadRequest("Dữ liệu không hợp lệ.");
             }
-            var response = await _authService.RegisterAsync(customerDto);
+            var response = await _authService.RegisterAsync(registerModel);
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendVerificationCode([FromBody] SendMailModel sendMail)
+        public async Task<IActionResult> SendVerificationCode([FromBody] SendMailModel sendMailModel)
         {
             try
             {
-                return Ok(await _authService.SendCodeEmailAsync(sendMail));
+                return Ok(await _authService.SendEmailAsync(sendMailModel));
             }
             catch (NotFoundException ex)
             {
@@ -72,20 +72,20 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> ForgotPassword([FromBody] UpdatePasswordModel updatePassword)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel forgotPasswordModel)
         {
-            if (updatePassword == null)
+            if (forgotPasswordModel == null)
             {
                 return BadRequest("Dữ liệu không hợp lệ.");
             }
 
-            return Ok(await _authService.ForgotPasswordAsync(updatePassword));
+            return Ok(await _authService.ForgotPasswordAsync(forgotPasswordModel));
         }
 
         [HttpPost]
-        public async Task<IActionResult> RefreshToken(string refreshToken)
+        public async Task<IActionResult> RefreshToken(RefreshTokenModel refreshTokenModel)
         {
-            return Ok(await _authService.RefreshTokenAsync(refreshToken));
+            return Ok(await _authService.RefreshTokenAsync(refreshTokenModel));
         }
     }
 }

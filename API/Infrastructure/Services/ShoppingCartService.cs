@@ -100,7 +100,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeleteCartAsync(int id)
+        public async Task<object> DeleteCartAsync(int id)
         {
             try
             {
@@ -110,7 +110,8 @@ namespace Infrastructure.Services
                 _context.ShoppingCarts.Remove(cart);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Xóa thành công!" };
+
             }
             catch (NotFoundException)
             {

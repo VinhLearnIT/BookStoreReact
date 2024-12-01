@@ -9,6 +9,6 @@ namespace ApplicationCore.Interfaces
         Task<CategoryDTO> GetCategoryByIdAsync(int id);
         Task<CategoryDTO> CreateCategoryAsync(CategoryDTO categoryDto);
         Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryDTO categoryDto);
-        Task<bool> DeleteCategoryAsync(int id);
+        Task<object> DeleteCategoryAsync(int id);
     }
 }

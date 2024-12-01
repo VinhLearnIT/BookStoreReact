@@ -6,10 +6,10 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                velvet1: '#313866',
-                velvet2: '#50409A',
-                velvet3: '#964EC2',
-                velvet4: '#FF7BBF',
+                custom1: '#26648E',
+                custom2: '#4F8FC0',
+                custom3: '#53D2DC',
+                custom4: '#FFE3B3',
             },
         },
     },

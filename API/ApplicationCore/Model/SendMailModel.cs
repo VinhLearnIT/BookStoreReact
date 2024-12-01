@@ -8,7 +8,6 @@ namespace ApplicationCore.Model
 {
     public class SendMailModel
     {
-        public int? CustomerID { get; set; }
         public string? Email { get; set; }
     }
 }

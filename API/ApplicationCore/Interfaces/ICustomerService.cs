@@ -9,6 +9,6 @@ namespace ApplicationCore.Interfaces
         Task<CustomerDTO> GetCustomerByIdAsync(int id);
         Task<CustomerDTO> CreateCustomerAsync(CustomerDTO customerDto);
         Task<CustomerDTO> UpdateCustomerAsync(int id, CustomerDTO customerDto);
-        Task<bool> DeleteCustomerAsync(int id);
+        Task<object> DeleteCustomerAsync(int id);
     }
 }

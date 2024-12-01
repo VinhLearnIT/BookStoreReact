@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\NamBon\\BookStoreWeb\\API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|d:\\nambon\\bookstoreweb\\api\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|solutionrelative:api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|d:\\nambon\\bookstoreweb\\api\\applicationcore\\model\\sendmailmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|solutionrelative:applicationcore\\model\\sendmailmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|solutionrelative:api\\controllers\\bookcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|d:\\nambon\\bookstoreweb\\api\\infrastructure\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|d:\\nambon\\bookstoreweb\\api\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,18 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|d:\\nambon\\bookstoreweb\\api\\applicationcore\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|solutionrelative:applicationcore\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|d:\\nambon\\bookstoreweb\\api\\applicationcore\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|solutionrelative:applicationcore\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|d:\\nambon\\bookstoreweb\\api\\applicationcore\\model\\updatepasswordmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|solutionrelative:applicationcore\\model\\updatepasswordmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -42,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,80 +70,83 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UpdatePasswordModel.cs",
-              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Model\\UpdatePasswordModel.cs",
-              "RelativeDocumentMoniker": "ApplicationCore\\Model\\UpdatePasswordModel.cs",
-              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Model\\UpdatePasswordModel.cs",
-              "RelativeToolTip": "ApplicationCore\\Model\\UpdatePasswordModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T12:53:05.877Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SendMailModel.cs",
-              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Model\\SendMailModel.cs",
-              "RelativeDocumentMoniker": "ApplicationCore\\Model\\SendMailModel.cs",
-              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Model\\SendMailModel.cs",
-              "RelativeToolTip": "ApplicationCore\\Model\\SendMailModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAsAAAAcAAAA",
+              "Title": "BookController.cs",
+              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\BookController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BookController.cs",
+              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\BookController.cs",
+              "RelativeToolTip": "API\\Controllers\\BookController.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAowB8AAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-27T12:34:56.801Z"
+              "WhenOpened": "2024-12-01T09:15:21.497Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Customer.cs",
-              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Entities\\Customer.cs",
-              "RelativeDocumentMoniker": "ApplicationCore\\Entities\\Customer.cs",
-              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Entities\\Customer.cs",
-              "RelativeToolTip": "ApplicationCore\\Entities\\Customer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAyAAAA",
+              "DocumentIndex": 2,
+              "Title": "CustomerService.cs",
+              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\CustomerService.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\CustomerService.cs",
+              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\CustomerService.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\CustomerService.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABUAAABKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T11:36:36.86Z"
+              "WhenOpened": "2024-12-01T09:11:13.931Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\CustomerController.cs",
+              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "API\\Controllers\\CustomerController.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAAACIAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T09:10:47.116Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "IAuthService.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Interfaces\\IAuthService.cs",
               "RelativeDocumentMoniker": "ApplicationCore\\Interfaces\\IAuthService.cs",
               "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Interfaces\\IAuthService.cs",
               "RelativeToolTip": "ApplicationCore\\Interfaces\\IAuthService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAVAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-26T11:31:41.123Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "AuthService.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\AuthService.cs",
               "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\AuthService.cs",
               "RelativeToolTip": "Infrastructure\\Services\\AuthService.cs",
-              "ViewState": "AQIAAIQAAAAAAAAAAAAAAK8AAABRAAAA",
+              "ViewState": "AQIAAM8AAAAAAAAAAAAAADkAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-26T11:28:23.949Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\AuthController.cs",
               "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\AuthController.cs",
               "RelativeToolTip": "API\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAYwC0AAABWAAAA",
+              "ViewState": "AQIAAEAAAAAAAAAAAAAMwFcAAABPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-26T11:28:16.42Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\appsettings.json",
               "RelativeDocumentMoniker": "API\\appsettings.json",
@@ -156,18 +155,6 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-11-24T14:27:37.733Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Program.cs",
-              "RelativeDocumentMoniker": "API\\Program.cs",
-              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\Program.cs",
-              "RelativeToolTip": "API\\Program.cs",
-              "ViewState": "AQIAADcAAAAAAAAAAAAywEQAAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-24T14:26:45.158Z"
             }
           ]
         },

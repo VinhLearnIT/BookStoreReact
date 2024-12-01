@@ -115,7 +115,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeleteBookAsync(int id)
+        public async Task<object> DeleteBookAsync(int id)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Infrastructure.Services
                 _context.Books.Remove(book);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Xóa sách thành công!" };
             }
             catch (NotFoundException)
             {
@@ -148,7 +148,6 @@ namespace Infrastructure.Services
                     Directory.CreateDirectory(uploadFolder);
                 }
                 var imageName = imageFile.FileName.Replace(" ", "");
-                var imageAPI = @"https://localhost:7138/api/images/" + imageName;
                 var path = Path.Combine(uploadFolder, imageName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -156,7 +155,7 @@ namespace Infrastructure.Services
                     await imageFile.CopyToAsync(stream);
                 }
 
-                return imageAPI;
+                return imageName;
             }
             catch (Exception ex)
             {

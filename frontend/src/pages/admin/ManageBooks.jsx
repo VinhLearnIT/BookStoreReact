@@ -1,0 +1,595 @@
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
+import refreshToken from '../../utils/refreshToken';
+import { App, Breadcrumb, Table, Input, Popconfirm, Tooltip, Modal, Form, Select, Button, DatePicker, Upload, Image }
+    from 'antd';
+import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, QuestionCircleOutlined, UploadOutlined }
+    from '@ant-design/icons';
+import * as bookService from '../../services/BookService';
+import * as categoryService from '../../services/CategoryService';
+
+const ManageBooks = () => {
+    const { message } = App.useApp();
+    const navigate = useNavigate();
+
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchText, setSearchText] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [form] = Form.useForm();
+    const [modalType, setModalType] = useState("add");
+    const selectedBookID = useRef(null);
+    const selectedBookImage = useRef("");
+
+    const [fileList, setFileList] = useState([]);
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState([]);
+
+    const getBooks = useCallback(async () => {
+        try {
+            const response = await bookService.GetBooks();
+            setBooks(response.data);
+        } catch (error) {
+            message.error("Không thể tải danh sách!");
+        } finally {
+            setLoading(false);
+        }
+    }, [message]);
+
+    const getCategories = useCallback(async () => {
+        try {
+            const response = await categoryService.GetCategories();
+            if (response.status === 200) {
+                var data = response.data;
+                const category = data.reduce((preValue, currentValue) => {
+                    preValue.push({
+                        label: currentValue.categoryName,
+                        value: currentValue.categoryName
+                    });
+                    return preValue;
+                }, []);
+                setCategoryOptions(category);
+            }
+        } catch (error) {
+            message.error("Lỗi không xác định!");
+            console.log(error);
+        }
+
+    }, [message]);
+
+
+    useEffect(() => {
+        getBooks();
+        getCategories();
+    }, [getBooks, getCategories]);
+
+    const filteredBooks = books.filter(book => {
+        var stringSearch = searchText.toLowerCase();
+        return String(book.bookID) === stringSearch || book.bookName.toLowerCase().includes(stringSearch) ||
+            book.author.toLowerCase().includes(stringSearch) || book.publisher.toLowerCase().includes(stringSearch) ||
+            String(book.price) === stringSearch || String(book.stockQuantity) === stringSearch ||
+            book.categories.toLowerCase().includes(stringSearch)
+    });
+
+    const getBase64 = (file) =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+
+    const handleUploadChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
+
+    const handlePreview = async (file) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setPreviewImage(file.url || file.preview);
+        setPreviewOpen(true);
+    };
+
+    const showAddModal = () => {
+        setModalType("add");
+        form.resetFields();
+        setIsModalVisible(true);
+        setFileList([]);
+    };
+
+    const showEditModal = (book) => {
+        setModalType("edit");
+        const categoriesArray = book.categories.split(',').map(item => item.trim());
+        form.setFieldsValue({
+            bookName: book.bookName,
+            author: book.author,
+            publisher: book.publisher,
+            publishedDate: dayjs(book.publishedDate),
+            price: book.price,
+            stockQuantity: book.stockQuantity,
+            description: book.description,
+            categories: categoriesArray,
+        });
+        if (book.imagePath) {
+            setFileList([
+                {
+                    uid: '-1',
+                    name: book.imagePath,
+                    status: 'done',
+                    url: `https://localhost:7138/api/images/${book.imagePath}`,
+                },
+            ]);
+        }
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+        form.resetFields();
+        setFileList([]);
+    };
+
+    const handleUploadImage = async () => {
+        if (!fileList || fileList.length === 0) {
+            message.error("Vui lòng chọn ảnh!");
+            return null;
+        }
+        try {
+            let token = localStorage.getItem('accessToken');
+            const formData = new FormData();
+            formData.append('imageFile', fileList[0].originFileObj);
+            let response = await bookService.UploadImage(token, formData);
+            if (response.status === 401) {
+                const refreshTokenBolean = await refreshToken();
+                if (!refreshTokenBolean) {
+                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                    navigate("/auth/login");
+                    return null;
+                }
+                token = localStorage.getItem('accessToken');
+                response = await bookService.UploadImage(token, formData);
+            }
+
+            if (response.status === 200) {
+                return response.data.imagePath;
+            } else {
+                message.error("Lỗi khi tải ảnh lên!");
+            }
+        } catch (error) {
+            message.error("Lỗi khi upload hình ảnh!");
+            console.log(error);
+            return null;
+        }
+    }
+
+    const handleAddBook = async (values) => {
+        try {
+            const imagePath = await handleUploadImage();
+            if (!imagePath) {
+                return;
+            }
+            values.imagePath = imagePath;
+            let token = localStorage.getItem('accessToken');
+            let response = await bookService.CreateBook(token, values);
+            if (response.status === 401) {
+                const refreshTokenBolean = await refreshToken();
+                if (!refreshTokenBolean) {
+                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                    navigate("/auth/login");
+                    return null;
+                }
+                token = localStorage.getItem('accessToken');
+                response = await bookService.CreateBook(token, values);
+            }
+            if (response.status === 200) {
+                message.success("Thêm mới sách thành công!");
+                await getBooks();
+            } else {
+                message.error("Thêm mới sách thất bại!");
+            }
+        } catch (error) {
+            message.error("Lỗi không xác định!");
+            console.log(error);
+        }
+    }
+
+    const handleEditBook = async (values) => {
+        try {
+            values.imagePath = selectedBookImage.current;
+            if (values.imagePath !== fileList[0].name) {
+                const imagePath = await handleUploadImage();
+                values.imagePath = imagePath;
+            }
+            let token = localStorage.getItem('accessToken');
+            let response = await bookService.UpdateBook(token, selectedBookID.current, values);
+
+            if (response.status === 401) {
+                const refreshTokenBolean = await refreshToken();
+                if (!refreshTokenBolean) {
+                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                    navigate("/auth/login");
+                    return null;
+                }
+                token = localStorage.getItem('accessToken');
+                response = await bookService.UpdateBook(token, selectedBookID.current, values);
+            }
+            if (response.status === 200) {
+                message.success("Cập nhật sách thành công!");
+                await getBooks();
+            } else {
+                message.error("Cập nhật sách thất bại!");
+            }
+        } catch (error) {
+            message.error("Lỗi không xác định!");
+            console.log(error);
+        }
+    }
+
+    const handleSubmit = async (values) => {
+        try {
+            values.publishedDate = values.publishedDate.format('YYYY-MM-DD');
+            values.categories = values.categories.join(', ');
+
+            if (modalType === "add") {
+                handleAddBook(values);
+            } else {
+                handleEditBook(values);
+            }
+            setIsModalVisible(false);
+
+        } catch (error) {
+            message.error("Có lỗi xảy ra!");
+            console.log(error);
+        }
+    };
+
+
+    const handleDelete = async () => {
+        try {
+            let token = localStorage.getItem('accessToken');
+            let response = await bookService.DeleteBook(token, selectedBookID.current);
+            if (response.status === 401) {
+                const refreshTokenBolean = await refreshToken();
+                if (!refreshTokenBolean) {
+                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                    navigate("/auth/login");
+                    return null;
+                }
+                token = localStorage.getItem('accessToken');
+                response = await bookService.DeleteBook(token, selectedBookID.current);
+            }
+
+            if (response.status === 200) {
+                message.success(response.data.message);
+                await getBooks();
+            } else {
+                message.error("Xóa sách thất bại!");
+            }
+        } catch (error) {
+            message.error("Lỗi khi xóa sách!");
+            console.log(error);
+        }
+    };
+
+    const columns = [
+        {
+            title: 'ID', dataIndex: 'bookID', key: 'bookID', align: 'center', width: 50,
+        },
+        {
+            title: 'Ảnh', dataIndex: 'imagePath', key: 'imagePath', align: 'center', width: 80,
+            render: (path) =>
+                <img src={`https://localhost:7138/api/images/${path}`} alt="Book"
+                    className='w-full h-12 object-cover'
+                />
+        },
+        {
+            title: 'Tên sách', dataIndex: 'bookName', key: 'bookName', align: 'center', width: 120,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (bookName) => (
+                <Tooltip placement="topLeft" title={bookName}>
+                    {bookName}
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Tác giả', dataIndex: 'author', key: 'author', align: 'center', width: 120,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (author) => (
+                <Tooltip placement="topLeft" title={author}>
+                    {author}
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Nhà xuất bản', dataIndex: 'publisher', key: 'publisher', align: 'center', width: 120,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (publisher) => (
+                <Tooltip placement="topLeft" title={publisher}>
+                    {publisher}
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Ngày xuất bản', dataIndex: 'publishedDate', key: 'publishedDate', align: 'center', width: 130,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (date) => (
+                <Tooltip placement="topLeft" title={new Date(date).toLocaleDateString()}>
+                    {new Date(date).toLocaleDateString()}
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Giá', dataIndex: 'price', key: 'price', align: 'center', width: 120,
+            sorter: (a, b) => a.price - b.price, sortDirections: ['descend'],
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (price) => (
+                <Tooltip placement="topLeft" title={`${price} VNĐ`}>
+                    {price} VNĐ
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Số lượng', dataIndex: 'stockQuantity', key: 'stockQuantity', align: 'center',
+            sorter: (a, b) => a.stockQuantity - b.stockQuantity, sortDirections: ['descend'],
+        },
+        {
+            title: 'Mô tả', dataIndex: 'description', key: 'description', align: 'center',
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (description) => (
+                <Tooltip placement="topLeft" title={description}>
+                    {description}
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Thể loại', dataIndex: 'categories', key: 'categories', align: 'center', width: 120,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (categories) => (
+                <Tooltip placement="topLeft" title={categories}>
+                    {categories}
+                </Tooltip>
+            ),
+        },
+        {
+            title: 'Thao tác', key: 'actions', align: 'center', width: 110,
+            render: (_, record) => (
+                <div className='flex gap-2 justify-center'>
+                    {/* <Tooltip title="Xem chi tiết" color={"blue"}>
+                        <button
+                            className='px-3 py-2 border border-blue-700 rounded-md'
+                            onClick={() => {
+                                showEditModal(record)
+                                console.log(record);
+                            }}>
+                            <EyeOutlined className='text-blue-700' />
+                        </button>
+                    </Tooltip> */}
+
+                    <Tooltip title="Cập nhật sách" placement='bottom' color={"gold"}>
+                        <Button
+                            className='px-3 py-5 border-yellow-500 hover:!border-yellow-500'
+                            onClick={() => {
+                                selectedBookID.current = record.bookID;
+                                selectedBookImage.current = record.imagePath;
+                                showEditModal(record);
+                            }}>
+                            <EditOutlined className='text-yellow-500' />
+
+                        </Button>
+                    </Tooltip>
+
+                    <Popconfirm
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                        title="Bạn xác nhận xóa?"
+                        onConfirm={() => {
+                            selectedBookID.current = record.bookID;
+                            handleDelete();
+                        }}>
+                        <Tooltip title="Xóa sách" placement='bottom' color={"red"}>
+                            <Button danger className='px-3 py-5'>
+                                <DeleteOutlined />
+                            </Button>
+                        </Tooltip>
+                    </Popconfirm>
+                </div>
+            )
+        }
+    ];
+
+    return (
+        <>
+            <Breadcrumb
+                items={[
+                    { title: 'Admin' },
+                    { title: 'Quản lý sách' }
+                ]}
+            />
+            <div className='bg-white mt-4 p-4 rounded-md shadow-md' style={{ minHeight: 'calc(100vh - 8rem)' }}>
+                <div className="flex justify-between mb-4">
+                    <Input
+                        placeholder="Tìm kiếm sách..."
+                        prefix={<SearchOutlined className='mr-2 ' />}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        className='text-base border-custom1'
+                        style={{ width: 400 }}
+                    />
+                    <Button
+                        type="primary"
+                        onClick={showAddModal}
+                    >
+                        <PlusOutlined className='mr-2' />
+                        Thêm sách mới
+                    </Button>
+                </div>
+                <Table
+                    columns={columns}
+                    dataSource={filteredBooks}
+                    rowKey="bookID"
+                    loading={loading}
+                    pagination={{ pageSize: 5 }}
+                />
+            </div>
+            <Modal
+                open={isModalVisible}
+                onCancel={handleCancel}
+                footer={null}
+                width={600}
+                style={{ top: 20 }}
+            >
+                <p className='text-center text-xl text-custom1 font-bold mb-4'>
+                    {modalType === "add" ? "THÊM SÁCH MỚI" : "CẬP NHẬT SÁCH"}
+                </p>
+                <Form form={form} onFinish={handleSubmit} layout="horizontal" requiredMark={false} labelCol={{ span: 6 }}>
+                    <Form.Item
+                        name="bookName"
+                        label="Tên sách"
+                        rules={[{ required: true, message: 'Vui lòng nhập tên sách!' }]}
+                    >
+                        <Input className='mb-1 mt-2' placeholder='Nhập tên sách' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="author"
+                        label="Tác giả"
+                        rules={[{ required: true, message: 'Vui lòng nhập tác giả!' }]}
+                    >
+                        <Input className='mb-1 mt-2' placeholder='Nhập tên tác giả' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="publisher"
+                        label="Nhà xuất bản"
+                        rules={[{ required: true, message: 'Vui lòng nhập nhà xuất bản!' }]}
+                    >
+                        <Input className='mb-1 mt-2' placeholder='Nhập tên nhà xuất bản' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="publishedDate"
+                        label="Ngày xuất bản"
+                        rules={[{ required: true, message: 'Vui lòng nhập ngày xuất bản!' }]}
+                    >
+                        <DatePicker
+                            format="DD-MM-YYYY"
+                            className='w-full mb-1 mt-2 '
+                            placeholder='Chọn ngày xuất bản'
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="price"
+                        label="Giá"
+                        rules={[
+                            { required: true, message: 'Vui lòng nhập giá!' },
+                            { validator: (_, value) => (value > 0 ? Promise.resolve() : Promise.reject('Giá phải lớn hơn 0!')) }
+                        ]}
+                    >
+                        <Input type="number" className='mb-1 mt-2' placeholder='Nhập giá sách' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="stockQuantity"
+                        label="Số lượng"
+                        rules={[
+                            { required: true, message: 'Vui lòng nhập số lượng!' },
+                            { validator: (_, value) => (value > 0 ? Promise.resolve() : Promise.reject('Số lượng phải lớn hơn 0!')) }
+                        ]}
+                    >
+                        <Input type="number" className='mb-1 mt-2' placeholder='Nhập số lượng sách' />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="categories"
+                        label="Thể loại"
+                        rules={[{ required: true, message: 'Vui lòng chọn thể loại!' }]}
+                    >
+                        <Select
+                            mode="multiple"
+                            placeholder="Chọn thể loại"
+                            style={{ width: '100%' }}
+                            className='mb-1 mt-2'
+                            options={categoryOptions}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="description"
+                        label="Mô tả"
+                        rules={[{ required: true, message: 'Vui lòng nhập mô tả sách!' }]}
+                    >
+                        <Input.TextArea className='mb-1 mt-2' placeholder='Nhập mô tả sách' rows={3} />
+                    </Form.Item>
+                    <Form.Item
+                        name="imagePath"
+                        label="Hình ảnh"
+                        rules={[
+                            {
+                                validator: (_, value) => {
+                                    if (fileList.length === 0) {
+                                        return Promise.reject(new Error('Vui lòng chọn hình ảnh!'));
+                                    }
+                                    return Promise.resolve();
+                                },
+                            },
+                        ]}
+                    >
+                        <Upload
+                            beforeUpload={() => false}
+                            fileList={fileList}
+                            onPreview={handlePreview}
+                            onChange={handleUploadChange}
+                            accept="image/*"
+                            listType="picture"
+                        >
+                            {fileList.length < 1 && (
+                                <Button className="mt-2 mb-1" icon={<UploadOutlined />}>
+                                    Click to Upload
+                                </Button>
+                            )}
+                        </Upload>
+                    </Form.Item>
+                    {previewImage && (
+                        <Image
+                            wrapperStyle={{
+                                display: 'none',
+                            }}
+                            preview={{
+                                visible: previewOpen,
+                                onVisibleChange: (visible) => setPreviewOpen(visible),
+                                afterOpenChange: (visible) => !visible && setPreviewImage(''),
+                            }}
+                            src={previewImage}
+                        />
+                    )}
+                    <Form.Item>
+                        <Button
+                            type='primary'
+                            htmlType="submit"
+                            className="w-full h-10 mt-2"
+                        >
+                            {modalType === "add" ? "Thêm mới" : "Cập nhật"}
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
+        </>
+    );
+};
+
+export default ManageBooks;

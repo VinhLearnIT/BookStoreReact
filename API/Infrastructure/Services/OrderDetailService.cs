@@ -90,7 +90,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeleteOrderDetailAsync(int id)
+        public async Task<object> DeleteOrderDetailAsync(int id)
         {
             try
             {
@@ -100,7 +100,8 @@ namespace Infrastructure.Services
                 _context.OrderDetails.Remove(orderDetail);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Xóa chi tiết đơn hàng thành công!" };
+
             }
             catch (NotFoundException)
             {

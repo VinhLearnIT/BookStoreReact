@@ -8,6 +8,6 @@ namespace ApplicationCore.Interfaces
         Task<IEnumerable<ShoppingCartDTO>> GetCartByCustomerIdAsync(int customerId);
         Task<ShoppingCartDTO> AddToCartAsync(ShoppingCartDTO shoppingCartDto);
         Task<ShoppingCartDTO> UpdateCartAsync(int id, ShoppingCartDTO shoppingCartDto);
-        Task<bool> DeleteCartAsync(int id);
+        Task<object> DeleteCartAsync(int id);
     }
 }

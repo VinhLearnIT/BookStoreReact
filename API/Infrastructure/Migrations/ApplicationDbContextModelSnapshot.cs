@@ -189,6 +189,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FullInfo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
@@ -233,6 +236,7 @@ namespace Infrastructure.Migrations
                             Address = "456 Elm St",
                             CCCD = "987654321",
                             Email = "huuvinhhoctap0903@gmail.com",
+                            FullInfo = "True",
                             FullName = "Nguyen Huu Vinh",
                             Password = "12345",
                             Phone = "0987654321",
@@ -245,6 +249,7 @@ namespace Infrastructure.Migrations
                             Address = "789 Oak St",
                             CCCD = "456789123",
                             Email = "levanc@example.com",
+                            FullInfo = "True",
                             FullName = "Le Van C",
                             Password = "12345",
                             Phone = "0345678912",
@@ -257,6 +262,7 @@ namespace Infrastructure.Migrations
                             Address = "321 Pine St",
                             CCCD = "654321987",
                             Email = "phamthid@example.com",
+                            FullInfo = "True",
                             FullName = "Pham Thi D",
                             Password = "12345",
                             Phone = "0765432198",
@@ -269,6 +275,7 @@ namespace Infrastructure.Migrations
                             Address = "987 Maple St",
                             CCCD = "321654987",
                             Email = "hoangvane@example.com",
+                            FullInfo = "True",
                             FullName = "Hoang Van E",
                             Password = "12345",
                             Phone = "0891234567",
@@ -320,35 +327,35 @@ namespace Infrastructure.Migrations
                         {
                             OrderID = 1,
                             CustomerID = 1,
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(1503),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 466, DateTimeKind.Local).AddTicks(6734),
                             OrderStatus = "Pending"
                         },
                         new
                         {
                             OrderID = 2,
                             CustomerID = 2,
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(9148),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4495),
                             OrderStatus = "Completed"
                         },
                         new
                         {
                             OrderID = 3,
                             CustomerID = 3,
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(9159),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4508),
                             OrderStatus = "Shipped"
                         },
                         new
                         {
                             OrderID = 4,
                             CustomerID = 4,
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(9161),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4509),
                             OrderStatus = "Pending"
                         },
                         new
                         {
                             OrderID = 5,
                             CustomerID = 5,
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(9162),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4510),
                             OrderStatus = "Cancelled"
                         },
                         new
@@ -359,7 +366,7 @@ namespace Infrastructure.Migrations
                             GuestEmail = "nguyenvana@example.com",
                             GuestFullName = "Nguyen Van B",
                             GuestPhone = "0123456789",
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(9162),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4511),
                             OrderStatus = "Completed"
                         },
                         new
@@ -370,7 +377,7 @@ namespace Infrastructure.Migrations
                             GuestEmail = "nguyenvana@example.com",
                             GuestFullName = "Nguyen Van B",
                             GuestPhone = "0123456789",
-                            OrderDate = new DateTime(2024, 11, 26, 18, 54, 12, 144, DateTimeKind.Local).AddTicks(9847),
+                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(5168),
                             OrderStatus = "Completed"
                         });
                 });
@@ -477,7 +484,7 @@ namespace Infrastructure.Migrations
                         {
                             PaymentID = 1,
                             OrderID = 1,
-                            PaymentDate = new DateTime(2024, 11, 26, 18, 54, 12, 145, DateTimeKind.Local).AddTicks(1660),
+                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(6965),
                             PaymentMethod = "Credit Card",
                             PaymentStatus = "Paid"
                         },
@@ -485,7 +492,7 @@ namespace Infrastructure.Migrations
                         {
                             PaymentID = 2,
                             OrderID = 2,
-                            PaymentDate = new DateTime(2024, 11, 26, 18, 54, 12, 145, DateTimeKind.Local).AddTicks(2093),
+                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7339),
                             PaymentMethod = "PayPal",
                             PaymentStatus = "Paid"
                         },
@@ -493,7 +500,7 @@ namespace Infrastructure.Migrations
                         {
                             PaymentID = 3,
                             OrderID = 3,
-                            PaymentDate = new DateTime(2024, 11, 26, 18, 54, 12, 145, DateTimeKind.Local).AddTicks(2095),
+                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7341),
                             PaymentMethod = "Bank Transfer",
                             PaymentStatus = "Pending"
                         },
@@ -501,7 +508,7 @@ namespace Infrastructure.Migrations
                         {
                             PaymentID = 4,
                             OrderID = 4,
-                            PaymentDate = new DateTime(2024, 11, 26, 18, 54, 12, 145, DateTimeKind.Local).AddTicks(2097),
+                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7342),
                             PaymentMethod = "Cash",
                             PaymentStatus = "Paid"
                         },
@@ -509,7 +516,7 @@ namespace Infrastructure.Migrations
                         {
                             PaymentID = 5,
                             OrderID = 5,
-                            PaymentDate = new DateTime(2024, 11, 26, 18, 54, 12, 145, DateTimeKind.Local).AddTicks(2098),
+                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7343),
                             PaymentMethod = "Credit Card",
                             PaymentStatus = "Failed"
                         });

@@ -21,13 +21,13 @@ namespace Infrastructure.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;  
+        private readonly IConfiguration _configuration;
 
         public AuthService(ApplicationDbContext context, IMapper mapper, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
-            _configuration = configuration;  
+            _configuration = configuration;
         }
 
         public async Task<TokenResponseModel> LoginAsync(LoginModel loginModel)
@@ -39,7 +39,7 @@ namespace Infrastructure.Services
 
                 if (customer == null || !VerifyPassword(loginModel.Password, customer.Password))
                 {
-                    throw new UnauthorizedException("Tên đăng nhập hoặc mật khẩu không đúng.");
+                    throw new BadRequestException("Tên đăng nhập hoặc mật khẩu không đúng.");
                 }
                 var accessToken = GenerateAccessToken(customer);
                 var refreshToken = GenerateRefreshToken(customer);
@@ -57,7 +57,7 @@ namespace Infrastructure.Services
                     Role = customer.Role
                 };
             }
-            catch (UnauthorizedException)
+            catch (BadRequestException)
             {
                 throw;
             }
@@ -67,36 +67,37 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<CustomerDTO> RegisterAsync(CustomerDTO customerDto)
+        public async Task<object> RegisterAsync(RegisterModel registerModel)
         {
             try
             {
                 var existingCustomer = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.Username == customerDto.Username ||
-                                              c.Email == customerDto.Email ||
-                                              c.Phone == customerDto.Phone ||
-                                              c.CCCD == customerDto.CCCD);
+                    .FirstOrDefaultAsync(c => c.Username == registerModel.Username ||
+                                              c.Email == registerModel.Email);
 
                 if (existingCustomer != null)
                 {
-                    if (existingCustomer.Username == customerDto.Username)
+                    if (existingCustomer.Username == registerModel.Username)
                         throw new BadRequestException("Tên đăng nhập đã tồn tại.");
-                    if (existingCustomer.Email == customerDto.Email)
+                    if (existingCustomer.Email == registerModel.Email)
                         throw new BadRequestException("Email đã được sử dụng.");
-                    if (existingCustomer.Phone == customerDto.Phone)
-                        throw new BadRequestException("Số điện thoại đã được sử dụng.");
-                    if (existingCustomer.CCCD == customerDto.CCCD)
-                        throw new BadRequestException("CCCD đã được đăng ký.");
                 }
 
-                var customer = _mapper.Map<Customer>(customerDto);
-                customer.Username = customerDto.Username;
-                customer.Password = HashPassword(customerDto.Password);
+                var customer = new Customer
+                {
+                    FullName = registerModel.FullName,
+                    Email = registerModel.Email,
+                    Username = registerModel.Username,
+                    Password = HashPassword(registerModel.Password),
+                    Role = registerModel.Role,
+                    FullInfo = "False"
+                };
+
 
                 _context.Customers.Add(customer);
                 await _context.SaveChangesAsync();
 
-                return _mapper.Map<CustomerDTO>(customer);
+                return new { message = "Đăng kí tài khoản thành công!"};
             }
             catch (BadRequestException)
             {
@@ -108,42 +109,14 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<object> SendCodeEmailAsync(SendMailModel sendMailModel)
+        public async Task<object> ForgotPasswordAsync(ForgotPasswordModel forgotPasswordModel)
         {
             try
             {
-                var customer = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.Email == sendMailModel.Email ||
-                                              c.CustomerID == sendMailModel.CustomerID);
-
-                if (customer == null)
-                {
-                    throw new NotFoundException("Không tìm thấy tài khoản với thông tin đã cung cấp.");
-                }
-
-                var code = GenerateVerificationCode();
-                await SendEmailAsync(customer.Email, "BookStore - Mã xác nhận của bạn", $"Mã xác nhận của bạn là: {code}");
-
-                return new { verificationCode = code, customerID = customer.CustomerID};
-            }
-            catch (NotFoundException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Có lỗi xảy ra trong quá trình gửi mã xác nhận qua email " + ex.Message, ex);
-            }
-        }
-
-        public async Task<object> ForgotPasswordAsync(UpdatePasswordModel updatePasswordModel)
-        {
-            try
-            {
-                var customer = await _context.Customers.FindAsync(updatePasswordModel.CustomerID)
+                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Email == forgotPasswordModel.Email)
                     ?? throw new NotFoundException("Không tìm thấy khách hàng");
 
-                customer.Password = HashPassword(updatePasswordModel.NewPassword);
+                customer.Password = HashPassword(forgotPasswordModel.NewPassword);
                 await _context.SaveChangesAsync();
 
                 return new { message = "Mật khẩu đã được thay đổi thành công!" };
@@ -163,11 +136,12 @@ namespace Infrastructure.Services
             try
             {
                 var customer = await _context.Customers.FindAsync(updatePasswordModel.CustomerID)
+                    
                     ?? throw new NotFoundException("Không tìm thấy khách hàng");
 
                 if (!VerifyPassword(updatePasswordModel.OldPassword, customer.Password))
                 {
-                    throw new UnauthorizedException("Mật khẩu cũ không chính xác.");
+                    throw new BadRequestException("Mật khẩu cũ không chính xác.");
                 }
 
                 customer.Password = HashPassword(updatePasswordModel.NewPassword);
@@ -179,7 +153,7 @@ namespace Infrastructure.Services
             {
                 throw;
             }
-            catch (UnauthorizedException)
+            catch (BadRequestException)
             {
                 throw;
             }
@@ -189,19 +163,56 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<TokenResponseModel> RefreshTokenAsync(string refreshToken)
+        public async Task<object> SendEmailAsync(SendMailModel sendMailModel)
         {
             try
             {
-                if (string.IsNullOrEmpty(refreshToken))
+                var code = GenerateVerificationCode();
+
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("huuvinhhoctap0903@gmail.com", "jzoeqnlotjmjxpdo"),
+                    EnableSsl = true,
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("huuvinhhoctap0903@gmail.com"),
+                    Subject = "BookStore - Mã xác nhận của bạn",
+                    Body = $"<p>Mã xác nhận của bạn là: <strong>{code}</strong><br></p><p>Mã này chỉ tồn tại trong 1 phút.</p>",
+                    IsBodyHtml = true,
+                };
+
+                mailMessage.To.Add(sendMailModel.Email);
+
+                await smtpClient.SendMailAsync(mailMessage);
+
+               return new { verificationCode = code};
+            }
+            catch (SmtpException smtpEx)
+            {
+                throw new Exception("Có lỗi xảy ra khi gửi email: " + smtpEx.Message, smtpEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Có lỗi xảy ra khi gửi email: " + ex.Message, ex);
+            }
+        }
+
+        public async Task<TokenResponseModel> RefreshTokenAsync(RefreshTokenModel refreshTokenModel)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(refreshTokenModel.RefreshToken))
                 {
                     throw new BadRequestException("Refresh Token không hợp lệ.");
                 }
-                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.RefreshToken == refreshToken);
+                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.RefreshToken == refreshTokenModel.RefreshToken);
 
                 if (customer == null || customer.RefreshTokenExpiry < DateTime.UtcNow)
                 {
-                    throw new UnauthorizedException("Refresh Token không hợp lệ hoặc đã hết hạn.");
+                    throw new BadRequestException("Refresh Token không hợp lệ hoặc đã hết hạn.");
                 }
 
                 var newAccessToken = GenerateAccessToken(customer);
@@ -210,15 +221,11 @@ namespace Infrastructure.Services
                 {
                     CustomerID = customer.CustomerID,
                     AccessToken = newAccessToken,
-                    RefreshToken = refreshToken,
+                    RefreshToken = refreshTokenModel.RefreshToken,
                     Role = customer.Role
                 };
             }
             catch (BadRequestException)
-            {
-                throw;
-            }
-            catch (UnauthorizedException)
             {
                 throw;
             }
@@ -247,38 +254,7 @@ namespace Infrastructure.Services
             return hashedInputPassword == hashedPassword;
         }
 
-        public async Task SendEmailAsync(string toEmail, string subject, string body)
-        {
-            try
-            {
-                var smtpClient = new SmtpClient("smtp.gmail.com")
-                {
-                    Port = 587,
-                    Credentials = new NetworkCredential("huuvinhhoctap0903@gmail.com", "jzoeqnlotjmjxpdo"),
-                    EnableSsl = true,
-                };
-
-                var mailMessage = new MailMessage
-                {
-                    From = new MailAddress("huuvinhhoctap0903@gmail.com"),
-                    Subject = subject,
-                    Body = body,
-                    IsBodyHtml = true,
-                };
-
-                mailMessage.To.Add(toEmail);
-
-                await smtpClient.SendMailAsync(mailMessage);
-            }
-            catch (SmtpException smtpEx)
-            {
-                throw new Exception("Có lỗi xảy ra khi gửi email: " + smtpEx.Message, smtpEx);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Có lỗi xảy ra khi gửi email: " + ex.Message, ex);
-            }
-        }
+        
 
         private string GenerateAccessToken(Customer customer)
         {
@@ -290,6 +266,7 @@ namespace Infrastructure.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, customer.CustomerID.ToString()),
                 new Claim(ClaimTypes.Role, customer.Role),
+                new Claim(ClaimTypes.DateOfBirth, DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))
             };
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
@@ -315,6 +292,7 @@ namespace Infrastructure.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, customer.CustomerID.ToString()),
                 new Claim(ClaimTypes.Role, customer.Role),
+                 new Claim(ClaimTypes.DateOfBirth, DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ"))
             };
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);

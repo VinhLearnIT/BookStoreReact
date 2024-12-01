@@ -55,15 +55,12 @@ namespace Infrastructure.Services
             try
             {
                 var existingCustomer = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.Username == customerDto.Username ||
-                                              c.Email == customerDto.Email ||
+                    .FirstOrDefaultAsync(c => c.Email == customerDto.Email ||
                                               c.Phone == customerDto.Phone ||
                                               c.CCCD == customerDto.CCCD);
 
                 if (existingCustomer != null)
                 {
-                    if (existingCustomer.Username == customerDto.Username)
-                        throw new BadRequestException("Tên đăng nhập đã tồn tại.");
                     if (existingCustomer.Email == customerDto.Email)
                         throw new BadRequestException("Email đã được sử dụng.");
                     if (existingCustomer.Phone == customerDto.Phone)
@@ -125,7 +122,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeleteCustomerAsync(int id)
+        public async Task<object> DeleteCustomerAsync(int id)
         {
             try
             {
@@ -134,7 +131,8 @@ namespace Infrastructure.Services
 
                 _context.Customers.Remove(customer);
                 await _context.SaveChangesAsync();
-                return true;
+                return new { message = "Xóa khách hàng thành công!" };
+
             }
             catch (NotFoundException)
             {

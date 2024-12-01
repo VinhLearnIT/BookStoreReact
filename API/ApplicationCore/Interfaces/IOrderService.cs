@@ -9,6 +9,6 @@ namespace ApplicationCore.Interfaces
         Task<OrderDTO> GetOrderByIdAsync(int id);
         Task<OrderDTO> CreateOrderAsync(OrderDTO orderDto);
         Task<OrderDTO> UpdateOrderAsync(int id, OrderDTO orderDto);
-        Task<bool> DeleteOrderAsync(int id);
+        Task<object> DeleteOrderAsync(int id);
     }
 }

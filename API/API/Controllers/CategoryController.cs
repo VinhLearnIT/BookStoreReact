@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using ApplicationCore.Entities;
 using Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -31,12 +32,14 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDTO>> CreateCategory(CategoryDTO categoryDto)
         {
             return Ok(await _categoryService.CreateCategoryAsync(categoryDto));
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDTO>> UpdateCategory(int id, CategoryDTO categoryDto)
         {
             return Ok(await _categoryService.UpdateCategoryAsync(id, categoryDto));
@@ -44,6 +47,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             return Ok(await _categoryService.DeleteCategoryAsync(id));

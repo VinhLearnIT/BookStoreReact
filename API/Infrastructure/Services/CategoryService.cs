@@ -91,7 +91,7 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> DeleteCategoryAsync(int id)
+        public async Task<object> DeleteCategoryAsync(int id)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Infrastructure.Services
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return new { message = "Xóa thể loại thành công!" };
             }
             catch (NotFoundException)
             {

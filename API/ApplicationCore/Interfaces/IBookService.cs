@@ -9,7 +9,7 @@ namespace ApplicationCore.Interfaces
         Task<BookDTO> GetBookByIdAsync(int id);
         Task<BookDTO> CreateBookAsync(BookDTO bookDto);
         Task<BookDTO> UpdateBookAsync(int id, BookDTO bookDto);
-        Task<bool> DeleteBookAsync(int id);
+        Task<object> DeleteBookAsync(int id);
         Task<string> UploadImageAsync(IFormFile imageFile);
     }
 }

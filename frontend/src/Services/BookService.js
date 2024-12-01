@@ -1,0 +1,107 @@
+import axios from 'axios';
+
+const API_URL = 'https://localhost:7138/api/Book';
+
+const GetBooks = async (data) => {
+    try {
+        const response = await axios.get(`${API_URL}/GetBooks`);
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+const GetBookById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/GetBookById/${id}`);
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+const CreateBook = async (token, data) => {
+    try {
+        const response = await axios.post(`${API_URL}/CreateBook`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+const UploadImage = async (token, data) => {
+    try {
+        const response = await axios.post(`${API_URL}/UploadImage`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+const UpdateBook = async (token, id, data) => {
+    try {
+        const response = await axios.put(`${API_URL}/UpdateBook/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+const DeleteBook = async (token, id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/DeleteBook/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+
+export {
+    GetBooks,
+    GetBookById,
+    CreateBook,
+    UploadImage,
+    UpdateBook,
+    DeleteBook
+};
