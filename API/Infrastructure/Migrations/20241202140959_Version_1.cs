@@ -60,7 +60,11 @@ namespace Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullInfo = table.Column<bool>(type: "bit", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExpiry = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,7 +84,8 @@ namespace Infrastructure.Migrations
                     GuestCCCD = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GuestAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    OrderStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -147,38 +152,16 @@ namespace Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    PaymentID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderID = table.Column<int>(type: "int", nullable: false),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.PaymentID);
-                    table.ForeignKey(
-                        name: "FK_Payments_Orders_OrderID",
-                        column: x => x.OrderID,
-                        principalTable: "Orders",
-                        principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Books",
                 columns: new[] { "BookID", "Author", "BookName", "Categories", "Description", "ImagePath", "Price", "PublishedDate", "Publisher", "StockQuantity" },
                 values: new object[,]
                 {
-                    { 1, "Author A", "Book One", "Fiction, Science, History, Technology, Health", "A great fiction book.", "image1.jpg", 19.99m, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Publisher X", 100 },
-                    { 2, "Author B", "Book Two", "Fiction, Science, History, Technology, Health", "An insightful science book.", "image2.jpg", 29.99m, new DateTime(2020, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Publisher Y", 50 },
-                    { 3, "Author C", "Book Three", "Fiction, Science, History, Technology, Health", "A detailed history book.", "image3.jpg", 25.00m, new DateTime(2019, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Publisher Z", 75 },
-                    { 4, "Author D", "Book Four", "Fiction, Science, History, Technology, Health", "An advanced tech book.", "image4.jpg", 15.50m, new DateTime(2022, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Publisher W", 60 },
-                    { 5, "Author E", "Book Five", "Fiction, Science, History, Technology, Health", "A comprehensive health guide.", "image5.jpg", 12.99m, new DateTime(2023, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Publisher V", 80 }
+                    { 1, "Tác giả 1", "Sách 1", "Tình cảm, Hài hước, Kinh dị", "Mô tả về sách này.", "image1.jpg", 20000m, new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nhà xuất bản 1", 100 },
+                    { 2, "Tác giả 2", "Sách 2", "Viễn tưởng, Hài hước, Kinh dị", "Mô tả về sách này.", "image2.jpg", 22000m, new DateTime(2020, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nhà xuất bản 2", 50 },
+                    { 3, "Tác giả 3", "Sách 3", "Khoa học, Kinh dị", "Mô tả về sách này.", "image3.jpg", 25000m, new DateTime(2019, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nhà xuất bản 3", 75 },
+                    { 4, "Tác giả 4", "Sách 4", "Tình cảm, Hài hước, Sức khỏe", "Mô tả về sách này.", "image4.jpg", 30000m, new DateTime(2022, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nhà xuất bản 4", 60 },
+                    { 5, "Tác giả 5", "Sách 5", "Khoa học, Sức khỏe", "Mô tả về sách này.", "image5.jpg", 15000m, new DateTime(2023, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Nhà xuất bản 5", 80 }
                 });
 
             migrationBuilder.InsertData(
@@ -186,37 +169,55 @@ namespace Infrastructure.Migrations
                 columns: new[] { "CategoryID", "CategoryName" },
                 values: new object[,]
                 {
-                    { 1, "Fiction" },
-                    { 2, "Science" },
-                    { 3, "History" },
-                    { 4, "Technology" },
-                    { 5, "Health" }
+                    { 1, "Tình cảm" },
+                    { 2, "Khoa học" },
+                    { 3, "Viễn tưởng" },
+                    { 4, "Kinh dị" },
+                    { 5, "Hài hước" },
+                    { 6, "Sức khỏe" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "CustomerID", "Address", "CCCD", "Email", "FullName", "Password", "Phone", "Role", "Username" },
+                columns: new[] { "CustomerID", "Address", "CCCD", "Email", "FullInfo", "FullName", "IsDeleted", "Password", "Phone", "RefreshToken", "RefreshTokenExpiry", "Role", "Username" },
                 values: new object[,]
                 {
-                    { 1, "123 Main St", "123456789", "nguyenvana@example.com", "Nguyen Van A", "12345", "0123456789", "User", "bookstoreuser" },
-                    { 2, "456 Elm St", "987654321", "huuvinhhoctap0903@gmail.com", "Nguyen Huu Vinh", "12345", "0987654321", "Admin", "bookstoreadmin" },
-                    { 3, "789 Oak St", "456789123", "levanc@example.com", "Le Van C", "12345", "0345678912", "User", "levanc" },
-                    { 4, "321 Pine St", "654321987", "phamthid@example.com", "Pham Thi D", "12345", "0765432198", "User", "phamthid" },
-                    { 5, "987 Maple St", "321654987", "hoangvane@example.com", "Hoang Van E", "12345", "0891234567", "User", "hoangvane" }
+                    { 1, "123 Main St", "123456789123", "nguyenhuuvinh2893@gmail.com", true, "Nguyễn Hữu Vĩnh", false, "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=", "0123456789", null, null, "Manager", "bookstoremanager" },
+                    { 2, "456 Elm St", "987654321456", "huuvinhhoctap0903@gmail.com", true, "Nguyen Admin", false, "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=", "0987654321", null, null, "Admin", "bookstoreadmin" },
+                    { 3, "789 Oak St", "456789123142", "levanc@example.com", true, "Tran User", false, "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=", "0345678912", null, null, "User", "bookstoreuser" },
+                    { 4, "321 Pine St", "654321987425", "phamthid@example.com", true, "Pham Thi D", false, "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=", "0765432198", null, null, "User", "phamthid" },
+                    { 5, "987 Maple St", "321654987487", "hoangvane@example.com", true, "Hoang Van E", false, "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=", "0891234567", null, null, "User", "hoangvane" },
+                    { 6, "123 Main St", "123456789628", "nguyenvana@example.com", true, "Nguyễn Văn A", true, "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=", "0123456789", null, null, "User", "bookstoreuser" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "OrderID", "CustomerID", "GuestAddress", "GuestCCCD", "GuestEmail", "GuestFullName", "GuestPhone", "OrderDate", "OrderStatus" },
+                columns: new[] { "OrderID", "CustomerID", "GuestAddress", "GuestCCCD", "GuestEmail", "GuestFullName", "GuestPhone", "OrderDate", "OrderStatus", "PaymentMethod" },
                 values: new object[,]
                 {
-                    { 6, null, "123 Main St", "123456789", "nguyenvana@example.com", "Nguyen Van B", "0123456789", new DateTime(2024, 11, 26, 11, 26, 10, 508, DateTimeKind.Local).AddTicks(7858), "Completed" },
-                    { 7, null, "123 Main St", "123456789", "nguyenvana@example.com", "Nguyen Van B", "0123456789", new DateTime(2024, 11, 26, 11, 26, 10, 508, DateTimeKind.Local).AddTicks(8535), "Completed" },
-                    { 1, 1, null, null, null, null, null, new DateTime(2024, 11, 26, 11, 26, 10, 507, DateTimeKind.Local).AddTicks(6652), "Pending" },
-                    { 2, 2, null, null, null, null, null, new DateTime(2024, 11, 26, 11, 26, 10, 508, DateTimeKind.Local).AddTicks(7834), "Completed" },
-                    { 3, 3, null, null, null, null, null, new DateTime(2024, 11, 26, 11, 26, 10, 508, DateTimeKind.Local).AddTicks(7854), "Shipped" },
-                    { 4, 4, null, null, null, null, null, new DateTime(2024, 11, 26, 11, 26, 10, 508, DateTimeKind.Local).AddTicks(7856), "Pending" },
-                    { 5, 5, null, null, null, null, null, new DateTime(2024, 11, 26, 11, 26, 10, 508, DateTimeKind.Local).AddTicks(7857), "Cancelled" }
+                    { 6, null, "123 Main St", "123456789", "nguyenvana@example.com", "Nguyen Van B", "0123456789", new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Completed", "Card" },
+                    { 7, null, "123 Main St", "123456789", "nguyenvana@example.com", "Nguyen Van B", "0123456789", new DateTime(2024, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Completed", "Card" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderDetails",
+                columns: new[] { "OrderDetailID", "BookID", "OrderID", "Price", "Quantity" },
+                values: new object[,]
+                {
+                    { 8, 1, 6, 20000m, 10 },
+                    { 9, 4, 7, 30000m, 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "OrderID", "CustomerID", "GuestAddress", "GuestCCCD", "GuestEmail", "GuestFullName", "GuestPhone", "OrderDate", "OrderStatus", "PaymentMethod" },
+                values: new object[,]
+                {
+                    { 1, 1, null, null, null, null, null, new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pending", "COD" },
+                    { 2, 2, null, null, null, null, null, new DateTime(2024, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Completed", "COD" },
+                    { 3, 3, null, null, null, null, null, new DateTime(2024, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Shipped", "COD" },
+                    { 4, 4, null, null, null, null, null, new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pending", "COD" },
+                    { 5, 5, null, null, null, null, null, new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cancelled", "COD" }
                 });
 
             migrationBuilder.InsertData(
@@ -236,23 +237,13 @@ namespace Infrastructure.Migrations
                 columns: new[] { "OrderDetailID", "BookID", "OrderID", "Price", "Quantity" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 39.98m, 2 },
-                    { 2, 2, 2, 29.99m, 1 },
-                    { 3, 3, 3, 75.00m, 3 },
-                    { 4, 4, 4, 15.50m, 1 },
-                    { 5, 5, 5, 64.95m, 5 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Payments",
-                columns: new[] { "PaymentID", "OrderID", "PaymentDate", "PaymentMethod", "PaymentStatus" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2024, 11, 26, 11, 26, 10, 509, DateTimeKind.Local).AddTicks(592), "Credit Card", "Paid" },
-                    { 2, 2, new DateTime(2024, 11, 26, 11, 26, 10, 509, DateTimeKind.Local).AddTicks(1171), "PayPal", "Paid" },
-                    { 3, 3, new DateTime(2024, 11, 26, 11, 26, 10, 509, DateTimeKind.Local).AddTicks(1174), "Bank Transfer", "Pending" },
-                    { 4, 4, new DateTime(2024, 11, 26, 11, 26, 10, 509, DateTimeKind.Local).AddTicks(1175), "Cash", "Paid" },
-                    { 5, 5, new DateTime(2024, 11, 26, 11, 26, 10, 509, DateTimeKind.Local).AddTicks(1177), "Credit Card", "Failed" }
+                    { 1, 1, 1, 20000m, 2 },
+                    { 2, 2, 1, 22000m, 1 },
+                    { 3, 3, 2, 25000m, 3 },
+                    { 4, 4, 2, 30000m, 1 },
+                    { 5, 5, 3, 15000m, 5 },
+                    { 6, 2, 4, 22000m, 1 },
+                    { 7, 3, 5, 25000m, 7 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -269,11 +260,6 @@ namespace Infrastructure.Migrations
                 name: "IX_Orders_CustomerID",
                 table: "Orders",
                 column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payments_OrderID",
-                table: "Payments",
-                column: "OrderID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCarts_BookID",
@@ -294,9 +280,6 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
-
-            migrationBuilder.DropTable(
-                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCarts");

@@ -39,7 +39,6 @@ namespace Infrastructure.Mapper
                 .ReverseMap();
 
             // Payment - PaymentDTO
-            CreateMap<Payment, PaymentDTO>().ReverseMap();
 
             // ShoppingCart - ShoppingCartDTO
             CreateMap<ShoppingCart, ShoppingCartDTO>()

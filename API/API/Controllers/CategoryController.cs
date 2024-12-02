@@ -32,22 +32,22 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<CategoryDTO>> CreateCategory(CategoryDTO categoryDto)
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult<CategoryDTO>> CreateCategory([FromBody] CategoryDTO categoryDto)
         {
             return Ok(await _categoryService.CreateCategoryAsync(categoryDto));
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<CategoryDTO>> UpdateCategory(int id, CategoryDTO categoryDto)
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult<CategoryDTO>> UpdateCategory(int id, [FromBody] CategoryDTO categoryDto)
         {
             return Ok(await _categoryService.UpdateCategoryAsync(id, categoryDto));
 
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             return Ok(await _categoryService.DeleteCategoryAsync(id));

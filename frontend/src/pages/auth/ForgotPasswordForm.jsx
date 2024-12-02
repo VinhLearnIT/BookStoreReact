@@ -17,6 +17,7 @@ const ForgotPasswordForm = () => {
     const handleSendOTP = async () => {
         const email = form.getFieldValue('email');
         if (!email) {
+            message.error('Vui lòng nhập email trước khi gửi OTP!');
             return;
         }
         if (timerRef.current) {
@@ -47,7 +48,7 @@ const ForgotPasswordForm = () => {
                 veryfiCode.current = response.data.verificationCode
                 otpResetTimerRef.current = setTimeout(() => {
                     veryfiCode.current = "";
-                }, 60000);
+                }, 180000);
             } else if (response.status === 404) {
                 message.error(response.data.message);
             }
@@ -67,7 +68,6 @@ const ForgotPasswordForm = () => {
             email: values.email,
             newPassword: values.newPassword
         }
-        console.log(formData);
         try {
             const response = await authService.ForgotPassword(formData);
             if (response.status === 200) {

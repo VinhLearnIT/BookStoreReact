@@ -32,14 +32,15 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<OrderDetailDTO> GetOrderDetailByIdAsync(int id)
+        public async Task<IEnumerable<OrderDetailDTO>> GetOrderDetailByOrderIDAsync(int id)
         {
             try
             {
                 var orderDetail = await _context.OrderDetails.Include(od => od.Book)
-                                        .FirstOrDefaultAsync(od => od.OrderDetailID == id)
+                                        .Where(od => od.OrderID == id).ToListAsync()
                                         ?? throw new NotFoundException("Không tìm thấy chi tiết đơn hàng");
-                return _mapper.Map<OrderDetailDTO>(orderDetail);
+                return _mapper.Map<IEnumerable<OrderDetailDTO>>(orderDetail);
+
             }
             catch (NotFoundException)
             {

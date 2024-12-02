@@ -6,7 +6,7 @@ import DashBoard from '../pages/admin/DashBoard';
 import ManageBooks from '../pages/admin/ManageBooks';
 import ManageCategory from '../pages/admin/ManageCategory';
 import ManageOrder from '../pages/admin/ManageOrder';
-import ManageUser from '../pages/admin/ManageUser';
+import ManageCustomer from '../pages/admin/ManageCustomer';
 
 const AdminRoutes = () => {
     return (
@@ -19,7 +19,7 @@ const AdminRoutes = () => {
                     <Route path="/manage-books" element={<ManageBooks />} />
                     <Route path="/manage-category" element={<ManageCategory />} />
                     <Route path="/manage-order" element={<ManageOrder />} />
-                    <Route path="/manage-user" element={<ManageUser />} />
+                    <Route path="/manage-customer" element={<ManageCustomer />} />
                 </Route>
             </Route>
         </Routes>

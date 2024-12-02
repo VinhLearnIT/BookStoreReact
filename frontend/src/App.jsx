@@ -22,7 +22,8 @@ function App() {
                 primaryShadow: "none"
             },
             Table: {
-                cellPaddingInline: 8
+                cellPaddingInline: 8,
+                cellPaddingBlock: 10
             }
         }
     }

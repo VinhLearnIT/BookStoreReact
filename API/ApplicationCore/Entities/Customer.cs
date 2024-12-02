@@ -17,7 +17,8 @@ namespace ApplicationCore.Entities
         public string? Username { get; set; }
         public string? Password { get; set; }
         public string? Role { get; set; }
-        public string? FullInfo { get; set; }
+        public bool? FullInfo { get; set; }
+        public bool? IsDeleted { get; set; }
 
         public string? RefreshToken { get; set; } 
         public DateTime? RefreshTokenExpiry { get; set; }

@@ -35,7 +35,7 @@ namespace Infrastructure.Services
             try
             {
                 var customer = await _context.Customers
-                    .FirstOrDefaultAsync(c => c.Username == loginModel.Username);
+                    .FirstOrDefaultAsync(c => c.Username == loginModel.Username && c.IsDeleted == false);
 
                 if (customer == null || !VerifyPassword(loginModel.Password, customer.Password))
                 {
@@ -90,7 +90,8 @@ namespace Infrastructure.Services
                     Username = registerModel.Username,
                     Password = HashPassword(registerModel.Password),
                     Role = registerModel.Role,
-                    FullInfo = "False"
+                    FullInfo = false,
+                    IsDeleted = false
                 };
 
 
@@ -180,7 +181,7 @@ namespace Infrastructure.Services
                 {
                     From = new MailAddress("huuvinhhoctap0903@gmail.com"),
                     Subject = "BookStore - Mã xác nhận của bạn",
-                    Body = $"<p>Mã xác nhận của bạn là: <strong>{code}</strong><br></p><p>Mã này chỉ tồn tại trong 1 phút.</p>",
+                    Body = $"<p>Mã xác nhận của bạn là: <strong>{code}</strong><br></p><p>Mã này chỉ tồn tại trong 3 phút.</p>",
                     IsBodyHtml = true,
                 };
 

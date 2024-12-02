@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Model;
 using AutoMapper;
 using Infrastructure.Data;
 using Infrastructure.Exceptions;
@@ -20,7 +21,7 @@ namespace Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
+        public async Task<IEnumerable<OrderDTO>> GetOrdersAsync()
         {
             try
             {
@@ -113,6 +114,7 @@ namespace Infrastructure.Services
                 // Cập nhật các thông tin khác
                 order.OrderDate = orderDto.OrderDate;
                 order.OrderStatus = orderDto.OrderStatus;
+                order.PaymentMethod = orderDto.PaymentMethod;
 
                 await _context.SaveChangesAsync();
 
@@ -132,18 +134,18 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<Object> DeleteOrderAsync(int id)
+        public async Task<OrderDTO> UpdateOrderStatusAsync(int id, OrderStatusModel orderStatus)
         {
             try
             {
                 var order = await _context.Orders.FindAsync(id)
-                    ?? throw new NotFoundException("Không tìm thấy đơn hàng");
+                    ?? throw new NotFoundException("Không tìm thấy đơn hàng");                  
+                
+                order.OrderStatus = orderStatus.OrderStatus;
 
-                _context.Orders.Remove(order);
                 await _context.SaveChangesAsync();
 
-                return new { message = "Xóa đơn hàng thành công!" };
-
+                return _mapper.Map<OrderDTO>(order);
             }
             catch (NotFoundException)
             {
@@ -151,9 +153,32 @@ namespace Infrastructure.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Có lỗi xảy ra khi xóa đơn hàng" + ex.Message, ex);
+                throw new Exception("Có lỗi xảy ra khi cập nhật đơn hàng" + ex.Message, ex);
             }
         }
+
+        //public async Task<Object> DeleteOrderAsync(int id)
+        //{
+        //    try
+        //    {
+        //        var order = await _context.Orders.FindAsync(id)
+        //            ?? throw new NotFoundException("Không tìm thấy đơn hàng");
+
+        //        _context.Orders.Remove(order);
+        //        await _context.SaveChangesAsync();
+
+        //        return new { message = "Xóa đơn hàng thành công!" };
+
+        //    }
+        //    catch (NotFoundException)
+        //    {
+        //        throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Có lỗi xảy ra khi xóa đơn hàng" + ex.Message, ex);
+        //    }
+        //}
 
         private static void Validate(OrderDTO orderDto)
         {

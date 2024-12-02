@@ -15,10 +15,13 @@ const LoginForm = () => {
                 message.success('Đăng nhập thành công!');
                 sessionStorage.setItem('isAuthenticated', true);
                 sessionStorage.setItem('userID', JSON.stringify(data.customerID));
+                localStorage.setItem('role', data.role);
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                navigate("/admin")
-            } else if (response.status === 401) {
+                if (data.role !== 'User') {
+                    navigate("/admin")
+                }
+            } else if (response.status === 400) {
                 message.error(response.data.message);
             }
         } catch (error) {

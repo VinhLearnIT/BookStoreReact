@@ -27,14 +27,14 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ShoppingCartDTO>> AddToCart(ShoppingCartDTO shoppingCartDto)
+        public async Task<ActionResult<ShoppingCartDTO>> AddToCart([FromBody] ShoppingCartDTO shoppingCartDto)
         {
             var createdCart = await _shoppingCartService.AddToCartAsync(shoppingCartDto);
             return CreatedAtAction("Create", new { id = createdCart.CartID }, createdCart);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ShoppingCartDTO>> UpdateCart(int id, ShoppingCartDTO shoppingCartDto)
+        public async Task<ActionResult<ShoppingCartDTO>> UpdateCart(int id, [FromBody] ShoppingCartDTO shoppingCartDto)
         {
             return Ok(await _shoppingCartService.UpdateCartAsync(id, shoppingCartDto));
         }

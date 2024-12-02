@@ -29,28 +29,28 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> CreateBook([FromBody] BookDTO bookDto)
         {
             return Ok(await _bookService.CreateBookAsync(bookDto));
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> UploadImage(IFormFile imageFile)
         {
             return Ok(new { ImagePath = await _bookService.UploadImageAsync(imageFile) } );
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> UpdateBook(int id, [FromBody] BookDTO bookDto)
         {
             return Ok(await _bookService.UpdateBookAsync(id, bookDto));
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> DeleteBook(int id)
         {
             return Ok(await _bookService.DeleteBookAsync(id));

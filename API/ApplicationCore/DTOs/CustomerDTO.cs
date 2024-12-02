@@ -11,6 +11,7 @@ namespace ApplicationCore.DTOs
         public string? CCCD { get; set; }
         public string? Address { get; set; }
         public string? Role { get; set; }
-        public string? FullInfo { get; set; }
+        public bool? FullInfo { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

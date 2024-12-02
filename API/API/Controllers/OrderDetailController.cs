@@ -5,11 +5,13 @@ using AutoMapper;
 using ApplicationCore.Entities;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize]
     public class OrderDetailController : ControllerBase
     {
         private readonly IOrderDetailService _orderDetailService;
@@ -19,16 +21,16 @@ namespace API.Controllers
             _orderDetailService = orderDetailService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetOrderDetails()
-        {
-            return Ok(await _orderDetailService.GetAllOrderDetailsAsync());
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetOrderDetails()
+        //{
+        //    return Ok(await _orderDetailService.GetAllOrderDetailsAsync());
+        //}
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderDetailById(int id)
+        public async Task<IActionResult> GetOrderDetailByOrderID(int id)
         {
-            return Ok(await _orderDetailService.GetOrderDetailByIdAsync(id));
+            return Ok(await _orderDetailService.GetOrderDetailByOrderIDAsync(id));
         }
 
         [HttpPost]

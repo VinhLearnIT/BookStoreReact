@@ -2,9 +2,13 @@ import axios from 'axios';
 
 const API_URL = 'https://localhost:7138/api/Customer';
 
-const GetCustomers = async (data) => {
+const GetCustomers = async (token) => {
     try {
-        const response = await axios.get(`${API_URL}/GetCustomers`);
+        const response = await axios.get(`${API_URL}/GetCustomers`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response;
     } catch (error) {
         return {
@@ -15,9 +19,13 @@ const GetCustomers = async (data) => {
     }
 };
 
-const GetCustomerById = async (id) => {
+const GetCustomerById = async (token, id) => {
     try {
-        const response = await axios.get(`${API_URL}/GetCustomerById/${id}`);
+        const response = await axios.get(`${API_URL}/GetCustomerById/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response;
     } catch (error) {
         return {
@@ -62,9 +70,10 @@ const UpdateCustomer = async (token, id, data) => {
     }
 };
 
-const DeleteCustomer = async (token, id) => {
+
+const UpdateCustomerRole = async (token, id, data) => {
     try {
-        const response = await axios.delete(`${API_URL}/DeleteCustomer/${id}`, {
+        const response = await axios.put(`${API_URL}/UpdateCustomerRole/${id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -79,11 +88,47 @@ const DeleteCustomer = async (token, id) => {
     }
 };
 
+const ToggleCustomerStatus = async (token, id, data) => {
+    try {
+        const response = await axios.put(`${API_URL}/ToggleCustomerStatus/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            requestMsg: error.message
+        };
+    }
+};
+
+// const DeleteCustomer = async (token, id) => {
+//     try {
+//         const response = await axios.delete(`${API_URL}/DeleteCustomer/${id}`, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`
+//             }
+//         });
+//         return response;
+//     } catch (error) {
+//         return {
+//             status: error.response.status,
+//             data: error.response.data,
+//             requestMsg: error.message
+//         };
+//     }
+// };
+
 
 export {
     GetCustomers,
     GetCustomerById,
     CreateCustomer,
+    UpdateCustomerRole,
     UpdateCustomer,
-    DeleteCustomer
+    ToggleCustomerStatus
+    // DeleteCustomer
 };

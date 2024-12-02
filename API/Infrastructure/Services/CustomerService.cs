@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Model;
 using AutoMapper;
 using Infrastructure.Data;
 using Infrastructure.Exceptions;
@@ -80,6 +81,27 @@ namespace Infrastructure.Services
             }
         }
 
+
+        public async Task<CustomerDTO> UpdateCustomerRoleAsync(int id, CustomerRoleModel customerRole)
+        {
+            try
+            {
+                var customer = await _context.Customers.FindAsync(id)
+                    ?? throw new NotFoundException("Không tìm thấy khách hàng");
+                customer.Role = customerRole.Role;
+                await _context.SaveChangesAsync();
+                return _mapper.Map<CustomerDTO>(customer);
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Có lỗi xảy ra khi cập nhật khách hàng" + ex.Message, ex);
+            }
+        }
+
         public async Task<CustomerDTO> UpdateCustomerAsync(int id, CustomerDTO customerDto)
         {
             try
@@ -107,6 +129,7 @@ namespace Infrastructure.Services
                 customer.Phone = customerDto.Phone;
                 customer.CCCD = customerDto.CCCD;
                 customer.Address = customerDto.Address;
+                customer.FullInfo = true;
 
                 await _context.SaveChangesAsync();
 
@@ -121,18 +144,29 @@ namespace Infrastructure.Services
                 throw new Exception("Có lỗi xảy ra khi cập nhật khách hàng" + ex.Message, ex);
             }
         }
-
-        public async Task<object> DeleteCustomerAsync(int id)
+        public async Task<object> ToggleCustomerStatusAsync(int id, CustomerStatusModel customerStatus)
         {
             try
             {
                 var customer = await _context.Customers.FindAsync(id)
                     ?? throw new NotFoundException("Không tìm thấy khách hàng");
 
-                _context.Customers.Remove(customer);
-                await _context.SaveChangesAsync();
-                return new { message = "Xóa khách hàng thành công!" };
+     
+                if (customer.IsDeleted != customerStatus.IsDeleted)
+                {
+                    customer.IsDeleted = customerStatus.IsDeleted;
+                    await _context.SaveChangesAsync();
 
+                    var message = (bool)customerStatus.IsDeleted
+                        ? "Vô hiệu hóa người dùng thành công!"
+                        : "Kích hoạt người dùng thành công!";
+
+                    return new { message };
+                }
+                else
+                {
+                    return new { message = "Trạng thái người dùng không thay đổi." };
+                }
             }
             catch (NotFoundException)
             {
@@ -140,8 +174,30 @@ namespace Infrastructure.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Có lỗi xảy ra khi xóa khách hàng" + ex.Message, ex);
+                throw new Exception("Có lỗi khi thay đổi trạng thái người dùng! " + ex.Message, ex);
             }
         }
+
+        //public async Task<object> DeleteCustomerAsync(int id)
+        //{
+        //    try
+        //    {
+        //        var customer = await _context.Customers.FindAsync(id)
+        //            ?? throw new NotFoundException("Không tìm thấy khách hàng");
+
+        //        _context.Customers.Remove(customer);
+        //        await _context.SaveChangesAsync();
+        //        return new { message = "Xóa khách hàng thành công!" };
+
+        //    }
+        //    catch (NotFoundException)
+        //    {
+        //        throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("Có lỗi xảy ra khi xóa khách hàng" + ex.Message, ex);
+        //    }
+        //}
     }
 }

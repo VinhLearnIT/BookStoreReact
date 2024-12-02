@@ -17,8 +17,8 @@ namespace ApplicationCore.Entities
         public string? GuestPhone { get; set; }
         public string? GuestCCCD { get; set; }
         public string? GuestAddress { get; set; }
-
         public DateTime OrderDate { get; set; }
         public string? OrderStatus { get; set; }
+        public string? PaymentMethod { get; set; }
     }
 }

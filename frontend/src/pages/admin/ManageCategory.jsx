@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { App, Breadcrumb, Table, Input, Popconfirm, Tooltip, Modal, Form, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import * as categoryService from '../../services/CategoryService';
 import refreshToken from '../../utils/refreshToken';
-import { useNavigate } from 'react-router-dom';
 
 const ManageCategory = () => {
     const navigate = useNavigate();
@@ -12,9 +12,10 @@ const ManageCategory = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
-    const [modalType, setModalType] = useState("add");
+
+    const modalType = useRef("add");
     const selectedCategoryID = useRef(null);
 
     const getCategories = useCallback(async () => {
@@ -32,23 +33,24 @@ const ManageCategory = () => {
     }, [getCategories]);
 
     const showAddModal = () => {
-        setModalType("add");
+        modalType.current = "add";
         form.resetFields();
-        setIsModalVisible(true);
+        setIsModalOpen(true);
     };
 
     const showEditModal = (category) => {
-        setModalType("edit");
+        modalType.current = "edit";
         form.setFieldsValue({
             categoryName: category.categoryName,
         });
-        setIsModalVisible(true);
+        setIsModalOpen(true);
     };
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
+    const handleCancelModal = () => {
+        setIsModalOpen(false);
         form.resetFields();
     };
+
     const handleAddCategory = async (values) => {
         try {
             let token = localStorage.getItem('accessToken');
@@ -106,13 +108,23 @@ const ManageCategory = () => {
     };
 
     const handleSubmit = async (values) => {
+        const newCategoryName = values.categoryName.trim().toLowerCase();
+
+        const isDuplicate = categories.some(category =>
+            category.categoryName.trim().toLowerCase() === newCategoryName
+        );
+
+        if (isDuplicate) {
+            message.error("Tên thể loại đã tồn tại! Vui lòng nhập tên khác.");
+            return;
+        }
         try {
-            if (modalType === "add") {
+            if (modalType.current === "add") {
                 handleAddCategory(values);
             } else {
                 handleEditCategory(values);
             }
-            setIsModalVisible(false);
+            setIsModalOpen(false);
 
         } catch (error) {
             message.error("Có lỗi xảy ra!");
@@ -150,7 +162,6 @@ const ManageCategory = () => {
     const filteredCategories = categories.filter(categories => {
         var stringSearch = searchText.toLowerCase();
         return String(categories.categoryID) === stringSearch || categories.categoryName.toLowerCase().includes(stringSearch)
-
     });
     const columns = [
         { title: 'ID', dataIndex: 'categoryID', key: 'categoryID', align: 'center', width: "25%" },
@@ -158,7 +169,7 @@ const ManageCategory = () => {
         {
             title: 'Thao tác', key: 'actions', align: 'center', width: "25%",
             render: (_, record) => (
-                <div className='flex gap-4 justify-center'>
+                <div className='flex gap-2 justify-center'>
                     <Tooltip title="Cập nhật thể loại" placement='bottom' color={"gold"}>
                         <Button
                             className='px-3 py-5 border-yellow-500 hover:!border-yellow-500'
@@ -172,7 +183,9 @@ const ManageCategory = () => {
 
                     <Popconfirm
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                        title="Bạn xác nhận xóa?"
+                        title="Xác nhận xóa?"
+                        okText="Xác nhận"
+                        cancelText="Hủy"
                         onConfirm={() => {
                             selectedCategoryID.current = record.categoryID;
                             handleDelete();
@@ -201,7 +214,6 @@ const ManageCategory = () => {
                         placeholder="Tìm thể loại..."
                         prefix={<SearchOutlined className='mr-2 ' />}
                         onChange={(e) => setSearchText(e.target.value)}
-                        className='text-base border-custom1'
                         style={{ width: 400 }}
                     />
                     <Button
@@ -217,18 +229,18 @@ const ManageCategory = () => {
                     dataSource={filteredCategories}
                     rowKey="categoryID"
                     loading={loading}
-                    pagination={{ pageSize: 5 }}
+                    pagination={{ pageSize: 6 }}
                 />
             </div>
             <Modal
-                open={isModalVisible}
-                onCancel={handleCancel}
+                open={isModalOpen}
+                onCancel={handleCancelModal}
                 footer={null}
                 width={400}
                 style={{ top: 200 }}
             >
-                <p className='text-center text-xl text-custom1 font-bold mb-4'>
-                    {modalType === "add" ? "THÊM SÁCH MỚI" : "CẬP NHẬT SÁCH"}
+                <p className='text-center text-xl text-custom1 font-bold mb-6'>
+                    {modalType.current === "add" ? "THÊM THỂ LOẠI MỚI" : "CẬP NHẬT THỂ LOẠI"}
                 </p>
                 <Form form={form} onFinish={handleSubmit} layout="vertical"
                     requiredMark={false} className='custom'>
@@ -237,7 +249,7 @@ const ManageCategory = () => {
                         label="Tên thể loại"
                         rules={[{ required: true, message: 'Vui lòng nhập thể loại!' }]}
                     >
-                        <Input className='mb-1 mt-2' placeholder='Nhập thể loại' />
+                        <Input className='mb-1' placeholder='Nhập thể loại' />
                     </Form.Item>
                     <Form.Item>
                         <Button
@@ -245,7 +257,7 @@ const ManageCategory = () => {
                             htmlType="submit"
                             className="w-full h-10 mt-2"
                         >
-                            {modalType === "add" ? "Thêm mới" : "Cập nhật"}
+                            {modalType.current === "add" ? "Thêm mới" : "Cập nhật"}
                         </Button>
                     </Form.Item>
                 </Form>

@@ -65,66 +65,66 @@ namespace Infrastructure.Migrations
                         new
                         {
                             BookID = 1,
-                            Author = "Author A",
-                            BookName = "Book One",
-                            Categories = "Fiction, Science, History, Technology, Health",
-                            Description = "A great fiction book.",
+                            Author = "Tác giả 1",
+                            BookName = "Sách 1",
+                            Categories = "Tình cảm, Hài hước, Kinh dị",
+                            Description = "Mô tả về sách này.",
                             ImagePath = "image1.jpg",
-                            Price = 19.99m,
+                            Price = 20000m,
                             PublishedDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Publisher X",
+                            Publisher = "Nhà xuất bản 1",
                             StockQuantity = 100
                         },
                         new
                         {
                             BookID = 2,
-                            Author = "Author B",
-                            BookName = "Book Two",
-                            Categories = "Fiction, Science, History, Technology, Health",
-                            Description = "An insightful science book.",
+                            Author = "Tác giả 2",
+                            BookName = "Sách 2",
+                            Categories = "Viễn tưởng, Hài hước, Kinh dị",
+                            Description = "Mô tả về sách này.",
                             ImagePath = "image2.jpg",
-                            Price = 29.99m,
+                            Price = 22000m,
                             PublishedDate = new DateTime(2020, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Publisher Y",
+                            Publisher = "Nhà xuất bản 2",
                             StockQuantity = 50
                         },
                         new
                         {
                             BookID = 3,
-                            Author = "Author C",
-                            BookName = "Book Three",
-                            Categories = "Fiction, Science, History, Technology, Health",
-                            Description = "A detailed history book.",
+                            Author = "Tác giả 3",
+                            BookName = "Sách 3",
+                            Categories = "Khoa học, Kinh dị",
+                            Description = "Mô tả về sách này.",
                             ImagePath = "image3.jpg",
-                            Price = 25.00m,
+                            Price = 25000m,
                             PublishedDate = new DateTime(2019, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Publisher Z",
+                            Publisher = "Nhà xuất bản 3",
                             StockQuantity = 75
                         },
                         new
                         {
                             BookID = 4,
-                            Author = "Author D",
-                            BookName = "Book Four",
-                            Categories = "Fiction, Science, History, Technology, Health",
-                            Description = "An advanced tech book.",
+                            Author = "Tác giả 4",
+                            BookName = "Sách 4",
+                            Categories = "Tình cảm, Hài hước, Sức khỏe",
+                            Description = "Mô tả về sách này.",
                             ImagePath = "image4.jpg",
-                            Price = 15.50m,
+                            Price = 30000m,
                             PublishedDate = new DateTime(2022, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Publisher W",
+                            Publisher = "Nhà xuất bản 4",
                             StockQuantity = 60
                         },
                         new
                         {
                             BookID = 5,
-                            Author = "Author E",
-                            BookName = "Book Five",
-                            Categories = "Fiction, Science, History, Technology, Health",
-                            Description = "A comprehensive health guide.",
+                            Author = "Tác giả 5",
+                            BookName = "Sách 5",
+                            Categories = "Khoa học, Sức khỏe",
+                            Description = "Mô tả về sách này.",
                             ImagePath = "image5.jpg",
-                            Price = 12.99m,
+                            Price = 15000m,
                             PublishedDate = new DateTime(2023, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Publisher V",
+                            Publisher = "Nhà xuất bản 5",
                             StockQuantity = 80
                         });
                 });
@@ -148,27 +148,32 @@ namespace Infrastructure.Migrations
                         new
                         {
                             CategoryID = 1,
-                            CategoryName = "Fiction"
+                            CategoryName = "Tình cảm"
                         },
                         new
                         {
                             CategoryID = 2,
-                            CategoryName = "Science"
+                            CategoryName = "Khoa học"
                         },
                         new
                         {
                             CategoryID = 3,
-                            CategoryName = "History"
+                            CategoryName = "Viễn tưởng"
                         },
                         new
                         {
                             CategoryID = 4,
-                            CategoryName = "Technology"
+                            CategoryName = "Kinh dị"
                         },
                         new
                         {
                             CategoryID = 5,
-                            CategoryName = "Health"
+                            CategoryName = "Hài hước"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Sức khỏe"
                         });
                 });
 
@@ -189,11 +194,14 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullInfo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("FullInfo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
@@ -222,23 +230,26 @@ namespace Infrastructure.Migrations
                         {
                             CustomerID = 1,
                             Address = "123 Main St",
-                            CCCD = "123456789",
-                            Email = "nguyenvana@example.com",
-                            FullName = "Nguyen Van A",
-                            Password = "12345",
+                            CCCD = "123456789123",
+                            Email = "nguyenhuuvinh2893@gmail.com",
+                            FullInfo = true,
+                            FullName = "Nguyễn Hữu Vĩnh",
+                            IsDeleted = false,
+                            Password = "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=",
                             Phone = "0123456789",
-                            Role = "User",
-                            Username = "bookstoreuser"
+                            Role = "Manager",
+                            Username = "bookstoremanager"
                         },
                         new
                         {
                             CustomerID = 2,
                             Address = "456 Elm St",
-                            CCCD = "987654321",
+                            CCCD = "987654321456",
                             Email = "huuvinhhoctap0903@gmail.com",
-                            FullInfo = "True",
-                            FullName = "Nguyen Huu Vinh",
-                            Password = "12345",
+                            FullInfo = true,
+                            FullName = "Nguyen Admin",
+                            IsDeleted = false,
+                            Password = "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=",
                             Phone = "0987654321",
                             Role = "Admin",
                             Username = "bookstoreadmin"
@@ -247,24 +258,26 @@ namespace Infrastructure.Migrations
                         {
                             CustomerID = 3,
                             Address = "789 Oak St",
-                            CCCD = "456789123",
+                            CCCD = "456789123142",
                             Email = "levanc@example.com",
-                            FullInfo = "True",
-                            FullName = "Le Van C",
-                            Password = "12345",
+                            FullInfo = true,
+                            FullName = "Tran User",
+                            IsDeleted = false,
+                            Password = "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=",
                             Phone = "0345678912",
                             Role = "User",
-                            Username = "levanc"
+                            Username = "bookstoreuser"
                         },
                         new
                         {
                             CustomerID = 4,
                             Address = "321 Pine St",
-                            CCCD = "654321987",
+                            CCCD = "654321987425",
                             Email = "phamthid@example.com",
-                            FullInfo = "True",
+                            FullInfo = true,
                             FullName = "Pham Thi D",
-                            Password = "12345",
+                            IsDeleted = false,
+                            Password = "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=",
                             Phone = "0765432198",
                             Role = "User",
                             Username = "phamthid"
@@ -273,14 +286,29 @@ namespace Infrastructure.Migrations
                         {
                             CustomerID = 5,
                             Address = "987 Maple St",
-                            CCCD = "321654987",
+                            CCCD = "321654987487",
                             Email = "hoangvane@example.com",
-                            FullInfo = "True",
+                            FullInfo = true,
                             FullName = "Hoang Van E",
-                            Password = "12345",
+                            IsDeleted = false,
+                            Password = "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=",
                             Phone = "0891234567",
                             Role = "User",
                             Username = "hoangvane"
+                        },
+                        new
+                        {
+                            CustomerID = 6,
+                            Address = "123 Main St",
+                            CCCD = "123456789628",
+                            Email = "nguyenvana@example.com",
+                            FullInfo = true,
+                            FullName = "Nguyễn Văn A",
+                            IsDeleted = true,
+                            Password = "2AF4gdHEe420oL99HvtI6pHqfhyoJWbpHPPJ3Nuo5eo=",
+                            Phone = "0123456789",
+                            Role = "User",
+                            Username = "bookstoreuser"
                         });
                 });
 
@@ -316,6 +344,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("OrderStatus")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("OrderID");
 
                     b.HasIndex("CustomerID");
@@ -327,36 +358,41 @@ namespace Infrastructure.Migrations
                         {
                             OrderID = 1,
                             CustomerID = 1,
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 466, DateTimeKind.Local).AddTicks(6734),
-                            OrderStatus = "Pending"
+                            OrderDate = new DateTime(2024, 5, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Pending",
+                            PaymentMethod = "COD"
                         },
                         new
                         {
                             OrderID = 2,
                             CustomerID = 2,
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4495),
-                            OrderStatus = "Completed"
+                            OrderDate = new DateTime(2024, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Completed",
+                            PaymentMethod = "COD"
                         },
                         new
                         {
                             OrderID = 3,
                             CustomerID = 3,
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4508),
-                            OrderStatus = "Shipped"
+                            OrderDate = new DateTime(2024, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Shipped",
+                            PaymentMethod = "COD"
                         },
                         new
                         {
                             OrderID = 4,
                             CustomerID = 4,
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4509),
-                            OrderStatus = "Pending"
+                            OrderDate = new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Pending",
+                            PaymentMethod = "COD"
                         },
                         new
                         {
                             OrderID = 5,
                             CustomerID = 5,
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4510),
-                            OrderStatus = "Cancelled"
+                            OrderDate = new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Cancelled",
+                            PaymentMethod = "COD"
                         },
                         new
                         {
@@ -366,8 +402,9 @@ namespace Infrastructure.Migrations
                             GuestEmail = "nguyenvana@example.com",
                             GuestFullName = "Nguyen Van B",
                             GuestPhone = "0123456789",
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(4511),
-                            OrderStatus = "Completed"
+                            OrderDate = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Completed",
+                            PaymentMethod = "Card"
                         },
                         new
                         {
@@ -377,8 +414,9 @@ namespace Infrastructure.Migrations
                             GuestEmail = "nguyenvana@example.com",
                             GuestFullName = "Nguyen Van B",
                             GuestPhone = "0123456789",
-                            OrderDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(5168),
-                            OrderStatus = "Completed"
+                            OrderDate = new DateTime(2024, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OrderStatus = "Completed",
+                            PaymentMethod = "Card"
                         });
                 });
 
@@ -416,109 +454,72 @@ namespace Infrastructure.Migrations
                             OrderDetailID = 1,
                             BookID = 1,
                             OrderID = 1,
-                            Price = 39.98m,
+                            Price = 20000m,
                             Quantity = 2
                         },
                         new
                         {
                             OrderDetailID = 2,
                             BookID = 2,
-                            OrderID = 2,
-                            Price = 29.99m,
+                            OrderID = 1,
+                            Price = 22000m,
                             Quantity = 1
                         },
                         new
                         {
                             OrderDetailID = 3,
                             BookID = 3,
-                            OrderID = 3,
-                            Price = 75.00m,
+                            OrderID = 2,
+                            Price = 25000m,
                             Quantity = 3
                         },
                         new
                         {
                             OrderDetailID = 4,
                             BookID = 4,
-                            OrderID = 4,
-                            Price = 15.50m,
+                            OrderID = 2,
+                            Price = 30000m,
                             Quantity = 1
                         },
                         new
                         {
                             OrderDetailID = 5,
                             BookID = 5,
-                            OrderID = 5,
-                            Price = 64.95m,
-                            Quantity = 5
-                        });
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.Payment", b =>
-                {
-                    b.Property<int>("PaymentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PaymentID");
-
-                    b.HasIndex("OrderID");
-
-                    b.ToTable("Payments");
-
-                    b.HasData(
-                        new
-                        {
-                            PaymentID = 1,
-                            OrderID = 1,
-                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(6965),
-                            PaymentMethod = "Credit Card",
-                            PaymentStatus = "Paid"
-                        },
-                        new
-                        {
-                            PaymentID = 2,
-                            OrderID = 2,
-                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7339),
-                            PaymentMethod = "PayPal",
-                            PaymentStatus = "Paid"
-                        },
-                        new
-                        {
-                            PaymentID = 3,
                             OrderID = 3,
-                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7341),
-                            PaymentMethod = "Bank Transfer",
-                            PaymentStatus = "Pending"
+                            Price = 15000m,
+                            Quantity = 5
                         },
                         new
                         {
-                            PaymentID = 4,
+                            OrderDetailID = 6,
+                            BookID = 2,
                             OrderID = 4,
-                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7342),
-                            PaymentMethod = "Cash",
-                            PaymentStatus = "Paid"
+                            Price = 22000m,
+                            Quantity = 1
                         },
                         new
                         {
-                            PaymentID = 5,
+                            OrderDetailID = 7,
+                            BookID = 3,
                             OrderID = 5,
-                            PaymentDate = new DateTime(2024, 11, 28, 20, 4, 55, 467, DateTimeKind.Local).AddTicks(7343),
-                            PaymentMethod = "Credit Card",
-                            PaymentStatus = "Failed"
+                            Price = 25000m,
+                            Quantity = 7
+                        },
+                        new
+                        {
+                            OrderDetailID = 8,
+                            BookID = 1,
+                            OrderID = 6,
+                            Price = 20000m,
+                            Quantity = 10
+                        },
+                        new
+                        {
+                            OrderDetailID = 9,
+                            BookID = 4,
+                            OrderID = 7,
+                            Price = 30000m,
+                            Quantity = 5
                         });
                 });
 
@@ -609,17 +610,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Book");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.Payment", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Order");
                 });

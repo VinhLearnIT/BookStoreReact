@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Model;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetCustomers()
         {
             return Ok(await _customerService.GetAllCustomersAsync());
@@ -32,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<CustomerDTO>> CreateCustomer([FromBody] CustomerDTO customerDto)
         {
             var createdCustomer = await _customerService.CreateCustomerAsync(customerDto);
@@ -46,11 +47,25 @@ namespace API.Controllers
             return Ok(await _customerService.UpdateCustomerAsync(id, customerDto));
         }
 
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> DeleteCustomer(int id)
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomerRole(int id, [FromBody] CustomerRoleModel customerRole)
         {
-            return Ok(await _customerService.DeleteCustomerAsync(id));
+            return Ok(await _customerService.UpdateCustomerRoleAsync(id, customerRole));
         }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<ActionResult> ToggleCustomerStatus(int id, [FromBody] CustomerStatusModel customerStatus)
+        {
+            return Ok(await _customerService.ToggleCustomerStatusAsync(id, customerStatus));
+        }
+
+        //[HttpDelete("{id}")]
+        //[Authorize(Roles = "Admin, Manager")]
+        //public async Task<ActionResult> DeleteCustomer(int id)
+        //{
+        //    return Ok(await _customerService.DeleteCustomerAsync(id));
+        //}
     }
 }

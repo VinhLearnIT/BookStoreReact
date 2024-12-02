@@ -69,7 +69,7 @@ const AdminLayout = () => {
                     </div>
                     <div className="text-lg ">
                         <Link
-                            to="/admin/manage-user"
+                            to="/admin/manage-customer"
                             className="flex items-center hover:bg-blue-100 hover:text-custom1 p-2 pl-8 font-medium rounded">
 
                             <TeamOutlined className="mr-4" />

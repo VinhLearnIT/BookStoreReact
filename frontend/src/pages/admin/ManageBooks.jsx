@@ -16,9 +16,10 @@ const ManageBooks = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
-    const [modalType, setModalType] = useState("add");
+    // const [modalType, setModalType] = useState("add");
+    const modalType = useRef("add");
     const selectedBookID = useRef(null);
     const selectedBookImage = useRef("");
 
@@ -94,14 +95,15 @@ const ManageBooks = () => {
     };
 
     const showAddModal = () => {
-        setModalType("add");
+        // setModalType("add");
+        modalType.current = "add";
         form.resetFields();
-        setIsModalVisible(true);
+        setIsModalOpen(true);
         setFileList([]);
     };
 
     const showEditModal = (book) => {
-        setModalType("edit");
+        modalType.current = "edit";
         const categoriesArray = book.categories.split(',').map(item => item.trim());
         form.setFieldsValue({
             bookName: book.bookName,
@@ -123,11 +125,11 @@ const ManageBooks = () => {
                 },
             ]);
         }
-        setIsModalVisible(true);
+        setIsModalOpen(true);
     };
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
+    const handleCancelModal = () => {
+        setIsModalOpen(false);
         form.resetFields();
         setFileList([]);
     };
@@ -233,12 +235,12 @@ const ManageBooks = () => {
             values.publishedDate = values.publishedDate.format('YYYY-MM-DD');
             values.categories = values.categories.join(', ');
 
-            if (modalType === "add") {
+            if (modalType.current === "add") {
                 handleAddBook(values);
             } else {
                 handleEditBook(values);
             }
-            setIsModalVisible(false);
+            setIsModalOpen(false);
 
         } catch (error) {
             message.error("Có lỗi xảy ra!");
@@ -275,21 +277,14 @@ const ManageBooks = () => {
     };
 
     const columns = [
-        {
-            title: 'ID', dataIndex: 'bookID', key: 'bookID', align: 'center', width: 50,
-        },
+        { title: 'ID', dataIndex: 'bookID', key: 'bookID', align: 'center', width: 50, },
         {
             title: 'Ảnh', dataIndex: 'imagePath', key: 'imagePath', align: 'center', width: 80,
             render: (path) =>
-                <img src={`https://localhost:7138/api/images/${path}`} alt="Book"
-                    className='w-full h-12 object-cover'
-                />
+                <img src={`https://localhost:7138/api/images/${path}`} alt="Book" className='w-full h-12 object-cover' />
         },
         {
-            title: 'Tên sách', dataIndex: 'bookName', key: 'bookName', align: 'center', width: 120,
-            ellipsis: {
-                showTitle: false,
-            },
+            title: 'Tên sách', dataIndex: 'bookName', key: 'bookName', align: 'center', width: 120, ellipsis: true,
             render: (bookName) => (
                 <Tooltip placement="topLeft" title={bookName}>
                     {bookName}
@@ -297,10 +292,7 @@ const ManageBooks = () => {
             ),
         },
         {
-            title: 'Tác giả', dataIndex: 'author', key: 'author', align: 'center', width: 120,
-            ellipsis: {
-                showTitle: false,
-            },
+            title: 'Tác giả', dataIndex: 'author', key: 'author', align: 'center', width: 120, ellipsis: true,
             render: (author) => (
                 <Tooltip placement="topLeft" title={author}>
                     {author}
@@ -308,10 +300,7 @@ const ManageBooks = () => {
             ),
         },
         {
-            title: 'Nhà xuất bản', dataIndex: 'publisher', key: 'publisher', align: 'center', width: 120,
-            ellipsis: {
-                showTitle: false,
-            },
+            title: 'Nhà xuất bản', dataIndex: 'publisher', key: 'publisher', align: 'center', width: 120, ellipsis: true,
             render: (publisher) => (
                 <Tooltip placement="topLeft" title={publisher}>
                     {publisher}
@@ -320,9 +309,7 @@ const ManageBooks = () => {
         },
         {
             title: 'Ngày xuất bản', dataIndex: 'publishedDate', key: 'publishedDate', align: 'center', width: 130,
-            ellipsis: {
-                showTitle: false,
-            },
+            ellipsis: true,
             render: (date) => (
                 <Tooltip placement="topLeft" title={new Date(date).toLocaleDateString()}>
                     {new Date(date).toLocaleDateString()}
@@ -330,14 +317,11 @@ const ManageBooks = () => {
             ),
         },
         {
-            title: 'Giá', dataIndex: 'price', key: 'price', align: 'center', width: 120,
+            title: 'Giá', dataIndex: 'price', key: 'price', align: 'center', width: 120, ellipsis: true,
             sorter: (a, b) => a.price - b.price, sortDirections: ['descend'],
-            ellipsis: {
-                showTitle: false,
-            },
             render: (price) => (
                 <Tooltip placement="topLeft" title={`${price} VNĐ`}>
-                    {price} VNĐ
+                    {price.toLocaleString()} VNĐ
                 </Tooltip>
             ),
         },
@@ -346,10 +330,7 @@ const ManageBooks = () => {
             sorter: (a, b) => a.stockQuantity - b.stockQuantity, sortDirections: ['descend'],
         },
         {
-            title: 'Mô tả', dataIndex: 'description', key: 'description', align: 'center',
-            ellipsis: {
-                showTitle: false,
-            },
+            title: 'Mô tả', dataIndex: 'description', key: 'description', align: 'center', ellipsis: true,
             render: (description) => (
                 <Tooltip placement="topLeft" title={description}>
                     {description}
@@ -357,10 +338,7 @@ const ManageBooks = () => {
             ),
         },
         {
-            title: 'Thể loại', dataIndex: 'categories', key: 'categories', align: 'center', width: 120,
-            ellipsis: {
-                showTitle: false,
-            },
+            title: 'Thể loại', dataIndex: 'categories', key: 'categories', align: 'center', width: 120, ellipsis: true,
             render: (categories) => (
                 <Tooltip placement="topLeft" title={categories}>
                     {categories}
@@ -371,17 +349,6 @@ const ManageBooks = () => {
             title: 'Thao tác', key: 'actions', align: 'center', width: 110,
             render: (_, record) => (
                 <div className='flex gap-2 justify-center'>
-                    {/* <Tooltip title="Xem chi tiết" color={"blue"}>
-                        <button
-                            className='px-3 py-2 border border-blue-700 rounded-md'
-                            onClick={() => {
-                                showEditModal(record)
-                                console.log(record);
-                            }}>
-                            <EyeOutlined className='text-blue-700' />
-                        </button>
-                    </Tooltip> */}
-
                     <Tooltip title="Cập nhật sách" placement='bottom' color={"gold"}>
                         <Button
                             className='px-3 py-5 border-yellow-500 hover:!border-yellow-500'
@@ -391,13 +358,14 @@ const ManageBooks = () => {
                                 showEditModal(record);
                             }}>
                             <EditOutlined className='text-yellow-500' />
-
                         </Button>
                     </Tooltip>
 
                     <Popconfirm
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                        title="Bạn xác nhận xóa?"
+                        title="Xác nhận xóa?"
+                        okText="Xác nhận"
+                        cancelText="Hủy"
                         onConfirm={() => {
                             selectedBookID.current = record.bookID;
                             handleDelete();
@@ -427,7 +395,6 @@ const ManageBooks = () => {
                         placeholder="Tìm kiếm sách..."
                         prefix={<SearchOutlined className='mr-2 ' />}
                         onChange={(e) => setSearchText(e.target.value)}
-                        className='text-base border-custom1'
                         style={{ width: 400 }}
                     />
                     <Button
@@ -443,18 +410,18 @@ const ManageBooks = () => {
                     dataSource={filteredBooks}
                     rowKey="bookID"
                     loading={loading}
-                    pagination={{ pageSize: 5 }}
+                    pagination={{ pageSize: 6 }}
                 />
             </div>
             <Modal
-                open={isModalVisible}
-                onCancel={handleCancel}
+                open={isModalOpen}
+                onCancel={handleCancelModal}
                 footer={null}
                 width={600}
                 style={{ top: 20 }}
             >
                 <p className='text-center text-xl text-custom1 font-bold mb-4'>
-                    {modalType === "add" ? "THÊM SÁCH MỚI" : "CẬP NHẬT SÁCH"}
+                    {modalType.current === "add" ? "THÊM SÁCH MỚI" : "CẬP NHẬT SÁCH"}
                 </p>
                 <Form form={form} onFinish={handleSubmit} layout="horizontal" requiredMark={false} labelCol={{ span: 6 }}>
                     <Form.Item
@@ -583,7 +550,7 @@ const ManageBooks = () => {
                             htmlType="submit"
                             className="w-full h-10 mt-2"
                         >
-                            {modalType === "add" ? "Thêm mới" : "Cập nhật"}
+                            {modalType.current === "add" ? "Thêm mới" : "Cập nhật"}
                         </Button>
                     </Form.Item>
                 </Form>

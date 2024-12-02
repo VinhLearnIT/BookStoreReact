@@ -47,7 +47,7 @@ const RegisterForm = () => {
                 veryfiCode.current = response.data.verificationCode
                 otpResetTimerRef.current = setTimeout(() => {
                     veryfiCode.current = "";
-                }, 60000);
+                }, 180000);
             } else if (response.status === 404) {
                 message.error(response.data.message);
             }
@@ -178,10 +178,10 @@ const RegisterForm = () => {
                         />
                     </Form.Item>
                     {countdown > 0 ? (
-                        <p className="text-center mt-1 min-w-20 ml-3 py-1 text-custom1">Gửi lại {countdown}s</p>
+                        <p className="text-center mt-2 min-w-20 ml-3 py-1 text-custom1">Gửi lại {countdown}s</p>
                     ) : (
                         <Button
-                            className='px-2 py-1 w-20 ml-3 mt-1'
+                            className='px-2 py-1 w-20 ml-3 mt-2'
                             onClick={handleSendOTP}
                         >
                             {countdown > 0 ? `Gửi lại sau ${countdown}s` : 'Gửi OTP'}

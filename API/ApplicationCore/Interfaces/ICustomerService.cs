@@ -1,5 +1,5 @@
 ﻿using ApplicationCore.DTOs;
-using ApplicationCore.Entities;
+using ApplicationCore.Model;
 
 namespace ApplicationCore.Interfaces
 {
@@ -9,6 +9,8 @@ namespace ApplicationCore.Interfaces
         Task<CustomerDTO> GetCustomerByIdAsync(int id);
         Task<CustomerDTO> CreateCustomerAsync(CustomerDTO customerDto);
         Task<CustomerDTO> UpdateCustomerAsync(int id, CustomerDTO customerDto);
-        Task<object> DeleteCustomerAsync(int id);
+        Task<CustomerDTO> UpdateCustomerRoleAsync(int id, CustomerRoleModel customerRole);
+        //Task<object> DeleteCustomerAsync(int id);
+        Task<object> ToggleCustomerStatusAsync(int id, CustomerStatusModel customerStatus);
     }
 }
