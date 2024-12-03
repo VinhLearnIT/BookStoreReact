@@ -1,0 +1,13 @@
+D:\NamBon\BookStoreWeb\API\ApplicationCore\bin\Debug\net8.0\ApplicationCore.deps.json
+D:\NamBon\BookStoreWeb\API\ApplicationCore\bin\Debug\net8.0\ApplicationCore.dll
+D:\NamBon\BookStoreWeb\API\ApplicationCore\bin\Debug\net8.0\ApplicationCore.pdb
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.GeneratedMSBuildEditorConfig.editorconfig
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.AssemblyInfoInputs.cache
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.AssemblyInfo.cs
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.csproj.CoreCompileInputs.cache
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.dll
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\refint\ApplicationCore.dll
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.pdb
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ref\ApplicationCore.dll
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.csproj.AssemblyReference.cache
+D:\NamBon\BookStoreWeb\API\ApplicationCore\obj\Debug\net8.0\ApplicationCore.sourcelink.json
