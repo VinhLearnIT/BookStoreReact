@@ -1,9 +1,6 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using ApplicationCore.Entities;
-using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
@@ -25,11 +22,6 @@ namespace API.Controllers
             return Ok(await _categoryService.GetAllCategoriesAsync());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDTO>> GetCategoryById(int id)
-        {
-            return Ok(await _categoryService.GetCategoryByIdAsync(id));
-        }
 
         [HttpPost]
         [Authorize(Roles = "Admin, Manager")]

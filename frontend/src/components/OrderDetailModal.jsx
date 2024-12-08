@@ -32,7 +32,7 @@ const OrderDetailModal = ({ isModalOpen, order, orderDetail, onClose }) => {
                 <Descriptions.Item label="Địa chỉ">{order?.address}</Descriptions.Item>
                 <Descriptions.Item label="Số điện thoại">{order?.phone}</Descriptions.Item>
                 <Descriptions.Item label="Thanh toán">
-                    {order?.paymentMethod === "COD" ? "Thanh toán khi nhận hàng" : "Đã thanh toán qua ngân hàng"}
+                    {order?.paymentMethod === "COD" ? "Thanh toán khi nhận hàng" : "Đã thanh toán qua MoMo"}
                 </Descriptions.Item>
             </Descriptions>
 

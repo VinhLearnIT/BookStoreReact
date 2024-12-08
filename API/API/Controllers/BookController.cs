@@ -22,10 +22,35 @@ namespace API.Controllers
             return Ok(await _bookService.GetAllBooksAsync());
         }
 
+        [HttpGet("{searchName}")]
+        public async Task<IActionResult> SearchBooks(string searchName)
+        {
+            Console.WriteLine($"Searching for: {searchName}");
+            return Ok(await _bookService.SearchBooksAsync(searchName));
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBookById(int id)
         {
             return Ok(await _bookService.GetBookByIdAsync(id));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRelatedBooks(int id)
+        {
+            return Ok(await _bookService.GetRelatedBooksAsync(id));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTopBooks()
+        {
+            return Ok(await _bookService.GetTopBooksAsync());
+        }
+
+        [HttpGet("{arrBookID}")]
+        public async Task<IActionResult> GetNewInfoBooks(string arrBookID)
+        {
+            return Ok(await _bookService.GetNewInfoBooksAsync(arrBookID));
         }
 
         [HttpPost]

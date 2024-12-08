@@ -7,10 +7,10 @@ namespace ApplicationCore.Interfaces
     public interface IOrderService
     {
         Task<IEnumerable<OrderDTO>> GetOrdersAsync();
+        Task<IEnumerable<OrderDTO>> GetOrderByCustomerIdAsync(int id);
         Task<OrderDTO> GetOrderByIdAsync(int id);
-        Task<OrderDTO> CreateOrderAsync(OrderDTO orderDto);
-        Task<OrderDTO> UpdateOrderAsync(int id, OrderDTO orderDto);
+        Task<OrderDTO> AddOrderForCustomerAsync(OrderDTO orderDto);
+        Task<OrderDTO> AddOrderForGuestAsync(GuestOrderModel guestOrderModel);
         Task<OrderDTO> UpdateOrderStatusAsync(int id, OrderStatusModel orderStatus);
-        //Task<object> DeleteOrderAsync(int id);
     }
 }

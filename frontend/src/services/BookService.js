@@ -15,9 +15,62 @@ const GetBooks = async (data) => {
     }
 };
 
+const GetTopBooks = async (data) => {
+    try {
+        const response = await axios.get(`${API_URL}/GetTopBooks`);
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            message: error.response.data?.message
+        };
+    }
+};
+
 const GetBookById = async (id) => {
     try {
         const response = await axios.get(`${API_URL}/GetBookById/${id}`);
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            message: error.response.data?.message
+        };
+    }
+};
+
+const SearchBooks = async (searchName) => {
+    try {
+        const response = await axios.get(`${API_URL}/SearchBooks/${searchName}`);
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            message: error.response.data?.message
+        };
+    }
+};
+
+
+const GetRelatedBooks = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/GetRelatedBooks/${id}`);
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            message: error.response.data?.message
+        };
+    }
+};
+
+const GetNewInfoBooks = async (arrId) => {
+    try {
+        const response = await axios.get(`${API_URL}/GetNewInfoBooks/${arrId}`);
         return response;
     } catch (error) {
         return {
@@ -99,7 +152,11 @@ const DeleteBook = async (token, id) => {
 
 export {
     GetBooks,
+    GetTopBooks,
+    SearchBooks,
     GetBookById,
+    GetNewInfoBooks,
+    GetRelatedBooks,
     CreateBook,
     UploadImage,
     UpdateBook,

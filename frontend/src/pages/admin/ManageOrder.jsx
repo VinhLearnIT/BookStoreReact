@@ -5,7 +5,7 @@ import { SearchOutlined, EditOutlined, CloseOutlined, EyeOutlined, QuestionCircl
 import OrderDetailModal from '../../components/OrderDetailModal';
 import * as ordersService from '../../services/OrdersService';
 import * as orderDetailService from '../../services/OrderDetailService';
-import refreshToken from '../../utils/refreshToken';
+import refreshToken from '../../utils/RefreshToken';
 const ManageOrder = () => {
     const navigate = useNavigate();
     const { message } = App.useApp();
@@ -19,34 +19,44 @@ const ManageOrder = () => {
     const orderDetail = useRef([]);
     const selectOrder = useRef(null);
 
+    const refreshAccessToken = useCallback(async () => {
+        try {
+            const refreshTokenBolean = await refreshToken();
+            if (!refreshTokenBolean) {
+                message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                localStorage.setItem('isAuthenticated', false);
+                navigate("/auth/login");
+                return null;
+            }
+            return localStorage.getItem('accessToken');
+        } catch (error) {
+            console.error("Lỗi làm mới token:", error);
+            message.error("Không thể làm mới phiên đăng nhập!");
+            return null;
+        }
+    }, [message, navigate]);
+
     const getOrders = useCallback(async () => {
         try {
             let token = localStorage.getItem('accessToken');
             let response = await ordersService.GetOrders(token);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await ordersService.GetOrders(token);
             }
 
             if (response.status === 200) {
                 setOrders(response.data);
-            } else {
-                message.error("Không thể tải danh sách!");
             }
         } catch (error) {
-            message.error("Không thể tải danh sách!");
+            message.error("Không thể tại dữ liệu đơn hàng!");
             console.log(error);
         } finally {
             setLoading(false);
         }
-    }, [message, navigate]);
+    }, [message, refreshAccessToken]);
 
     useEffect(() => {
         getOrders();
@@ -58,13 +68,8 @@ const ManageOrder = () => {
             let response = await orderDetailService.GetOrderDetailByOrderID(token, order.orderID);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await orderDetailService.GetOrderDetailByOrderID(token, order.orderID);
             }
 
@@ -82,7 +87,9 @@ const ManageOrder = () => {
 
     const filteredOrders = orders.filter(order => {
         var stringSearch = searchText.toLowerCase();
-        return String(order.orderID) === stringSearch || order.fullName.toLowerCase().includes(stringSearch)
+        return String(order.orderID) === stringSearch ||
+            order.fullName.toLowerCase().includes(stringSearch) ||
+            order.orderDate.toLowerCase().includes(stringSearch)
     });
 
     const handleUpdateStatus = async (order, status) => {
@@ -91,13 +98,8 @@ const ManageOrder = () => {
             let response = await ordersService.UpdateOrderStatus(token, order.orderID, { orderStatus: status });
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await ordersService.UpdateOrderStatus(token, order.orderID, { orderStatus: status });
             }
 
@@ -108,7 +110,7 @@ const ManageOrder = () => {
                 message.error("Không thể cập nhật trạng thái đơn hàng!");
             }
         } catch (error) {
-            message.error("Không thể cập nhật trạng thái đơn hàng!");
+            message.error("Lỗi khi cập nhật trạng thái đơn hàng!");
             console.log(error);
         }
         setIsModalStatusOpen(false);
@@ -189,10 +191,10 @@ const ManageOrder = () => {
             ),
         },
         {
-            title: 'Thanh toán', dataIndex: 'paymentMethod', key: 'paymentMethod', align: 'center', ellipsis: true, width: 150,
+            title: 'Thanh toán', dataIndex: 'paymentMethod', key: 'paymentMethod', align: 'center', ellipsis: true, width: 180,
             render: (paymentMethod) => (
-                <Tooltip placement="topLeft" title={paymentMethod === "COD" ? "Khi nhận hàng" : "Qua ngân hàng"}>
-                    {paymentMethod === "COD" ? "Khi nhận hàng" : "Qua ngân hàng"}
+                <Tooltip placement="topLeft" title={paymentMethod === "COD" ? "Khi nhận hàng" : "Thanh toán qua MoMo"}>
+                    {paymentMethod === "COD" ? "Khi nhận hàng" : "Thanh toán qua MoMo"}
                 </Tooltip>
             ),
         },

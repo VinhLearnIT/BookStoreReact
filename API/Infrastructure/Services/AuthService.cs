@@ -1,6 +1,5 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
-using AutoMapper;
 using Infrastructure.Data;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Security.Cryptography;
 using ApplicationCore.Model.Auth;
+using System.Net.WebSockets;
 
 namespace Infrastructure.Services
 {
@@ -129,44 +129,51 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<object> UpdatePasswordAsync(UpdatePasswordModel updatePasswordModel)
-        {
-            try
-            {
-                var customer = await _context.Customers.FindAsync(updatePasswordModel.CustomerID)
-                    
-                    ?? throw new NotFoundException("Không tìm thấy khách hàng");
-
-                if (!VerifyPassword(updatePasswordModel.OldPassword, customer.Password))
-                {
-                    throw new BadRequestException("Mật khẩu cũ không chính xác.");
-                }
-
-                customer.Password = HashPassword(updatePasswordModel.NewPassword);
-                await _context.SaveChangesAsync();
-
-                return new { message = "Mật khẩu đã được thay đổi thành công!" };
-            }
-            catch (NotFoundException)
-            {
-                throw;
-            }
-            catch (BadRequestException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Có lỗi xảy ra trong quá trình cập nhật mật khẩu " + ex.Message, ex);
-            }
-        }
-
-        public async Task<object> SendEmailAsync(SendMailModel sendMailModel)
+        public async Task<object> SendVerificationCodeAsync(SendMailModel sendMailModel)
         {
             try
             {
                 var code = GenerateVerificationCode();
+                var subject = "BookStore - Mã xác nhận của bạn";
+                var body = $"<p>Mã xác nhận của bạn là: <strong>{code}</strong><br></p><p>Mã này chỉ tồn tại trong 3 phút.</p>";
+                await SendEmailAsync(sendMailModel.Email, subject, body);
+                return new { verificationCode = code };
+            }
+            catch (SmtpException smtpEx)
+            {
+                throw new Exception("Có lỗi xảy ra khi gửi email: " + smtpEx.Message, smtpEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Có lỗi xảy ra khi gửi email: " + ex.Message, ex);
+            }
+        }
 
+        public async Task<object> SendMailContactAsync(SendMailModel sendMailModel)
+        {
+            try
+            {                
+                var subject = $"BookStore - Liên hệ từ {sendMailModel.FullName}";
+                var body = $"<p>Email: <strong>{sendMailModel.Email}</strong><br></p>" +
+                    $"<p>Số điện thoại: <strong>{sendMailModel.Phone}</strong><br></p>" +
+                    $"<p>Nội dung: <strong>{sendMailModel.Message}</strong><br></p>";
+                await SendEmailAsync("huuvinhhoctap0903@gmail.com", subject, body);
+                return new { message = "Gửi thông tin liên hệ thành công!" };
+            }
+            catch (SmtpException smtpEx)
+            {
+                throw new Exception("Có lỗi xảy ra khi gửi email: " + smtpEx.Message, smtpEx);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Có lỗi xảy ra khi gửi email: " + ex.Message, ex);
+            }
+        }
+
+        public async Task SendEmailAsync(string toEmail, string subject, string body)
+        {
+            try
+            {
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
@@ -177,16 +184,14 @@ namespace Infrastructure.Services
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress("huuvinhhoctap0903@gmail.com"),
-                    Subject = "BookStore - Mã xác nhận của bạn",
-                    Body = $"<p>Mã xác nhận của bạn là: <strong>{code}</strong><br></p><p>Mã này chỉ tồn tại trong 3 phút.</p>",
+                    Subject = subject,
+                    Body = body,
                     IsBodyHtml = true,
                 };
 
-                mailMessage.To.Add(sendMailModel.Email);
+                mailMessage.To.Add(toEmail);
 
                 await smtpClient.SendMailAsync(mailMessage);
-
-               return new { verificationCode = code};
             }
             catch (SmtpException smtpEx)
             {
@@ -206,7 +211,7 @@ namespace Infrastructure.Services
                 {
                     throw new BadRequestException("Refresh Token không hợp lệ.");
                 }
-                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.RefreshToken == refreshTokenModel.RefreshToken);
+                var customer = await _context.Customers.FirstOrDefaultAsync(c => c.RefreshToken == refreshTokenModel.RefreshToken && c.IsDeleted == false);
 
                 if (customer == null || customer.RefreshTokenExpiry < DateTime.UtcNow)
                 {

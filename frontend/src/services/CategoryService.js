@@ -15,18 +15,7 @@ const GetCategories = async (data) => {
     }
 };
 
-const GetCategoryById = async (id) => {
-    try {
-        const response = await axios.get(`${API_URL}/GetCategoryById/${id}`);
-        return response;
-    } catch (error) {
-        return {
-            status: error.response.status,
-            data: error.response.data,
-            message: error.response.data?.message
-        };
-    }
-};
+
 
 const CreateCategory = async (token, data) => {
     try {
@@ -82,7 +71,6 @@ const DeleteCategory = async (token, id) => {
 
 export {
     GetCategories,
-    GetCategoryById,
     CreateCategory,
     UpdateCategory,
     DeleteCategory

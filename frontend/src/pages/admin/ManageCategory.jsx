@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { App, Breadcrumb, Table, Input, Popconfirm, Tooltip, Modal, Form, Button } from 'antd';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import * as categoryService from '../../services/CategoryService';
-import refreshToken from '../../utils/refreshToken';
+import refreshToken from '../../utils/RefreshToken';
 
 const ManageCategory = () => {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ const ManageCategory = () => {
             const response = await categoryService.GetCategories();
             setCategories(response.data);
         } catch (error) {
-            message.error("Không thể tải danh sách!");
+            message.error("Không thể tải dữ liệu thể loại!");
         } finally {
             setLoading(false);
         }
@@ -50,20 +50,30 @@ const ManageCategory = () => {
         setIsModalOpen(false);
         form.resetFields();
     };
-
+    const refreshAccessToken = async () => {
+        try {
+            const refreshTokenBolean = await refreshToken();
+            if (!refreshTokenBolean) {
+                message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                localStorage.setItem('isAuthenticated', false);
+                navigate("/auth/login");
+                return null;
+            }
+            return localStorage.getItem('accessToken');
+        } catch (error) {
+            console.error("Lỗi làm mới token:", error);
+            message.error("Không thể làm mới phiên đăng nhập!");
+            return null;
+        }
+    };
     const handleAddCategory = async (values) => {
         try {
             let token = localStorage.getItem('accessToken');
             let response = await categoryService.CreateCategory(token, values);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await categoryService.CreateCategory(token, values);
             }
 
@@ -74,7 +84,7 @@ const ManageCategory = () => {
                 message.error("Thêm thể loại thất bại!");
             }
         } catch (error) {
-            message.error("Lỗi không xác định!");
+            message.error("Lỗi khi thêm thể loạ!");
             console.log(error);
         }
     };
@@ -85,13 +95,8 @@ const ManageCategory = () => {
             let token = localStorage.getItem('accessToken');
             let response = await categoryService.UpdateCategory(token, selectedCategoryID.current, values);
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await categoryService.UpdateCategory(token, selectedCategoryID.current, values);
             }
 
@@ -102,7 +107,7 @@ const ManageCategory = () => {
                 message.error("Cập nhật thể loại thất bại!");
             }
         } catch (error) {
-            message.error("Lỗi không xác định!");
+            message.error("Lỗi khi cập nhật thể loại!");
             console.log(error);
         }
     };
@@ -137,13 +142,8 @@ const ManageCategory = () => {
             let response = await categoryService.DeleteCategory(token, selectedCategoryID.current);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await categoryService.DeleteCategory(token, selectedCategoryID.current);
             }
 

@@ -2,12 +2,12 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateRoute = ({ allowedRoles }) => {
-    const isLogin = localStorage.getItem('isAuthenticated');
     const userRole = localStorage.getItem('role');
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
     const expireTime = localStorage.getItem('expireTime');
     const currentTime = new Date();
 
-    if (isLogin === 'true' && allowedRoles.includes(userRole) && new Date(expireTime) > currentTime) {
+    if (isAuthenticated && allowedRoles.includes(userRole) && expireTime && new Date(expireTime) > currentTime) {
         return <Outlet />;
     }
 

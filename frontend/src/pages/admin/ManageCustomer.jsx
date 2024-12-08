@@ -4,7 +4,7 @@ import { App, Breadcrumb, Table, Input, Popconfirm, Tooltip, Modal, Form, Button
 import { SearchOutlined, EditOutlined, CloseOutlined, CheckOutlined, QuestionCircleOutlined }
     from '@ant-design/icons';
 import * as customerService from '../../services/CustomerService';
-import refreshToken from '../../utils/refreshToken';
+import refreshToken from '../../utils/RefreshToken';
 const ManageUser = () => {
     const navigate = useNavigate();
     const { message } = App.useApp();
@@ -15,6 +15,22 @@ const ManageUser = () => {
     const [form] = Form.useForm();
 
     const selectCustomerID = useRef(null);
+    const refreshAccessToken = useCallback(async () => {
+        try {
+            const refreshTokenBolean = await refreshToken();
+            if (!refreshTokenBolean) {
+                message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                localStorage.setItem('isAuthenticated', false);
+                navigate("/auth/login");
+                return null;
+            }
+            return localStorage.getItem('accessToken');
+        } catch (error) {
+            console.error("Lỗi làm mới token:", error);
+            message.error("Không thể làm mới phiên đăng nhập!");
+            return null;
+        }
+    }, [message, navigate]);
 
     const getCustomers = useCallback(async () => {
         try {
@@ -22,28 +38,21 @@ const ManageUser = () => {
             let response = await customerService.GetCustomers(token);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await customerService.GetCustomers(token);
             }
 
             if (response.status === 200) {
                 setCustomer(response.data);
-            } else {
-                message.error("Không thể tải danh sách!");
             }
         } catch (error) {
-            message.error("Không thể tải danh sách!");
+            message.error("Không thể tải dữ liệu người dùng!");
             console.log(error);
         } finally {
             setLoading(false);
         }
-    }, [message, navigate]);
+    }, [message, refreshAccessToken]);
 
     useEffect(() => {
         getCustomers();
@@ -72,13 +81,8 @@ const ManageUser = () => {
             let response = await customerService.UpdateCustomerRole(token, selectCustomerID.current, { role: values.role });
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await customerService.UpdateCustomerRole(token, selectCustomerID.current, { role: values.role });
             }
 
@@ -89,27 +93,22 @@ const ManageUser = () => {
                 message.error("Không thể cập nhật chức năng người dùng!");
             }
         } catch (error) {
-            message.error("Không thể cập nhật chức năng người dùng!");
+            message.error("Lỗi cập nhật chức năng người dùng!");
             console.log(error);
         }
         setIsModalOpen(false);
         selectCustomerID.current = null
     }
 
-    const handleToggleCustomerStatus = async (status) => {
+    const handleUpdateCustomerStatus = async (status) => {
         try {
             let token = localStorage.getItem('accessToken');
-            let response = await customerService.ToggleCustomerStatus(token, selectCustomerID.current, { isDeleted: status });
+            let response = await customerService.UpdateCustomerStatus(token, selectCustomerID.current, { isDeleted: status });
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
-                response = await customerService.ToggleCustomerStatus(token, selectCustomerID.current, { isDeleted: status });
+                token = await refreshAccessToken();
+                if (!token) return;
+                response = await customerService.UpdateCustomerStatus(token, selectCustomerID.current, { isDeleted: status });
             }
             if (response.status === 200) {
                 if (status) {
@@ -118,15 +117,13 @@ const ManageUser = () => {
                     message.success("Kích hoạt người dùng thành công!");
                 }
                 await getCustomers();
-            } else {
-                if (status) {
-                    message.error("Không thể vô hiệu hóa người dùng!");
-                } else {
-                    message.error("Không thể kích hoạt người dùng!");
-                }
             }
         } catch (error) {
-            message.error("Lỗi khi cập nhật trạng thái người dùng!");
+            if (status) {
+                message.error("Không thể vô hiệu hóa người dùng!");
+            } else {
+                message.error("Không thể kích hoạt người dùng!");
+            }
             console.log(error);
         }
     };
@@ -265,7 +262,7 @@ const ManageUser = () => {
                             cancelText="Hủy"
                             onConfirm={() => {
                                 selectCustomerID.current = record.customerID;
-                                handleToggleCustomerStatus(false);
+                                handleUpdateCustomerStatus(false);
                             }}>
                             <Tooltip title="Kích hoạt người dùng" placement='bottom' color={"blue"}>
                                 <Button
@@ -283,7 +280,7 @@ const ManageUser = () => {
                             cancelText="Hủy"
                             onConfirm={() => {
                                 selectCustomerID.current = record.customerID;
-                                handleToggleCustomerStatus(true);
+                                handleUpdateCustomerStatus(true);
                             }}>
                             <Tooltip title="Vô hiệu hóa người dùng" placement='bottom' color={"red"}>
                                 <Button

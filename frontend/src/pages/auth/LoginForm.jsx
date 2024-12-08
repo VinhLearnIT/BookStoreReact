@@ -14,7 +14,7 @@ const LoginForm = () => {
                 var data = response.data;
                 message.success('Đăng nhập thành công!');
                 localStorage.setItem('isAuthenticated', true);
-                localStorage.setItem('userID', JSON.stringify(data.customerID));
+                localStorage.setItem('customerID', JSON.stringify(data.customerID));
                 localStorage.setItem('role', data.role);
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
@@ -25,7 +25,7 @@ const LoginForm = () => {
                     navigate("/admin");
                     return;
                 }
-                navigate('/user');
+                navigate('/');
             } else if (response.status === 400) {
                 message.error(response.message);
             }

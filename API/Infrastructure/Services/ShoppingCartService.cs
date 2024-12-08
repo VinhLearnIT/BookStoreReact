@@ -19,13 +19,12 @@ namespace Infrastructure.Services
             _mapper = mapper;
         }
 
-        // Lấy giỏ hàng của một khách hàng cụ thể (dựa trên CustomerID)
-        public async Task<IEnumerable<ShoppingCartDTO>> GetCartByCustomerIdAsync(int customerId)
+        public async Task<IEnumerable<ShoppingCartDTO>> GetCartByCustomerIdAsync(int id)
         {
             try
             {
                 var carts = await _context.ShoppingCarts
-                                           .Where(sc => sc.CustomerID == customerId)
+                                           .Where(sc => sc.CustomerID == id)
                                            .Include(sc => sc.Book)
                                            .ToListAsync();
 
@@ -37,32 +36,96 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<ShoppingCartDTO> AddToCartAsync(ShoppingCartDTO shoppingCartDto)
+        public async Task<object> GetCountCartByCustomerIdAsync(int id)
         {
             try
             {
+                var count= await _context.ShoppingCarts.CountAsync(c => c.CustomerID == id);                                         
+                return new { cartCount = count };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Có lỗi xảy ra khi lấy giỏ hàng của khách hàng" + ex.Message, ex);
+            }
+        }
+
+        public async Task<object> CheckStockQuantity(int bookID, int quantity)
+        {
+            try
+            {
+                var book = await _context.Books.FindAsync(bookID)
+                                    ?? throw new NotFoundException("Không tìm thấy sách");
+                if (quantity > book.StockQuantity)
+                {
+                    throw new BadRequestException($"Số lượng yêu cầu ({quantity}) vượt quá số lượng hiện có ({book.StockQuantity}).");
+                }
+                return new { message = "Đủ số lượng" };
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (BadRequestException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<object> AddToCartAsync(ShoppingCartDTO shoppingCartDto)
+        {
+            try
+            {
+                var customer = await _context.Customers
+                    .FirstOrDefaultAsync(c => c.CustomerID == shoppingCartDto.CustomerID && c.IsDeleted == false)
+                    ?? throw new UnauthorizedException("Không tìm thấy khách hàng");
+
                 var book = await _context.Books.FindAsync(shoppingCartDto.BookID)
-                    ?? throw new NotFoundException("Không tìm thấy sách");
+                                    ?? throw new NotFoundException("Không tìm thấy sách");
 
                 var existingCart = await _context.ShoppingCarts
-                                                 .FirstOrDefaultAsync(sc => sc.CustomerID == shoppingCartDto.CustomerID &&
-                                                                            sc.BookID == shoppingCartDto.BookID);
+                    .FirstOrDefaultAsync(sc => sc.CustomerID == shoppingCartDto.CustomerID &&
+                                                sc.BookID == shoppingCartDto.BookID);
+                
 
                 if (existingCart != null)
                 {
-                    existingCart.Quantity += shoppingCartDto.Quantity;  // Update quantity if already in the cart
+                    var sumQuantity = existingCart.Quantity + shoppingCartDto.Quantity;
+
+                    if (sumQuantity > book.StockQuantity)
+                    {
+                        throw new BadRequestException($"Số lượng trong giỏ hàng ({sumQuantity}) vượt quá số lượng hiện có ({book.StockQuantity}).");
+                    }
+
+                    existingCart.Quantity += shoppingCartDto.Quantity;
                     await _context.SaveChangesAsync();
-                    return _mapper.Map<ShoppingCartDTO>(existingCart);
+                    return new { message = "Old" };
+                }
+
+                if (shoppingCartDto.Quantity > book.StockQuantity)
+                {
+                    throw new BadRequestException($"Số lượng yêu cầu ({shoppingCartDto.Quantity}) vượt quá số lượng hiện có ({book.StockQuantity}).");
                 }
 
                 var cart = _mapper.Map<ShoppingCart>(shoppingCartDto);
                 _context.ShoppingCarts.Add(cart);
                 await _context.SaveChangesAsync();
+                return new { message = "New" };
 
-                shoppingCartDto.CartID = cart.CartID;
-                return _mapper.Map<ShoppingCartDTO>(cart);
             }
             catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (UnauthorizedException)
+            {
+                throw;
+            }
+            catch (BadRequestException)
             {
                 throw;
             }
@@ -76,6 +139,11 @@ namespace Infrastructure.Services
         {
             try
             {
+                if (shoppingCartDto == null || shoppingCartDto.Quantity <= 0)
+                {
+                    throw new BadRequestException("Dữ liệu giỏ hàng không hợp lệ.");
+                }
+
                 var cart = await _context.ShoppingCarts.FindAsync(id)
                     ?? throw new NotFoundException("Không tìm thấy giỏ hàng");
 
@@ -83,14 +151,16 @@ namespace Infrastructure.Services
                     ?? throw new NotFoundException("Không tìm thấy sách");
 
                 cart.Quantity = shoppingCartDto.Quantity;
-                cart.BookID = shoppingCartDto.BookID;
-                cart.Book = book;
 
                 await _context.SaveChangesAsync();
 
                 return _mapper.Map<ShoppingCartDTO>(cart);
             }
             catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (BadRequestException)
             {
                 throw;
             }

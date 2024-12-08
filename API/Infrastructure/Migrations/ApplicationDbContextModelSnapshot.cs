@@ -65,67 +65,197 @@ namespace Infrastructure.Migrations
                         new
                         {
                             BookID = 1,
-                            Author = "Tác giả 1",
-                            BookName = "Sách 1",
-                            Categories = "Tình cảm, Hài hước, Kinh dị",
-                            Description = "Mô tả về sách này.",
-                            ImagePath = "image1.jpg",
-                            Price = 20000m,
-                            PublishedDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Nhà xuất bản 1",
-                            StockQuantity = 100
+                            Author = "Tác giả A",
+                            BookName = "The Throned Mirror",
+                            Categories = "Tình cảm, Kinh dị",
+                            Description = "Một câu chuyện về vương quốc bị sụp đổ và cuộc chiến tranh giành ngai vàng.",
+                            ImagePath = "TheThronedMirror.jpg",
+                            Price = 15000m,
+                            PublishedDate = new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản A",
+                            StockQuantity = 120
                         },
                         new
                         {
                             BookID = 2,
-                            Author = "Tác giả 2",
-                            BookName = "Sách 2",
-                            Categories = "Viễn tưởng, Hài hước, Kinh dị",
-                            Description = "Mô tả về sách này.",
-                            ImagePath = "image2.jpg",
-                            Price = 22000m,
-                            PublishedDate = new DateTime(2020, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Nhà xuất bản 2",
-                            StockQuantity = 50
+                            Author = "Tác giả B",
+                            BookName = "The Sons of the Empire",
+                            Categories = "Viễn tưởng, Kinh dị",
+                            Description = "Hành trình của những người thừa kế đế chế cổ đại trong một thế giới đầy âm mưu.",
+                            ImagePath = "TheSonOfTheEmpire.jpg",
+                            Price = 18000m,
+                            PublishedDate = new DateTime(2023, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản B",
+                            StockQuantity = 90
                         },
                         new
                         {
                             BookID = 3,
-                            Author = "Tác giả 3",
-                            BookName = "Sách 3",
-                            Categories = "Khoa học, Kinh dị",
-                            Description = "Mô tả về sách này.",
-                            ImagePath = "image3.jpg",
-                            Price = 25000m,
-                            PublishedDate = new DateTime(2019, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Nhà xuất bản 3",
-                            StockQuantity = 75
+                            Author = "Tác giả C",
+                            BookName = "The Born of APLEX",
+                            Categories = "Khoa học, Viễn tưởng",
+                            Description = "Cuộc cách mạng công nghệ sinh học mang đến sự thay đổi toàn cầu.",
+                            ImagePath = "TheBornofAPLEX.jpg",
+                            Price = 22000m,
+                            PublishedDate = new DateTime(2021, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản C",
+                            StockQuantity = 150
                         },
                         new
                         {
                             BookID = 4,
-                            Author = "Tác giả 4",
-                            BookName = "Sách 4",
-                            Categories = "Tình cảm, Hài hước, Sức khỏe",
-                            Description = "Mô tả về sách này.",
-                            ImagePath = "image4.jpg",
-                            Price = 30000m,
-                            PublishedDate = new DateTime(2022, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Nhà xuất bản 4",
-                            StockQuantity = 60
+                            Author = "Tác giả D",
+                            BookName = "Ark Forging",
+                            Categories = "Viễn tưởng, Kinh dị",
+                            Description = "Một cuộc phiêu lưu trong thế giới mới, nơi mà sinh tồn là mục tiêu duy nhất.",
+                            ImagePath = "ArkForging.jpg",
+                            Price = 20000m,
+                            PublishedDate = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản D",
+                            StockQuantity = 110
                         },
                         new
                         {
                             BookID = 5,
-                            Author = "Tác giả 5",
-                            BookName = "Sách 5",
-                            Categories = "Khoa học, Sức khỏe",
-                            Description = "Mô tả về sách này.",
-                            ImagePath = "image5.jpg",
-                            Price = 15000m,
-                            PublishedDate = new DateTime(2023, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Publisher = "Nhà xuất bản 5",
+                            Author = "Tác giả E",
+                            BookName = "2024: Sanctuary",
+                            Categories = "Khoa học, Viễn tưởng",
+                            Description = "Mọi hy vọng đều dồn vào nơi trú ẩn cuối cùng khi thế giới đang trên bờ vực diệt vong.",
+                            ImagePath = "2024Sanctuary.jpg",
+                            Price = 25000m,
+                            PublishedDate = new DateTime(2024, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản E",
+                            StockQuantity = 130
+                        },
+                        new
+                        {
+                            BookID = 6,
+                            Author = "Tác giả F",
+                            BookName = "Cyber Angle",
+                            Categories = "Khoa học, Hài hước",
+                            Description = "Khi công nghệ có thể điều khiển cuộc sống, những bí mật ẩn giấu từ lâu sẽ bị phơi bày.",
+                            ImagePath = "CyberAngle.jpg",
+                            Price = 17000m,
+                            PublishedDate = new DateTime(2023, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản F",
+                            StockQuantity = 140
+                        },
+                        new
+                        {
+                            BookID = 7,
+                            Author = "Tác giả G",
+                            BookName = "Mists of Algorab",
+                            Categories = "Tình cảm, Hài hước",
+                            Description = "Chuyến hành trình kỳ bí vào khu rừng nơi mà không ai biết được điều gì đang chờ đợi.",
+                            ImagePath = "MistsofAlgorab.jpg",
+                            Price = 19000m,
+                            PublishedDate = new DateTime(2022, 4, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản G",
+                            StockQuantity = 100
+                        },
+                        new
+                        {
+                            BookID = 8,
+                            Author = "Tác giả H",
+                            BookName = "The Return of The King",
+                            Categories = "Tình cảm, Viễn tưởng",
+                            Description = "Vị vua cũ trở lại để dẫn dắt vương quốc chống lại quân thù.",
+                            ImagePath = "TheReturnofTheKing.jpg",
+                            Price = 21000m,
+                            PublishedDate = new DateTime(2021, 9, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản H",
                             StockQuantity = 80
+                        },
+                        new
+                        {
+                            BookID = 9,
+                            Author = "Tác giả I",
+                            BookName = "The Silmarillion",
+                            Categories = "Viễn tưởng, Kinh dị",
+                            Description = "Lịch sử của những vương quốc cổ xưa và những anh hùng vĩ đại.",
+                            ImagePath = "TheSilmarillion.jpg",
+                            Price = 24000m,
+                            PublishedDate = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản I",
+                            StockQuantity = 75
+                        },
+                        new
+                        {
+                            BookID = 10,
+                            Author = "Tác giả J",
+                            BookName = "Six Of Crows Book",
+                            Categories = "Kinh dị, Hài hước",
+                            Description = "Một đội ngũ tội phạm với những mục tiêu bất khả thi phải đối mặt với những thử thách khủng khiếp.",
+                            ImagePath = "SixOfCrowsBook.jpg",
+                            Price = 26000m,
+                            PublishedDate = new DateTime(2023, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản J",
+                            StockQuantity = 110
+                        },
+                        new
+                        {
+                            BookID = 11,
+                            Author = "Tác giả K",
+                            BookName = "The Hobbit",
+                            Categories = "Viễn tưởng, Tình cảm",
+                            Description = "Cuộc phiêu lưu của Bilbo Baggins vào thế giới của những sinh vật kỳ lạ.",
+                            ImagePath = "TheHobbit.jpg",
+                            Price = 23000m,
+                            PublishedDate = new DateTime(2021, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản K",
+                            StockQuantity = 120
+                        },
+                        new
+                        {
+                            BookID = 12,
+                            Author = "Tác giả L",
+                            BookName = "The Killing Jar",
+                            Categories = "Kinh dị, Hài hước",
+                            Description = "Một câu chuyện kinh dị về tội phạm và những bí mật đen tối.",
+                            ImagePath = "TheKillingJar.jpg",
+                            Price = 15000m,
+                            PublishedDate = new DateTime(2020, 5, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản L",
+                            StockQuantity = 140
+                        },
+                        new
+                        {
+                            BookID = 13,
+                            Author = "Tác giả M",
+                            BookName = "Ponti",
+                            Categories = "Tình cảm, Hài hước",
+                            Description = "Một câu chuyện đầy cảm xúc về tình yêu, sự mất mát và tìm lại chính mình.",
+                            ImagePath = "Ponti.jpg",
+                            Price = 21000m,
+                            PublishedDate = new DateTime(2023, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản M",
+                            StockQuantity = 100
+                        },
+                        new
+                        {
+                            BookID = 14,
+                            Author = "Tác giả N",
+                            BookName = "The Memory Of Light",
+                            Categories = "Tình cảm, Viễn tưởng",
+                            Description = "Một câu chuyện về sự khôi phục và chiến đấu với ánh sáng bên trong.",
+                            ImagePath = "TheMemoryOfLight.jpg",
+                            Price = 20000m,
+                            PublishedDate = new DateTime(2022, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản N",
+                            StockQuantity = 120
+                        },
+                        new
+                        {
+                            BookID = 15,
+                            Author = "Tác giả O",
+                            BookName = "The Stepsisters",
+                            Categories = "Tình cảm, Kinh dị",
+                            Description = "Một câu chuyện về sự ganh đua và tình yêu giữa những người chị em.",
+                            ImagePath = "TheStepsisters.jpg",
+                            Price = 19000m,
+                            PublishedDate = new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Publisher = "Nhà xuất bản O",
+                            StockQuantity = 130
                         });
                 });
 
@@ -392,7 +522,7 @@ namespace Infrastructure.Migrations
                             CustomerID = 5,
                             OrderDate = new DateTime(2024, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderStatus = "Cancelled",
-                            PaymentMethod = "COD"
+                            PaymentMethod = "MOMO"
                         },
                         new
                         {
@@ -404,7 +534,7 @@ namespace Infrastructure.Migrations
                             GuestPhone = "0123456789",
                             OrderDate = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderStatus = "Pending",
-                            PaymentMethod = "Card"
+                            PaymentMethod = "MOMO"
                         },
                         new
                         {
@@ -416,7 +546,7 @@ namespace Infrastructure.Migrations
                             GuestPhone = "0123456789",
                             OrderDate = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OrderStatus = "Pending",
-                            PaymentMethod = "Card"
+                            PaymentMethod = "MOMO"
                         });
                 });
 

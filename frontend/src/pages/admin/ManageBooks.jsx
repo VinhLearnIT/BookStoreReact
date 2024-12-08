@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
-import refreshToken from '../../utils/refreshToken';
-import { App, Breadcrumb, Table, Input, Popconfirm, Tooltip, Modal, Form, Select, Button, DatePicker, Upload, Image }
+import refreshToken from '../../utils/RefreshToken';
+import { App, Breadcrumb, Table, Input, InputNumber, Popconfirm, Tooltip, Modal, Form, Select, Button, DatePicker, Upload, Image }
     from 'antd';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, QuestionCircleOutlined, UploadOutlined }
     from '@ant-design/icons';
@@ -18,7 +18,6 @@ const ManageBooks = () => {
     const [searchText, setSearchText] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
-    // const [modalType, setModalType] = useState("add");
     const modalType = useRef("add");
     const selectedBookID = useRef(null);
     const selectedBookImage = useRef("");
@@ -33,7 +32,7 @@ const ManageBooks = () => {
             const response = await bookService.GetBooks();
             setBooks(response.data);
         } catch (error) {
-            message.error("Không thể tải danh sách!");
+            message.error("Không thể tải dữ liệu sách!");
         } finally {
             setLoading(false);
         }
@@ -54,7 +53,7 @@ const ManageBooks = () => {
                 setCategoryOptions(category);
             }
         } catch (error) {
-            message.error("Lỗi không xác định!");
+            message.error("Không thể tải dữ liệu thể loại!");
             console.log(error);
         }
 
@@ -95,7 +94,6 @@ const ManageBooks = () => {
     };
 
     const showAddModal = () => {
-        // setModalType("add");
         modalType.current = "add";
         form.resetFields();
         setIsModalOpen(true);
@@ -105,6 +103,9 @@ const ManageBooks = () => {
     const showEditModal = (book) => {
         modalType.current = "edit";
         const categoriesArray = book.categories.split(',').map(item => item.trim());
+        const validCategoriesArray = categoriesArray.filter(category =>
+            categoryOptions.some(option => option.value === category)
+        );
         form.setFieldsValue({
             bookName: book.bookName,
             author: book.author,
@@ -113,7 +114,7 @@ const ManageBooks = () => {
             price: book.price,
             stockQuantity: book.stockQuantity,
             description: book.description,
-            categories: categoriesArray,
+            categories: validCategoriesArray,
         });
         if (book.imagePath) {
             setFileList([
@@ -134,6 +135,23 @@ const ManageBooks = () => {
         setFileList([]);
     };
 
+    const refreshAccessToken = async () => {
+        try {
+            const refreshTokenBolean = await refreshToken();
+            if (!refreshTokenBolean) {
+                message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                localStorage.setItem('isAuthenticated', false);
+                navigate("/auth/login");
+                return null;
+            }
+            return localStorage.getItem('accessToken');
+        } catch (error) {
+            console.error("Lỗi làm mới token:", error);
+            message.error("Không thể làm mới phiên đăng nhập!");
+            return null;
+        }
+    };
+
     const handleUploadImage = async () => {
         if (!fileList || fileList.length === 0) {
             message.error("Vui lòng chọn ảnh!");
@@ -145,20 +163,15 @@ const ManageBooks = () => {
             formData.append('imageFile', fileList[0].originFileObj);
             let response = await bookService.UploadImage(token, formData);
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await bookService.UploadImage(token, formData);
             }
 
             if (response.status === 200) {
                 return response.data.imagePath;
             } else {
-                message.error("Lỗi khi tải ảnh lên!");
+                message.error("Không thể upload hình ảnh!");
             }
         } catch (error) {
             message.error("Lỗi khi upload hình ảnh!");
@@ -177,23 +190,18 @@ const ManageBooks = () => {
             let token = localStorage.getItem('accessToken');
             let response = await bookService.CreateBook(token, values);
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await bookService.CreateBook(token, values);
             }
             if (response.status === 200) {
                 message.success("Thêm mới sách thành công!");
                 await getBooks();
             } else {
-                message.error("Thêm mới sách thất bại!");
+                message.error("Thêm sách mới thất bại!");
             }
         } catch (error) {
-            message.error("Lỗi không xác định!");
+            message.error("Lỗi khi thêm sách!");
             console.log(error);
         }
     }
@@ -209,13 +217,8 @@ const ManageBooks = () => {
             let response = await bookService.UpdateBook(token, selectedBookID.current, values);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await bookService.UpdateBook(token, selectedBookID.current, values);
             }
             if (response.status === 200) {
@@ -225,7 +228,7 @@ const ManageBooks = () => {
                 message.error("Cập nhật sách thất bại!");
             }
         } catch (error) {
-            message.error("Lỗi không xác định!");
+            message.error("Lỗi khi cập nhật sách!");
             console.log(error);
         }
     }
@@ -254,13 +257,8 @@ const ManageBooks = () => {
             let token = localStorage.getItem('accessToken');
             let response = await bookService.DeleteBook(token, selectedBookID.current);
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await bookService.DeleteBook(token, selectedBookID.current);
             }
 
@@ -268,7 +266,7 @@ const ManageBooks = () => {
                 message.success(response.data.message);
                 await getBooks();
             } else {
-                message.error("Xóa sách thất bại!");
+                message.warning(response.message || "Sách này có dữ liệu đã xử dụng không thể xóa!");
             }
         } catch (error) {
             message.error("Lỗi khi xóa sách!");
@@ -281,7 +279,10 @@ const ManageBooks = () => {
         {
             title: 'Ảnh', dataIndex: 'imagePath', key: 'imagePath', align: 'center', width: 80,
             render: (path) =>
-                <img src={`https://localhost:7138/api/images/${path}`} alt="Book" className='w-full h-12 object-cover' />
+                <img
+                    src={`https://localhost:7138/api/images/${path}`}
+                    alt="Book"
+                    className='w-full h-12 object-cover rounded-md border border-custom1 p-1' />
         },
         {
             title: 'Tên sách', dataIndex: 'bookName', key: 'bookName', align: 'center', width: 120, ellipsis: true,
@@ -463,23 +464,17 @@ const ManageBooks = () => {
                     <Form.Item
                         name="price"
                         label="Giá"
-                        rules={[
-                            { required: true, message: 'Vui lòng nhập giá!' },
-                            { validator: (_, value) => (value > 0 ? Promise.resolve() : Promise.reject('Giá phải lớn hơn 0!')) }
-                        ]}
+                        rules={[{ required: true, message: 'Vui lòng nhập giá!' }]}
                     >
-                        <Input type="number" className='mb-1 mt-2' placeholder='Nhập giá sách' />
+                        <InputNumber min={1} className='mb-1 mt-2  w-full' placeholder='Nhập giá sách' />
                     </Form.Item>
 
                     <Form.Item
                         name="stockQuantity"
                         label="Số lượng"
-                        rules={[
-                            { required: true, message: 'Vui lòng nhập số lượng!' },
-                            { validator: (_, value) => (value > 0 ? Promise.resolve() : Promise.reject('Số lượng phải lớn hơn 0!')) }
-                        ]}
+                        rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
                     >
-                        <Input type="number" className='mb-1 mt-2' placeholder='Nhập số lượng sách' />
+                        <InputNumber min={1} className='mb-1 mt-2 w-full' placeholder='Nhập số lượng sách' />
                     </Form.Item>
 
                     <Form.Item

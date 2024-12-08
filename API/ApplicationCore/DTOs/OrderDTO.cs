@@ -9,7 +9,7 @@
         public string? Phone { get; set; }
         public string? CCCD { get; set; }
         public string? Address { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         public string? OrderStatus { get; set; }
         public string? PaymentMethod { get; set; }
 

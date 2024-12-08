@@ -43,6 +43,7 @@ namespace Infrastructure.Mapper
             // ShoppingCart - ShoppingCartDTO
             CreateMap<ShoppingCart, ShoppingCartDTO>()
                 .ForMember(dest => dest.BookName, opt => opt.MapFrom(src => src.Book != null ? src.Book.BookName : null))
+                .ForMember(dest => dest.ImagePath, opt => opt.MapFrom(src => src.Book != null ? src.Book.ImagePath : null))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Book != null ? src.Book.Price : 0))
                 .ReverseMap();
         }

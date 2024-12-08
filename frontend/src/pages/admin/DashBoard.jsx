@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import refreshToken from '../../utils/refreshToken';
+import refreshToken from '../../utils/RefreshToken';
 import { Breadcrumb, Select, App, Image } from 'antd';
 import { Bar, Line } from 'react-chartjs-2';
 import {
@@ -19,6 +19,22 @@ const DashBoard = () => {
     const [revenueData, setRevenueData] = useState([]);
     const [salesData, setSalesData] = useState([]);
     const year = useRef(new Date().getFullYear());
+    const refreshAccessToken = useCallback(async () => {
+        try {
+            const refreshTokenBolean = await refreshToken();
+            if (!refreshTokenBolean) {
+                message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                localStorage.setItem('isAuthenticated', false);
+                navigate("/auth/login");
+                return null;
+            }
+            return localStorage.getItem('accessToken');
+        } catch (error) {
+            console.error("Lỗi làm mới token:", error);
+            message.error("Không thể làm mới phiên đăng nhập!");
+            return null;
+        }
+    }, [message, navigate]);
 
     const getMonthlyRevenueOfYear = useCallback(async (year) => {
         try {
@@ -26,25 +42,20 @@ const DashBoard = () => {
             let response = await statisticsService.GetMonthlyRevenueOfYear(token, year);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await statisticsService.GetMonthlyRevenueOfYear(token, year);
             }
             if (response.status === 200) {
                 setRevenueData(response.data);
             } else {
-                message.error("Không thể thống kê!");
+                message.error("Không thể thống kê doanh thu hằng tháng!");
             }
         } catch (error) {
-            message.error("Không thể thống kê!");
+            message.error("Lỗi khi thống kê doanh thu hằng tháng!");
             console.log(error);
         }
-    }, [message, navigate]);
+    }, [message, refreshAccessToken]);
 
     const getMonthlySalesOfYear = useCallback(async (year) => {
         try {
@@ -52,25 +63,20 @@ const DashBoard = () => {
             let response = await statisticsService.GetMonthlySalesOfYear(token, year);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await statisticsService.GetMonthlySalesOfYear(token, year);
             }
             if (response.status === 200) {
                 setSalesData(response.data);
             } else {
-                message.error("Không thể thống kê!");
+                message.error("Không thể thống kê số lượng bán hằng tháng!");
             }
         } catch (error) {
-            message.error("Không thể thống kê!");
+            message.error("Lỗi khi thống kê số lượng bán hằng tháng!");
             console.log(error);
         }
-    }, [message, navigate]);
+    }, [message, refreshAccessToken]);
 
     const getStatistics = useCallback(async () => {
         try {
@@ -78,26 +84,21 @@ const DashBoard = () => {
             let response = await statisticsService.GetMonthlyStatistics(token);
 
             if (response.status === 401) {
-                const refreshTokenBolean = await refreshToken();
-                if (!refreshTokenBolean) {
-                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
-                    navigate("/auth/login");
-                    return null;
-                }
-                token = localStorage.getItem('accessToken');
+                token = await refreshAccessToken();
+                if (!token) return;
                 response = await statisticsService.GetMonthlyStatistics(token);
             }
 
             if (response.status === 200) {
                 setStatistics(response.data);
             } else {
-                message.error("Không thể thống kê!");
+                message.error("Không thể thống kê tháng hiện tại!");
             }
         } catch (error) {
-            message.error("Không thể thống kê!");
+            message.error("Lỗi khi thống kê tháng hiện tại!");
             console.log(error);
         }
-    }, [message, navigate]);
+    }, [message, refreshAccessToken]);
 
     useEffect(() => {
         getStatistics();

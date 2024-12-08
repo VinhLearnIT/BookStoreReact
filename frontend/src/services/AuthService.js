@@ -41,9 +41,9 @@ const SendVerificationCode = async (data) => {
     }
 };
 
-const ForgotPassword = async (data) => {
+const SendMailContact = async (data) => {
     try {
-        const response = await axios.put(`${API_URL}/ForgotPassword`, data);
+        const response = await axios.post(`${API_URL}/SendMailContact`, data);
         return response;
     } catch (error) {
         return {
@@ -54,9 +54,9 @@ const ForgotPassword = async (data) => {
     }
 };
 
-const UpdatePassword = async (data) => {
+const ForgotPassword = async (data) => {
     try {
-        const response = await axios.put(`${API_URL}/UpdatePassword`, data);
+        const response = await axios.put(`${API_URL}/ForgotPassword`, data);
         return response;
     } catch (error) {
         return {
@@ -84,7 +84,7 @@ export {
     Login,
     Register,
     SendVerificationCode,
-    UpdatePassword,
+    SendMailContact,
     ForgotPassword,
     RefreshToken
 };

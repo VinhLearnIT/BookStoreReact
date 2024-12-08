@@ -1,10 +1,7 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using ApplicationCore.Entities;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -20,20 +17,36 @@ namespace API.Controllers
             _shoppingCartService = shoppingCartService;
         }
 
-        [HttpGet("{customerId}")]
-        public async Task<ActionResult<IEnumerable<ShoppingCartDTO>>> GetCartByCustomerId(int customerId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ShoppingCartDTO>>> CheckStockQuantity(int bookID, int quantity)
         {
-            return Ok(await _shoppingCartService.GetCartByCustomerIdAsync(customerId));
+            return Ok(await _shoppingCartService.CheckStockQuantity(bookID, quantity));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<ShoppingCartDTO>>> GetCountCartByCustomerId(int id)
+        {
+            return Ok(await _shoppingCartService.GetCountCartByCustomerIdAsync(id));
+        }
+
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<ShoppingCartDTO>>> GetCartByCustomerId(int id)
+        {
+            return Ok(await _shoppingCartService.GetCartByCustomerIdAsync(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<ShoppingCartDTO>> AddToCart([FromBody] ShoppingCartDTO shoppingCartDto)
+        [Authorize]
+        public async Task<ActionResult> AddToCart([FromBody] ShoppingCartDTO shoppingCartDto)
         {
-            var createdCart = await _shoppingCartService.AddToCartAsync(shoppingCartDto);
-            return CreatedAtAction("Create", new { id = createdCart.CartID }, createdCart);
+            return Ok(await _shoppingCartService.AddToCartAsync(shoppingCartDto));
         }
 
+
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<ShoppingCartDTO>> UpdateCart(int id, [FromBody] ShoppingCartDTO shoppingCartDto)
         {
             return Ok(await _shoppingCartService.UpdateCartAsync(id, shoppingCartDto));

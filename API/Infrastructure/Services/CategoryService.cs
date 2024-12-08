@@ -32,24 +32,6 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<CategoryDTO> GetCategoryByIdAsync(int id)
-        {
-            try
-            {
-                var category = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryID == id);
-                return category == null
-                    ? throw new NotFoundException("Không tìm thấy thể loại") : _mapper.Map<CategoryDTO>(category);
-            }
-            catch (NotFoundException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Có lỗi xảy ra khi lấy danh sách thể loại" + ex.Message, ex);
-            }
-        }
-
         public async Task<CategoryDTO> CreateCategoryAsync(CategoryDTO categoryDto)
         {
             try

@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Model.Auth;
+using ApplicationCore.Model.Customer;
 using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,6 @@ namespace API.Controllers
             _authService = authService;
         }
 
-        // Đăng nhập
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel authDto)
         {
@@ -30,7 +30,6 @@ namespace API.Controllers
             return Ok(response);
         }
 
-        // Đăng ký
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
@@ -45,31 +44,25 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> SendVerificationCode([FromBody] SendMailModel sendMailModel)
         {
-            try
-            {
-                return Ok(await _authService.SendEmailAsync(sendMailModel));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        // Cập nhật mật khẩu
-        [HttpPut]
-        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordModel updatePassword)
-        {
-            if (updatePassword == null)
+            if (sendMailModel == null)
             {
                 return BadRequest("Dữ liệu không hợp lệ.");
             }
-
-            return Ok(await _authService.UpdatePasswordAsync(updatePassword));
+           
+                return Ok(await _authService.SendVerificationCodeAsync(sendMailModel));
+            
         }
+        [HttpPost]
+        public async Task<IActionResult> SendMailContact([FromBody] SendMailModel sendMailModel)
+        {
+            if (sendMailModel == null)
+            {
+                return BadRequest("Dữ liệu không hợp lệ.");
+            }
+            
+                return Ok(await _authService.SendMailContactAsync(sendMailModel));            
+        }
+
 
         [HttpPut]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel forgotPasswordModel)
@@ -85,6 +78,10 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> RefreshToken(RefreshTokenModel refreshTokenModel)
         {
+            if (refreshTokenModel == null)
+            {
+                return BadRequest("Dữ liệu không hợp lệ.");
+            }
             return Ok(await _authService.RefreshTokenAsync(refreshTokenModel));
         }
     }

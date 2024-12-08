@@ -1,7 +1,6 @@
 ﻿using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Model.Customer;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,19 +31,23 @@ namespace API.Controllers
             return Ok(await _customerService.GetCustomerByIdAsync(id));
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Admin, Manager")]
-        public async Task<ActionResult<CustomerDTO>> CreateCustomer([FromBody] CustomerDTO customerDto)
-        {
-            var createdCustomer = await _customerService.CreateCustomerAsync(customerDto);
-            return CreatedAtAction(nameof(GetCustomerById), new { id = createdCustomer.CustomerID }, createdCustomer);
-        }
-
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(int id, [FromBody] CustomerDTO customerDto)
+        public async Task<ActionResult<CustomerDTO>> UpdateCustomer(int id, [FromBody] UpdateCustomerModel updateCustomer)
         {
-            return Ok(await _customerService.UpdateCustomerAsync(id, customerDto));
+            return Ok(await _customerService.UpdateCustomerAsync(id, updateCustomer));
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordModel updatePassword)
+        {
+            if (updatePassword == null)
+            {
+                return BadRequest("Dữ liệu không hợp lệ.");
+            }
+
+            return Ok(await _customerService.UpdatePasswordAsync(updatePassword));
         }
 
         [HttpPut("{id}")]
@@ -56,16 +59,10 @@ namespace API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin, Manager")]
-        public async Task<ActionResult> ToggleCustomerStatus(int id, [FromBody] CustomerStatusModel customerStatus)
+        public async Task<ActionResult> UpdateCustomerStatus(int id, [FromBody] CustomerStatusModel customerStatus)
         {
-            return Ok(await _customerService.ToggleCustomerStatusAsync(id, customerStatus));
+            return Ok(await _customerService.UpdateCustomerStatusAsync(id, customerStatus));
         }
 
-        //[HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin, Manager")]
-        //public async Task<ActionResult> DeleteCustomer(int id)
-        //{
-        //    return Ok(await _customerService.DeleteCustomerAsync(id));
-        //}
     }
 }

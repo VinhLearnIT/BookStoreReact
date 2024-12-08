@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Dropdown, Avatar, Button, App, Modal, Form, Input } from 'antd';
 import {
-    UserOutlined, LockOutlined, DashboardOutlined, BookOutlined, AppstoreOutlined, ShoppingCartOutlined, TeamOutlined
+    UserOutlined, LockOutlined, DashboardOutlined, BookOutlined, AppstoreOutlined, ShoppingCartOutlined,
+    TeamOutlined, DownOutlined
 } from '@ant-design/icons';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import * as authService from '../services/AuthService';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import * as customerService from '../services/CustomerService';
+import refreshToken from '../utils/RefreshToken';
+import logo from '../assets/images/logo.png'
 
 const AdminLayout = () => {
     const navigate = useNavigate();
@@ -13,31 +16,41 @@ const AdminLayout = () => {
     const [openPasswordModal, setOpenPasswordModal] = useState(false);
     const [form] = Form.useForm();
 
-    const handlePasswordChange = async (values) => {
-
+    const handleUpdatePassword = async (values) => {
         try {
-            const customerID = localStorage.getItem('userID');
+            const customerID = localStorage.getItem('customerID');
+            let token = localStorage.getItem('accessToken');
             const formData = { ...values, customerID }
-            const response = await authService.UpdatePassword(formData);
+            let response = await customerService.UpdatePassword(token, formData);
+
+            if (response.status === 401) {
+                const refreshTokenBolean = await refreshToken();
+                if (!refreshTokenBolean) {
+                    message.error("Phiên đăng nhập của bạn đã hết hạn!");
+                    localStorage.setItem('isAuthenticated', false);
+                    navigate("/auth/login");
+                    return null;
+                }
+                token = localStorage.getItem('accessToken');
+                response = await customerService.UpdatePassword(token, formData);
+            }
             if (response.status === 200) {
                 message.success(response.data.message)
                 setOpenPasswordModal(false);
             } else if (response.status === 404 || response.status === 400) {
                 message.error(response.message);
-                console.log(response);
             }
         } catch (error) {
             message.error("Lỗi không xác định!");
             console.log(error);
         }
-
-
     };
+
     const items = [
         {
             key: '1',
             label:
-                <Button
+                <Button type='text' className='p-0 hover:!bg-transparent hover:!text-custom1 font-semibold'
                     icon={<LockOutlined className='text-lg' />}
                     onClick={() => {
                         setOpenPasswordModal(true);
@@ -54,52 +67,59 @@ const AdminLayout = () => {
         <div className="min-h-screen relative bg-gray-100">
             <div className="w-72 bg-custom1 text-white fixed h-full z-30">
                 <div className="px-4 h-full flex flex-col gap-6">
-                    <div className="text-lg h-16 text-center mt-10">
-                        LOGO
+                    <div className="font-bold text-white flex flex-col items-center mt-4">
+                        <img src={logo} alt="logo" className='h-20 w-24' />
+                        <span>BOOK STORE</span>
                     </div>
                     <div className="text-lg ">
-                        <Link
+                        <NavLink
                             to="/admin/dash-board"
-                            className="flex items-center hover:bg-blue-100 hover:text-custom1 p-2 pl-8 font-medium rounded">
-
+                            className={({ isActive }) => (isActive ?
+                                "bg-blue-100 text-custom1 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded" :
+                                "hover:bg-blue-100 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded")} >
                             <DashboardOutlined className="mr-4" />
                             Trang chủ
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className="text-lg ">
-                        <Link
+                        <NavLink
                             to="/admin/manage-books"
-                            className="flex items-center hover:bg-blue-100 hover:text-custom1 p-2 pl-8 font-medium rounded">
-
+                            className={({ isActive }) => (isActive ?
+                                "bg-blue-100 text-custom1 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded" :
+                                "hover:bg-blue-100 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded")}>
                             <BookOutlined className="mr-4" />
                             Quản lý sách
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className="text-lg">
-                        <Link
+                        <NavLink
                             to="/admin/manage-category"
-                            className="flex items-center hover:bg-blue-100 hover:text-custom1 p-2 pl-8 font-medium rounded">
-
+                            className={({ isActive }) => (isActive ?
+                                "bg-blue-100 text-custom1 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded" :
+                                "hover:bg-blue-100 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded")}>
                             <AppstoreOutlined className="mr-4" />
                             Quản lý thể loại
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className="text-lg">
-                        <Link
+                        <NavLink
                             to="/admin/manage-order"
-                            className="flex items-center hover:bg-blue-100 hover:text-custom1 p-2 pl-8 font-medium rounded">
+                            className={({ isActive }) => (isActive ?
+                                "bg-blue-100 text-custom1 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded" :
+                                "hover:bg-blue-100 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded")}>
                             <ShoppingCartOutlined className="mr-4 " />
                             Quản lý đơn hàng
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className="text-lg ">
-                        <Link
+                        <NavLink
                             to="/admin/manage-customer"
-                            className="flex items-center hover:bg-blue-100 hover:text-custom1 p-2 pl-8 font-medium rounded">
-
+                            className={({ isActive }) => (isActive ?
+                                "bg-blue-100 text-custom1 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded" :
+                                "hover:bg-blue-100 hover:text-custom1 flex items-center p-2 pl-8 font-medium rounded")}>
                             <TeamOutlined className="mr-4" />
                             Quản lý người dùng
-                        </Link>
+                        </NavLink>
                     </div>
                     <div className="mt-auto mb-10">
                         <button
@@ -116,6 +136,7 @@ const AdminLayout = () => {
                             width={350}
                             onOk={() => {
                                 localStorage.setItem('isAuthenticated', false);
+
                                 navigate("/auth/login");
                             }}
                             cancelText="Không"
@@ -132,7 +153,10 @@ const AdminLayout = () => {
             <div className="h-16 bg-white fixed top-0 left-72 right-0 z-10 shadow flex justify-between items-center px-7">
                 <div className="text-2xl font-bold text-custom1">QUẢN LÝ CỬA HÀNG BÁN SÁCH</div>
                 <Dropdown menu={{ items }} placement="bottom" className='mr-14'>
-                    <Avatar size="large" icon={<UserOutlined />} className="cursor-pointer hover:opacity-80" />
+                    <div className='flex items-center gap-2'>
+                        <Avatar size="large" icon={<UserOutlined />} className="cursor-pointer hover:opacity-80" />
+                        <DownOutlined />
+                    </div>
                 </Dropdown>
             </div>
 
@@ -146,7 +170,7 @@ const AdminLayout = () => {
                 onCancel={() => setOpenPasswordModal(false)}
             >
                 <p className='text-center text-xl text-custom1 font-bold mb-4'> CẬP NHẬT MẬT KHẨU</p>
-                <Form form={form} onFinish={handlePasswordChange} layout="vertical" requiredMark={false}>
+                <Form form={form} onFinish={handleUpdatePassword} layout="vertical" requiredMark={false}>
                     <Form.Item
                         label="Mật khẩu cũ"
                         name="oldPassword"

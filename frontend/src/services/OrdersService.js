@@ -19,9 +19,13 @@ const GetOrders = async (token) => {
     }
 };
 
-const GetOrderById = async (id) => {
+const GetOrderById = async (token, id) => {
     try {
-        const response = await axios.get(`${API_URL}/GetOrderById/${id}`);
+        const response = await axios.get(`${API_URL}/GetOrderById/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response;
     } catch (error) {
         return {
@@ -32,9 +36,28 @@ const GetOrderById = async (id) => {
     }
 };
 
-const CreateOrder = async (token, data) => {
+const GetOrderByCustomerId = async (token, id) => {
     try {
-        const response = await axios.post(`${API_URL}/CreateOrder`, data, {
+        const response = await axios.get(`${API_URL}/GetOrderByCustomerId/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            message: error.response.data?.message
+        };
+    }
+};
+
+const AddOrderForCustomer = async (token, data) => {
+    try {
+        const response = await axios.post(`${API_URL}/AddOrderForCustomer`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -50,13 +73,9 @@ const CreateOrder = async (token, data) => {
 };
 
 
-const UpdateOrder = async (token, id, data) => {
+const AddOrderForGuest = async (data) => {
     try {
-        const response = await axios.put(`${API_URL}/UpdateOrder/${id}`, data, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const response = await axios.post(`${API_URL}/AddOrderForGuest`, data);
         return response;
     } catch (error) {
         return {
@@ -83,29 +102,11 @@ const UpdateOrderStatus = async (token, id, data) => {
         };
     }
 };
-const DeleteOrder = async (token, id) => {
-    try {
-        const response = await axios.delete(`${API_URL}/DeleteOrder/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            status: error.response.status,
-            data: error.response.data,
-            message: error.response.data?.message
-        };
-    }
-};
-
-
 export {
     GetOrders,
+    GetOrderByCustomerId,
     GetOrderById,
-    CreateOrder,
-    UpdateOrder,
-    UpdateOrderStatus,
-    DeleteOrder
+    AddOrderForCustomer,
+    AddOrderForGuest,
+    UpdateOrderStatus
 };

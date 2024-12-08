@@ -36,22 +36,6 @@ const GetCustomerById = async (token, id) => {
     }
 };
 
-const CreateCustomer = async (token, data) => {
-    try {
-        const response = await axios.post(`${API_URL}/CreateCustomer`, data, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-        return response;
-    } catch (error) {
-        return {
-            status: error.response.status,
-            data: error.response.data,
-            message: error.response.data?.message
-        };
-    }
-};
 
 const UpdateCustomer = async (token, id, data) => {
     try {
@@ -69,8 +53,22 @@ const UpdateCustomer = async (token, id, data) => {
         };
     }
 };
-
-
+const UpdatePassword = async (token, data) => {
+    try {
+        const response = await axios.put(`${API_URL}/UpdatePassword`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+            message: error.response.data?.message
+        };
+    }
+};
 const UpdateCustomerRole = async (token, id, data) => {
     try {
         const response = await axios.put(`${API_URL}/UpdateCustomerRole/${id}`, data, {
@@ -88,9 +86,9 @@ const UpdateCustomerRole = async (token, id, data) => {
     }
 };
 
-const ToggleCustomerStatus = async (token, id, data) => {
+const UpdateCustomerStatus = async (token, id, data) => {
     try {
-        const response = await axios.put(`${API_URL}/ToggleCustomerStatus/${id}`, data, {
+        const response = await axios.put(`${API_URL}/UpdateCustomerStatus/${id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -105,30 +103,11 @@ const ToggleCustomerStatus = async (token, id, data) => {
     }
 };
 
-// const DeleteCustomer = async (token, id) => {
-//     try {
-//         const response = await axios.delete(`${API_URL}/DeleteCustomer/${id}`, {
-//             headers: {
-//                 Authorization: `Bearer ${token}`
-//             }
-//         });
-//         return response;
-//     } catch (error) {
-//         return {
-//             status: error.response.status,
-//             data: error.response.data,
-//             message: error.response.data?.message
-//         };
-//     }
-// };
-
-
 export {
     GetCustomers,
     GetCustomerById,
-    CreateCustomer,
+    UpdatePassword,
     UpdateCustomerRole,
     UpdateCustomer,
-    ToggleCustomerStatus
-    // DeleteCustomer
+    UpdateCustomerStatus
 };

@@ -25,6 +25,9 @@ function App() {
             Table: {
                 cellPaddingInline: 8,
                 cellPaddingBlock: 10
+            },
+            Dropdown: {
+                paddingBlock: 6
             }
         }
     }
@@ -34,10 +37,9 @@ function App() {
             <AntdApp>
                 <Router>
                     <Routes>
-                        <Route path="/" element={<AuthRoutes />} />
+                        <Route path="/*" element={<UserRoutes />} />
                         <Route path="/auth/*" element={<AuthRoutes />} />
                         <Route path="/admin/*" element={<AdminRoutes />} />
-                        <Route path="/user/*" element={<UserRoutes />} />
                     </Routes>
                 </Router>
             </AntdApp>

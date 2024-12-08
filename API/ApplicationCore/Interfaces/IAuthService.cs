@@ -1,5 +1,4 @@
-﻿using ApplicationCore.DTOs;
-using ApplicationCore.Model.Auth;
+﻿using ApplicationCore.Model.Auth;
 
 namespace ApplicationCore.Interfaces
 {
@@ -7,9 +6,9 @@ namespace ApplicationCore.Interfaces
     {
         Task<TokenResponseModel> LoginAsync(LoginModel loginModel);
         Task<object> RegisterAsync(RegisterModel registerModel);
-        Task<object> SendEmailAsync(SendMailModel sendMailModel);
-        Task<object> UpdatePasswordAsync(UpdatePasswordModel updatePasswordModel);
+        Task<object> SendVerificationCodeAsync(SendMailModel sendMailModel);
         Task<object> ForgotPasswordAsync(ForgotPasswordModel forgotPasswordModel);
         Task<TokenResponseModel> RefreshTokenAsync(RefreshTokenModel refreshTokenModel);
+        Task<object> SendMailContactAsync(SendMailModel sendMailModel);
     }
 }
