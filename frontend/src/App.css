@@ -1,0 +1,13 @@
+.ant-table-thead>tr>th {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* :where(.css-dev-only-do-not-override-1g7sxoo).ant-form-item .ant-form-item-label>label {
+    margin-top: 5px;
+} */
+
+:where(.css-dev-only-do-not-override-1l6trrt).ant-form-item .ant-form-item-label>label {
+    margin-top: 5px;
+}
