@@ -17,7 +17,7 @@ const Payment = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const resultCode = queryParams.get("resultCode") || "0";
     const partnerCode = queryParams.get("partnerCode");
-    const [isSuccess, setIsSuccess] = useState(false); // Trạng thái kiểm tra API
+    const [isSuccess, setIsSuccess] = useState(true); // Trạng thái kiểm tra API
 
     const refreshAccessToken = useCallback(async () => {
         try {
@@ -38,7 +38,6 @@ const Payment = () => {
 
     const orderForCustomer = useCallback(async () => {
         try {
-            console.log("CALL API for Customer");
             let customerID = localStorage.getItem('customerID');
             let token = localStorage.getItem('accessToken');
             const data = {
@@ -55,13 +54,14 @@ const Payment = () => {
 
             if (response.status === 200) {
                 setCartQuantity(0);
-                setIsSuccess(true);
                 message.success("Thanh toán thành công!");
             } else {
+                setIsSuccess(false);
                 message.error(response.message || "Có lỗi trong quá trình thanh toán!");
             }
         } catch (error) {
             message.error("Có lỗi khi thanh toán!");
+            setIsSuccess(false);
             console.log(error);
         }
     }, [message, refreshAccessToken, partnerCode, setCartQuantity]);
@@ -83,21 +83,22 @@ const Payment = () => {
 
             if (response.status === 200) {
                 setCartQuantity(0);
-                setIsSuccess(true);
                 localStorage.setItem('cart', JSON.stringify([]));
                 message.success("Thanh toán thành công!");
             } else {
                 message.error(response.message || "Có lỗi trong quá trình thanh toán!");
+                setIsSuccess(false);
             }
         } catch (error) {
             message.error("Có lỗi khi thanh toán!");
+            setIsSuccess(false);
             console.log(error);
         }
     }, [message, setCartQuantity]);
 
     useEffect(() => {
         const isPayment = JSON.parse(sessionStorage.getItem('isPayment'));
-        if (cartCount > 0 && isPayment && !isSuccess && resultCode === "0") {
+        if (cartCount > 0 && isPayment && resultCode === "0") {
             sessionStorage.setItem('isPayment', false);
             if (!isLogin) {
                 orderForGuest();
@@ -105,7 +106,7 @@ const Payment = () => {
                 orderForCustomer();
             }
         }
-    }, [resultCode, cartCount, isSuccess, isLogin, orderForCustomer, orderForGuest]);
+    }, [resultCode, cartCount, isLogin, orderForCustomer, orderForGuest]);
 
     return (
         <div className='max-w-screen-xl mx-auto mt-10 border border-custom1 rounded-md h-[65vh]'>
