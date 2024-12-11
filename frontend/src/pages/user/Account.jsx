@@ -128,8 +128,8 @@ const Account = () => {
                     </Button>
                     <Button
                         type='text'
-                        className={`p-5 rounded text-custom1 hover:!bg-gray-200 hover:!text-custom1 
-                            font-semibold ${selectedMenu === "changePassword" ? "bg-gray-200" : ""}`}
+                        className={`p-5 rounded text-custom1 hover:!bg-gray-200 hover:!text-custom1
+                             font-semibold ${selectedMenu === "changePassword" ? "bg-gray-200" : ""}`}
                         onClick={() => setSelectedMenu('changePassword')}
                     >
                         Cập nhật mật khẩu
@@ -165,7 +165,7 @@ const Account = () => {
                             name="cccd"
                             rules={[
                                 { required: true, message: 'Vui lòng nhập CCCD!' },
-                                { pattern: /^[0-9]{12}$/, message: 'Căn cước công dân là 10 số' }
+                                { pattern: /^[0-9]{12}$/, message: 'Căn cước công dân là 12 số' }
                             ]}>
                             <Input maxLength={12} placeholder='Nhập căn cước công dân' />
                         </Form.Item>

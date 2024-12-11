@@ -302,11 +302,11 @@ const ShoppingCart = () => {
         },
         {
             title: 'Giá', dataIndex: 'price', key: 'price', align: 'center', width: 120,
-            render: price => `${price.toLocaleString()} VNĐ`
+            render: price => `${price?.toLocaleString()} VNĐ`
         },
         {
             title: 'Tổng', key: 'total', align: 'center', width: 120,
-            render: (_, record) => `${(record.quantity * record.price).toLocaleString()} VNĐ`
+            render: (_, record) => `${(record.quantity * record.price)?.toLocaleString()} VNĐ`
         },
         {
             title: 'Thao tác', key: 'actions', align: 'center', width: 100,
@@ -341,7 +341,7 @@ const ShoppingCart = () => {
                 <Table dataSource={shoppingCart} columns={columns} pagination={false} rowKey="cartID" />
                 <div className="text-right font-bold mt-6 text-lg">
                     <span>Tổng số tiền: </span>
-                    <span>{totalAmount.toLocaleString()} VNĐ</span>
+                    <span>{totalAmount?.toLocaleString()} VNĐ</span>
                 </div>
             </div>
 
@@ -379,7 +379,7 @@ const ShoppingCart = () => {
                                 name="cccd"
                                 rules={[
                                     { required: true, message: 'Vui lòng nhập CCCD!' },
-                                    { pattern: /^[0-9]{12}$/, message: 'Căn cước công dân là 10 số' }
+                                    { pattern: /^[0-9]{12}$/, message: 'Căn cước công dân là 12 số' }
                                 ]}>
                                 <Input maxLength={12} />
                             </Form.Item>

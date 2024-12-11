@@ -322,7 +322,7 @@ const ManageBooks = () => {
             sorter: (a, b) => a.price - b.price, sortDirections: ['descend'],
             render: (price) => (
                 <Tooltip placement="topLeft" title={`${price} VNĐ`}>
-                    {price.toLocaleString()} VNĐ
+                    {price?.toLocaleString()} VNĐ
                 </Tooltip>
             ),
         },

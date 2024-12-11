@@ -121,18 +121,18 @@ const BookList = ({ book, pageSize = 8, col = 4 }) => {
             <div className={`grid grid-cols-${col} gap-4`}>
                 {currentBooks.map((book) => (
                     <div key={book.bookID} className="p-4 border rounded-md shadow-md bg-white hover:shadow-lg transition-shadow duration-300">
-                        <Link to={`/book-detail/${book.bookID}`} >
+                        <Link to={`/book-detail/${book?.bookID}`} >
                             <img
-                                src={`https://localhost:7138/api/images/${book.imagePath}`}
-                                alt={book.bookName}
+                                src={`https://localhost:7138/api/images/${book?.imagePath}`}
+                                alt={book?.bookName}
                                 className="w-full h-auto max-h-72 rounded-lg object-cover"
                             />
                         </Link>
                         <div className="p-4 flex flex-col gap-1 items-center w-full overflow-hidden">
-                            <h3 className="text-custom1 text-lg font-bold truncate">{book.bookName}</h3>
+                            <h3 className="text-custom1 text-lg font-bold truncate">{book?.bookName}</h3>
 
-                            <p className="text-sm">{book.author}</p>
-                            <p className="text-red-500 font-bold">{book?.price.toLocaleString()} VNĐ</p>
+                            <p className="text-sm">{book?.author}</p>
+                            <p className="text-red-500 font-bold">{book?.price?.toLocaleString()} VNĐ</p>
                             <Button
                                 className="mt-2 h-10"
                                 type="primary"

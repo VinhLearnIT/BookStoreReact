@@ -156,9 +156,9 @@ const BookDetail = () => {
                 </div>
 
                 <div className=" flex flex-col justify-start gap-4">
-                    <h1 className="text-3xl font-bold text-custom1">{bookDetail.bookName}</h1>
-                    <p className="text-gray-600 mt-2">Tác giả: {bookDetail.author}</p>
-                    <p className="text-gray-600 mt-1">Nhà xuất bản: {bookDetail.publisher}</p>
+                    <h1 className="text-3xl font-bold text-custom1">{bookDetail?.bookName}</h1>
+                    <p className="text-gray-600 mt-2">Tác giả: {bookDetail?.author}</p>
+                    <p className="text-gray-600 mt-1">Nhà xuất bản: {bookDetail?.publisher}</p>
                     <p className="text-red-500 text-lg mt-2 font-bold">
                         Giá: {bookDetail.price?.toLocaleString()} VND
                     </p>
@@ -170,12 +170,12 @@ const BookDetail = () => {
                             rules={[
                                 { required: true, message: "Vui lòng nhập số lượng" },
                                 {
-                                    type: "number", min: 1, max: bookDetail.stockQuantity,
-                                    message: `Số lượng tối đa là ${bookDetail.stockQuantity}`
+                                    type: "number", min: 1, max: bookDetail?.stockQuantity,
+                                    message: `Số lượng tối đa là ${bookDetail?.stockQuantity}`
                                 },
                             ]}
                         >
-                            <InputNumber min={1} max={bookDetail.stockQuantity} className="w-52 mb-1" />
+                            <InputNumber min={1} max={bookDetail?.stockQuantity} className="w-52 mb-1" />
                         </Form.Item>
 
                         <Form.Item>
@@ -189,7 +189,7 @@ const BookDetail = () => {
 
             <div className="mt-10 max-w-screen-lg mx-auto ">
                 <h2 className="text-3xl font-bold text-custom1 mb-6">Giới thiệu về sách</h2>
-                <p className="text-gray-700 text-justify">{bookDetail.description}
+                <p className="text-gray-700 text-justify">{bookDetail?.description}
                     Thế giới biến đổi không ngừng, lối tư duy mở đóng vai trò vô cùng quan trọng trong việc giúp con người
                     thích nghi, học hỏi và phát triển đặc biệt là trong công việc, học tập.
                     <br /> <br />

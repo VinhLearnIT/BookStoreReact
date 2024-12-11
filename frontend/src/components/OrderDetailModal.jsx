@@ -8,11 +8,11 @@ const OrderDetailModal = ({ isModalOpen, order, orderDetail, onClose }) => {
         { title: 'Số lượng', dataIndex: 'quantity', key: 'quantity', align: "center" },
         {
             title: 'Đơn giá', dataIndex: 'price', key: 'price', align: "center",
-            render: (price) => `${price.toLocaleString()} VNĐ`
+            render: (price) => `${price?.toLocaleString()} VNĐ`
         },
         {
             title: 'Thành tiền', dataIndex: 'total', key: 'total', align: "center",
-            render: (_, record) => `${(record.quantity * record.price).toLocaleString()} VNĐ`
+            render: (_, record) => `${(record.quantity * record.price)?.toLocaleString()} VNĐ`
         },
     ];
 
@@ -45,7 +45,7 @@ const OrderDetailModal = ({ isModalOpen, order, orderDetail, onClose }) => {
             />
 
             <div className="text-right text-lg font-medium mt-4">
-                <p>Tổng giá trị đơn hàng: {totalAmount.toLocaleString()} VNĐ</p>
+                <p>Tổng giá trị đơn hàng: {totalAmount?.toLocaleString()} VNĐ</p>
             </div>
             <div className="text-right mt-4">
                 <Button type='primary' onClick={onClose}>Thoát</Button>

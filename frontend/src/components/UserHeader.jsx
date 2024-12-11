@@ -136,19 +136,19 @@ const UserHeader = () => {
                             <div className="absolute left-0 right-0 bg-white shadow-lg mt-2 rounded-md max-h-60 overflow-y-auto z-10">
                                 {searchResults.map((book) => (
                                     <Link
-                                        to={`/book-detail/${book.bookID}`}
-                                        key={book.bookID}
+                                        to={`/book-detail/${book?.bookID}`}
+                                        key={book?.bookID}
                                         className="grid grid-cols-[1.5fr_8fr] gap-4 px-4 py-2 hover:bg-gray-100 text-gray-700 hover:text-custom1 "
                                     >
                                         <div className='w-full mr-4 overflow-hidden rounded-md'>
                                             <img
-                                                src={`https://localhost:7138/api/images/${book.imagePath}`}
-                                                alt={book.bookName}
+                                                src={`https://localhost:7138/api/images/${book?.imagePath}`}
+                                                alt={book?.bookName}
                                                 className="object-cover" />
                                         </div>
                                         <div className='font-semibold flex justify-between items-center overflow-hidden'>
-                                            <p className='truncate w-2/3'>{book.bookName}</p>
-                                            <p className='text-red-500 text-nowrap text-right'>{book.price.toLocaleString()} VNĐ</p>
+                                            <p className='truncate w-2/3'>{book?.bookName}</p>
+                                            <p className='text-red-500 text-nowrap text-right'>{book?.price?.toLocaleString()} VNĐ</p>
                                         </div>
                                     </Link>
                                 ))}

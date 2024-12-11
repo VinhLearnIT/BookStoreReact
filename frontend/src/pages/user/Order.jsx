@@ -135,8 +135,8 @@ const Order = () => {
         {
             title: 'Ngày đặt hàng', dataIndex: 'orderDate', key: 'orderDate', align: 'center', ellipsis: true, width: 150,
             render: (orderDate) => (
-                <Tooltip placement="topLeft" title={new Date(orderDate).toLocaleDateString()}>
-                    {new Date(orderDate).toLocaleDateString()}
+                <Tooltip placement="topLeft" title={new Date(orderDate)?.toLocaleDateString()}>
+                    {new Date(orderDate)?.toLocaleDateString()}
                 </Tooltip>
             ),
         },
