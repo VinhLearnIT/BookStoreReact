@@ -108,10 +108,11 @@ const Order = () => {
     }
 
     const statusMap = {
-        Pending: <span className="text-yellow-500 font-medium">Chờ xác nhận</span>,
-        Shipped: <span className="text-blue-500 font-medium">Đang vận chuyển</span>,
+        Pending: <span className="text-yellow-500 font-medium">Chờ xử lý</span>,
+        Processing: <span className="text-blue-600 font-medium">Đang xử lý</span>,
+        Shipped: <span className="text-indigo-700 font-medium">Đang vận chuyển</span>,
         Completed: <span className="text-green-500 font-medium">Hoàn thành</span>,
-        Cancelled: <span className="text-red-400 font-medium">Đã hủy</span>,
+        Cancelled: <span className="text-red-500 font-medium">Đã hủy</span>,
     };
 
     const columns = [

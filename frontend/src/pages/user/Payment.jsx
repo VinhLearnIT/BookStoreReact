@@ -42,7 +42,7 @@ const Payment = () => {
             let token = localStorage.getItem('accessToken');
             const data = {
                 customerID,
-                orderStatus: partnerCode === "MOMO" ? "Shipped" : "Pending",
+                orderStatus: partnerCode === "MOMO" ? "Shipped" : "Processing",
                 paymentMethod: partnerCode === "MOMO" ? "MOMO" : "COD",
             }
             let response = await ordersService.AddOrderForCustomer(token, data);

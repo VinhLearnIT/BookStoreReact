@@ -248,6 +248,7 @@ const ShoppingCart = () => {
         try {
             const amount = shoppingCart.reduce((amount, item) => amount + (item.quantity * item.price), 0);
             const requestData = { orderInfo, amount };
+            console.log(requestData);
             const response = await CreatePayment(requestData);
 
             if (response.data && response.data.paymentUrl) {

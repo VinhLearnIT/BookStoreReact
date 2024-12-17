@@ -142,13 +142,22 @@ const ManageOrder = () => {
         switch (currentStatus) {
             case 'Pending':
                 return [
-                    { label: 'Chờ xác nhận', value: 'Pending', disabled: true },
+                    { label: 'Chờ xử lý', value: 'Pending', disabled: true },
+                    { label: 'Đang xử lý', value: 'Processing', disabled: false },
+                    { label: 'Đang vận chuyển', value: 'Shipped', disabled: false },
+                    { label: 'Hoàn thành', value: 'Completed', disabled: false },
+                ];
+            case 'Processing':
+                return [
+                    { label: 'Chờ xử lý', value: 'Pending', disabled: true },
+                    { label: 'Đang xử lý', value: 'Processing', disabled: true },
                     { label: 'Đang vận chuyển', value: 'Shipped', disabled: false },
                     { label: 'Hoàn thành', value: 'Completed', disabled: false },
                 ];
             case 'Shipped':
                 return [
-                    { label: 'Chờ xác nhận', value: 'Pending', disabled: true },
+                    { label: 'Chờ xử lý', value: 'Pending', disabled: true },
+                    { label: 'Đang xử lý', value: 'Processing', disabled: true },
                     { label: 'Đang vận chuyển', value: 'Shipped', disabled: true },
                     { label: 'Hoàn thành', value: 'Completed', disabled: false },
                 ];
@@ -158,10 +167,11 @@ const ManageOrder = () => {
     };
 
     const statusMap = {
-        Pending: <span className="text-yellow-500 font-medium">Chờ xác nhận</span>,
-        Shipped: <span className="text-blue-500 font-medium">Đang vận chuyển</span>,
+        Pending: <span className="text-yellow-500 font-medium">Chờ xử lý</span>,
+        Processing: <span className="text-blue-600 font-medium">Đang xử lý</span>,
+        Shipped: <span className="text-indigo-700 font-medium">Đang vận chuyển</span>,
         Completed: <span className="text-green-500 font-medium">Hoàn thành</span>,
-        Cancelled: <span className="text-red-400 font-medium">Đã hủy</span>,
+        Cancelled: <span className="text-red-500 font-medium">Đã hủy</span>,
     };
 
     const columns = [
@@ -206,18 +216,18 @@ const ManageOrder = () => {
             title: 'Thao tác', key: 'actions', align: 'center', width: 200,
             render: (_, record) => {
                 const isCancel = record.orderStatus !== 'Pending';
-                const isEditStatus = record.orderStatus === 'Completed' || record.orderStatus === 'Cancelled';
+                const isEditStatus = record.orderStatus !== 'Completed' && record.orderStatus !== 'Cancelled';
 
                 return (
                     <div className='flex gap-2 justify-center'>
                         <Tooltip title="Cập nhật trạng thái đơn hàng" placement='bottom' color={"gold"}>
                             <Button
-                                className={`px-3 py-5 ${isEditStatus ? '!border-gray-400' : 'border-yellow-500 hover:!border-yellow-500'}`}
-                                disabled={isEditStatus}
+                                className={`px-3 py-5 ${!isEditStatus ? '!border-gray-400' : 'border-yellow-500 hover:!border-yellow-500'}`}
+                                disabled={!isEditStatus}
                                 onClick={() => {
                                     handleOpenModalStatus(record);
                                 }}>
-                                <EditOutlined className={isEditStatus ? 'text-gray-400' : 'text-yellow-500'} />
+                                <EditOutlined className={!isEditStatus ? 'text-gray-400' : 'text-yellow-500'} />
                             </Button>
                         </Tooltip>
 

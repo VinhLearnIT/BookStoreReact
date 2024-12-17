@@ -210,7 +210,7 @@ namespace Infrastructure.Services
                     GuestCCCD = guestOrderModel.Cccd,
                     GuestAddress = guestOrderModel.Address,
                     OrderDate = DateTime.Now,
-                    OrderStatus = "Shipped", 
+                    OrderStatus = "Processing", 
                     PaymentMethod = guestOrderModel.PaymentMethod
                 };
 
