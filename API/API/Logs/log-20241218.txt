@@ -1,0 +1,111 @@
+2024-12-18 07:50:51.967 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Book'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 07:50:52.035 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 07:50:54.155 +07:00 [INF] Đăng nhập thành công: Nguyễn Hữu Vĩnh
+2024-12-18 07:50:54.323 +07:00 [INF] HTTP POST /api/Auth/Login responded 200 in 5231.0495 ms
+2024-12-18 07:51:21.564 +07:00 [INF] Đăng nhập thành công: Tran User
+2024-12-18 07:51:21.573 +07:00 [INF] HTTP POST /api/Auth/Login responded 200 in 49.2563 ms
+2024-12-18 08:17:57.023 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Book'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:17:57.066 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:17:58.975 +07:00 [INF] HTTP GET /api/ShoppingCart/GetCountCartByCustomerId/3 responded 200 in 4955.1725 ms
+2024-12-18 08:17:59.060 +07:00 [INF] HTTP GET /api/ShoppingCart/GetCountCartByCustomerId/3 responded 200 in 87.0569 ms
+2024-12-18 08:17:59.074 +07:00 [INF] HTTP GET /api/ShoppingCart/GetCountCartByCustomerId/3 responded 200 in 9.7735 ms
+2024-12-18 08:17:59.173 +07:00 [INF] HTTP GET /api/Book/GetTopBooks responded 200 in 5036.3822 ms
+2024-12-18 08:17:59.188 +07:00 [INF] HTTP GET /api/Book/GetTopBooks responded 200 in 9.4635 ms
+2024-12-18 08:18:06.986 +07:00 [INF] Đăng nhập thành công: Nguyễn Hữu Vĩnh
+2024-12-18 08:18:07.104 +07:00 [INF] HTTP POST /api/Auth/Login responded 200 in 386.5042 ms
+2024-12-18 08:18:07.421 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlySalesOfYear/2024 responded 200 in 156.4040 ms
+2024-12-18 08:18:07.421 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyRevenueOfYear/2024 responded 200 in 156.5157 ms
+2024-12-18 08:18:07.499 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlySalesOfYear/2024 responded 200 in 73.6916 ms
+2024-12-18 08:18:07.501 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyRevenueOfYear/2024 responded 200 in 75.1277 ms
+2024-12-18 08:18:07.533 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyStatistics responded 200 in 268.3424 ms
+2024-12-18 08:18:07.551 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyStatistics responded 200 in 15.1073 ms
+2024-12-18 08:18:08.989 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 105.7807 ms
+2024-12-18 08:18:09.003 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 10.8863 ms
+2024-12-18 08:18:13.028 +07:00 [INF] HTTP GET /api/Customer/GetCustomers responded 200 in 40.2505 ms
+2024-12-18 08:18:13.040 +07:00 [INF] HTTP GET /api/Customer/GetCustomers responded 200 in 8.4106 ms
+2024-12-18 08:18:21.408 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 12.1632 ms
+2024-12-18 08:18:21.424 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 11.6606 ms
+2024-12-18 08:18:26.661 +07:00 [INF] HTTP PUT /api/Order/UpdateOrderStatus/15 responded 200 in 62.1879 ms
+2024-12-18 08:18:26.687 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 13.8080 ms
+2024-12-18 08:18:45.673 +07:00 [INF] HTTP GET /api/Customer/GetCustomers responded 200 in 8.3644 ms
+2024-12-18 08:18:45.684 +07:00 [INF] HTTP GET /api/Customer/GetCustomers responded 200 in 7.4603 ms
+2024-12-18 08:18:47.870 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 9.8556 ms
+2024-12-18 08:18:47.879 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 6.3832 ms
+2024-12-18 08:19:04.476 +07:00 [INF] HTTP GET /api/Customer/GetCustomers responded 200 in 8.3752 ms
+2024-12-18 08:19:04.491 +07:00 [INF] HTTP GET /api/Customer/GetCustomers responded 200 in 11.8876 ms
+2024-12-18 08:19:12.046 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 8.5772 ms
+2024-12-18 08:19:12.058 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 8.3744 ms
+2024-12-18 08:19:14.394 +07:00 [INF] HTTP GET /api/OrderDetail/GetOrderDetailByOrderID/14 responded 200 in 35.7933 ms
+2024-12-18 08:19:27.162 +07:00 [ERR] HTTP PUT /api/Order/UpdateOrderStatus/14 responded 500 in 2378.2324 ms
+2024-12-18 08:20:38.600 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 13.6834 ms
+2024-12-18 08:20:38.619 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 16.5236 ms
+2024-12-18 08:22:53.473 +07:00 [ERR] HTTP PUT /api/Order/UpdateOrderStatus/8 responded 500 in 1912.6080 ms
+2024-12-18 08:22:56.403 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 11.5103 ms
+2024-12-18 08:22:56.413 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 7.2974 ms
+2024-12-18 08:23:31.873 +07:00 [ERR] HTTP POST /api/Auth/SendVerificationCode responded 500 in 1966.1353 ms
+2024-12-18 08:26:52.134 +07:00 [INF] HTTP POST /api/Auth/SendVerificationCode responded 200 in 3717.2080 ms
+2024-12-18 08:27:11.024 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Book'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:27:11.031 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:27:12.112 +07:00 [INF] Đăng nhập thành công: Nguyễn Hữu Vĩnh
+2024-12-18 08:27:12.112 +07:00 [INF] Đăng nhập thành công: Nguyễn Hữu Vĩnh
+2024-12-18 08:27:12.251 +07:00 [INF] HTTP POST /api/Auth/Login responded 200 in 1913.7025 ms
+2024-12-18 08:27:12.251 +07:00 [INF] HTTP POST /api/Auth/Login responded 200 in 544.0799 ms
+2024-12-18 08:27:12.707 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlySalesOfYear/2024 responded 200 in 256.7776 ms
+2024-12-18 08:27:12.711 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyRevenueOfYear/2024 responded 200 in 263.4939 ms
+2024-12-18 08:27:12.724 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlySalesOfYear/2024 responded 200 in 13.2208 ms
+2024-12-18 08:27:12.724 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyRevenueOfYear/2024 responded 200 in 10.8347 ms
+2024-12-18 08:27:12.753 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyStatistics responded 200 in 305.6158 ms
+2024-12-18 08:27:12.767 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyStatistics responded 200 in 10.5880 ms
+2024-12-18 08:27:15.885 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 253.6120 ms
+2024-12-18 08:27:15.902 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 13.6450 ms
+2024-12-18 08:27:23.080 +07:00 [INF] HTTP PUT /api/Order/UpdateOrderStatus/14 responded 200 in 3136.0097 ms
+2024-12-18 08:27:23.110 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 12.0938 ms
+2024-12-18 08:29:38.783 +07:00 [INF] HTTP PUT /api/Order/UpdateOrderStatus/15 responded 200 in 20.9748 ms
+2024-12-18 08:29:38.808 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 8.8894 ms
+2024-12-18 08:32:34.480 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Book'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:32:34.538 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:32:35.843 +07:00 [INF] HTTP PUT /api/Order/UpdateOrderStatus/13 responded 200 in 2742.8725 ms
+2024-12-18 08:32:36.064 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 204.8347 ms
+2024-12-18 08:35:30.068 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Book'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:35:30.108 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:35:54.893 +07:00 [ERR] HTTP PUT /api/Order/UpdateOrderStatus/13 responded 500 in 26209.9066 ms
+2024-12-18 08:36:00.606 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 233.7406 ms
+2024-12-18 08:36:00.703 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 92.7178 ms
+2024-12-18 08:38:21.816 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'Book'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:38:21.879 +07:00 [WRN] No store type was specified for the decimal property 'Price' on entity type 'OrderDetail'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2024-12-18 08:38:23.128 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 2687.6298 ms
+2024-12-18 08:38:23.172 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 42.8715 ms
+2024-12-18 08:38:27.435 +07:00 [INF] HTTP PUT /api/Order/UpdateOrderStatus/12 responded 200 in 368.6504 ms
+2024-12-18 08:38:27.456 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 7.5203 ms
+2024-12-18 08:38:33.224 +07:00 [INF] HTTP PUT /api/Order/UpdateOrderStatus/11 responded 200 in 14.7161 ms
+2024-12-18 08:38:33.249 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 9.3540 ms
+2024-12-18 08:38:37.879 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlySalesOfYear/2024 responded 200 in 124.7066 ms
+2024-12-18 08:38:37.882 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyRevenueOfYear/2024 responded 200 in 127.6070 ms
+2024-12-18 08:38:37.898 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlySalesOfYear/2024 responded 200 in 16.3408 ms
+2024-12-18 08:38:37.905 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyRevenueOfYear/2024 responded 200 in 19.5689 ms
+2024-12-18 08:38:37.965 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyStatistics responded 200 in 210.4603 ms
+2024-12-18 08:38:37.985 +07:00 [INF] HTTP GET /api/Statistics/GetMonthlyStatistics responded 200 in 17.4744 ms
+2024-12-18 08:38:43.993 +07:00 [INF] HTTP GET /api/Category/GetCategories responded 200 in 42.0108 ms
+2024-12-18 08:38:44.003 +07:00 [INF] HTTP GET /api/Category/GetCategories responded 200 in 5.5333 ms
+2024-12-18 08:38:44.021 +07:00 [INF] HTTP GET /api/Book/GetBooks responded 200 in 70.1596 ms
+2024-12-18 08:38:44.029 +07:00 [INF] HTTP GET /api/Book/GetBooks responded 200 in 10.6673 ms
+2024-12-18 08:38:44.462 +07:00 [INF] HTTP GET /api/Category/GetCategories responded 200 in 6.6812 ms
+2024-12-18 08:38:44.470 +07:00 [INF] HTTP GET /api/Category/GetCategories responded 200 in 5.1383 ms
+2024-12-18 08:38:45.319 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 8.4734 ms
+2024-12-18 08:38:45.330 +07:00 [INF] HTTP GET /api/Order/GetOrders responded 200 in 7.8698 ms
+2024-12-18 08:38:57.885 +07:00 [INF] HTTP GET /api/OrderDetail/GetOrderDetailByOrderID/15 responded 200 in 46.5699 ms
+2024-12-18 08:39:01.238 +07:00 [INF] HTTP GET /api/OrderDetail/GetOrderDetailByOrderID/14 responded 200 in 6.9797 ms
+2024-12-18 08:39:04.618 +07:00 [INF] HTTP GET /api/OrderDetail/GetOrderDetailByOrderID/12 responded 200 in 6.5383 ms
+2024-12-18 08:39:17.559 +07:00 [INF] HTTP GET /api/Book/GetTopBooks responded 200 in 98.9393 ms
+2024-12-18 08:39:17.568 +07:00 [INF] HTTP GET /api/Book/GetTopBooks responded 200 in 6.7360 ms
+2024-12-18 08:39:19.432 +07:00 [INF] HTTP GET /api/Book/GetNewInfoBooks/4 responded 200 in 57.6644 ms
+2024-12-18 08:39:19.439 +07:00 [INF] HTTP GET /api/Book/GetNewInfoBooks/4 responded 200 in 3.8556 ms
+2024-12-18 08:39:45.328 +07:00 [INF] HTTP POST /api/Payment/CreatePayment responded 200 in 270.0748 ms
+2024-12-18 08:40:15.462 +07:00 [INF] HTTP GET /api/Book/GetNewInfoBooks/4 responded 200 in 10.0169 ms
+2024-12-18 08:40:15.477 +07:00 [INF] HTTP GET /api/Book/GetNewInfoBooks/4 responded 200 in 11.5913 ms
+2024-12-18 08:40:18.093 +07:00 [INF] HTTP GET /api/Category/GetCategories responded 200 in 8.5404 ms
+2024-12-18 08:40:18.101 +07:00 [INF] HTTP GET /api/Book/GetBooks responded 200 in 16.4374 ms
+2024-12-18 08:40:18.135 +07:00 [INF] HTTP GET /api/Category/GetCategories responded 200 in 35.0490 ms
+2024-12-18 08:40:18.140 +07:00 [INF] HTTP GET /api/Book/GetBooks responded 200 in 33.8262 ms
+2024-12-18 08:40:32.205 +07:00 [INF] HTTP POST /api/Auth/SendMailContact responded 200 in 3175.5225 ms
+2024-12-18 08:49:26.787 +07:00 [INF] HTTP POST /api/Auth/SendVerificationCode responded 200 in 2952.1683 ms

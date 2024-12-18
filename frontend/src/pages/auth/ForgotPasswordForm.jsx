@@ -108,7 +108,8 @@ const ForgotPasswordForm = () => {
                             rules={[
                                 { required: true, message: 'Vui lòng nhập mật khẩu mới!' },
                                 { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
-                                { pattern: /^(?=.*[a-zA-Z])/, message: 'Mật khẩu phải chứa ít nhất một chữ cái!' }
+                                { pattern: /^(?=.*[a-zA-Z])/, message: 'Mật khẩu phải chứa ít nhất một chữ cái!' },
+                                { pattern: /^\S*$/, message: 'Mật khẩu không được chứa khoảng trắng!' }
                             ]}
                         >
                             <Input.Password

@@ -173,3 +173,16 @@ D:\NamBon\BookStoreWeb\API\API\obj\Debug\net8.0\API.pdb
 D:\NamBon\BookStoreWeb\API\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\NamBon\BookStoreWeb\API\API\obj\Debug\net8.0\ref\API.dll
 D:\NamBon\BookStoreWeb\API\API\obj\Debug\net8.0\API.sourcelink.json
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.AspNetCore.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+D:\NamBon\BookStoreWeb\API\API\bin\Debug\net8.0\Serilog.Sinks.File.dll

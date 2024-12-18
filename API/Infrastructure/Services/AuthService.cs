@@ -41,6 +41,8 @@ namespace Infrastructure.Services
                 var accessToken = GenerateAccessToken(customer);
                 var refreshToken = GenerateRefreshToken(customer);
 
+                Serilog.Log.Information("Đăng nhập thành công: " + customer.FullName);
+
                 customer.RefreshToken = refreshToken;
                 customer.RefreshTokenExpiry = DateTime.UtcNow.AddDays(1);
 
@@ -177,7 +179,7 @@ namespace Infrastructure.Services
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("huuvinhhoctap0903@gmail.com", "jzoeqnlotjmjxpdo"),
+                    Credentials = new NetworkCredential("huuvinhhoctap0903@gmail.com", "mwtdthgfhurhlasq"),
                     EnableSsl = true,
                 };
 

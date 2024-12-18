@@ -6,6 +6,8 @@ using AutoMapper;
 using Infrastructure.Data;
 using Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
 using static System.Reflection.Metadata.BlobBuilder;
 
 
@@ -284,5 +286,6 @@ namespace Infrastructure.Services
                 throw new Exception("Có lỗi xảy ra khi cập nhật đơn hàng" + ex.Message, ex);
             }
         }
+       
     }
 }

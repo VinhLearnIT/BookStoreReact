@@ -118,7 +118,8 @@ const RegisterForm = () => {
                     label="Tên đăng nhập"
                     rules={[
                         { required: true, message: 'Vui lòng nhập tên đăng nhập!' },
-                        { min: 8, message: 'Tên đăng nhập phải có ít nhất 8 ký tự!' }
+                        { min: 8, message: 'Tên đăng nhập phải có ít nhất 8 ký tự!' },
+                        { pattern: /^\S*$/, message: 'Mật khẩu không được chứa khoảng trắng!' }
                     ]}>
                     <Input
                         prefix={<UserOutlined className='mr-3 ' />}
@@ -133,7 +134,8 @@ const RegisterForm = () => {
                     rules={[
                         { required: true, message: 'Vui lòng nhập mật khẩu!' },
                         { min: 8, message: 'Mật khẩu phải có ít nhất 8 ký tự!' },
-                        { pattern: /^(?=.*[a-zA-Z])/, message: 'Mật khẩu phải chứa ít nhất một chữ cái!' }
+                        { pattern: /^(?=.*[a-zA-Z])/, message: 'Mật khẩu phải chứa ít nhất một chữ cái!' },
+                        { pattern: /^\S*$/, message: 'Mật khẩu không được chứa khoảng trắng!' }
                     ]}>
                     <Input.Password
                         prefix={<LockOutlined className='mr-3 ' />}

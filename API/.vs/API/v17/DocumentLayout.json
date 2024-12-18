@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "D:\\NamBon\\BookStoreWeb\\API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|d:\\nambon\\bookstoreweb\\api\\infrastructure\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|d:\\nambon\\bookstoreweb\\api\\infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|solutionrelative:api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|d:\\nambon\\bookstoreweb\\api\\applicationcore\\model\\payment\\momopaymentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{751278CE-73AF-4E65-B34E-0CC1C731DC69}|ApplicationCore\\ApplicationCore.csproj|solutionrelative:applicationcore\\model\\payment\\momopaymentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|d:\\nambon\\bookstoreweb\\api\\infrastructure\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{904B1BAA-2E29-416B-BE81-62084F89A9E7}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6D1B4FE1-497E-4FEA-9299-133A7404D8B7}|API\\API.csproj|d:\\nambon\\bookstoreweb\\api\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,20 +70,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\AuthService.cs",
+              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\AuthService.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\AuthService.cs",
+              "ViewState": "AQIAAB0BAAAAAAAAAAAuwLUAAABoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T00:49:06.274Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Program.cs",
+              "RelativeDocumentMoniker": "API\\Program.cs",
+              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\Program.cs",
+              "RelativeToolTip": "API\\Program.cs",
+              "ViewState": "AQIAADwAAAAAAAAAAAAAAFAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T00:45:30.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\appsettings.json",
+              "RelativeDocumentMoniker": "API\\appsettings.json",
+              "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\appsettings.json",
+              "RelativeToolTip": "API\\appsettings.json",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABwAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-18T00:44:52.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "OrderService.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\OrderService.cs",
               "RelativeDocumentMoniker": "Infrastructure\\Services\\OrderService.cs",
               "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\Infrastructure\\Services\\OrderService.cs",
               "RelativeToolTip": "Infrastructure\\Services\\OrderService.cs",
-              "ViewState": "AQIAAMQAAAAAAAAAAAAgwNQAAAAtAAAA",
+              "ViewState": "AQIAAKwAAAAAAAAAAIBAwB8BAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-08T08:28:46.4Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "MoMoPaymentResponse.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\ApplicationCore\\Model\\Payment\\MoMoPaymentResponse.cs",
               "RelativeDocumentMoniker": "ApplicationCore\\Model\\Payment\\MoMoPaymentResponse.cs",
@@ -84,20 +135,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "PaymentController.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\PaymentController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\PaymentController.cs",
               "ToolTip": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\PaymentController.cs",
               "RelativeToolTip": "API\\Controllers\\PaymentController.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAmwA8AAABGAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAA7wBQAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-08T06:37:51.41Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "AuthController.cs",
               "DocumentMoniker": "D:\\NamBon\\BookStoreWeb\\API\\API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "API\\Controllers\\AuthController.cs",
@@ -105,7 +156,8 @@
               "RelativeToolTip": "API\\Controllers\\AuthController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-08T03:00:27.068Z"
+              "WhenOpened": "2024-12-08T03:00:27.068Z",
+              "EditorCaption": ""
             }
           ]
         },

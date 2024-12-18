@@ -16,6 +16,9 @@ namespace API.Controllers
         private const string Endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
         private const string RedirectUrl = "http://localhost:3000/payment";
         private const string IpnUrl = "http://localhost:3000/payment";
+        private const string extraData = "";
+        private const string requestType = "payWithMethod";
+        //private const string requestType = "payWithATM";
 
         [HttpPost]
         public async Task<ActionResult<MoMoPaymentResponse>> CreatePayment([FromBody] MoMoPaymentRequest request)
@@ -23,7 +26,7 @@ namespace API.Controllers
             var orderId = Guid.NewGuid().ToString();
             var requestId = Guid.NewGuid().ToString();
 
-            var rawSignature = $"accessKey={AccessKey}&amount={request.Amount}&extraData=&ipnUrl={IpnUrl}&orderId={orderId}&orderInfo={request.OrderInfo}&partnerCode={PartnerCode}&redirectUrl={RedirectUrl}&requestId={requestId}&requestType=payWithATM";
+            var rawSignature = $"accessKey={AccessKey}&amount={request.Amount}&extraData={extraData}&ipnUrl={IpnUrl}&orderId={orderId}&orderInfo={request.OrderInfo}&partnerCode={PartnerCode}&redirectUrl={RedirectUrl}&requestId={requestId}&requestType={requestType}";
 
             string signature = GetSignature(rawSignature, SecretKey);
 
@@ -38,8 +41,8 @@ namespace API.Controllers
                 orderInfo = request.OrderInfo,
                 redirectUrl = RedirectUrl,
                 ipnUrl = IpnUrl,
-                requestType = "payWithATM",
-                extraData = "",
+                requestType = requestType,
+                extraData = extraData,
                 signature = signature
             };
 
